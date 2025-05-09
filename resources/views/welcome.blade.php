@@ -683,9 +683,59 @@
             color: var(--grey-color);
             font-weight: 500;
         }
+        /* User Menu Styles */
+.user-menu {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: var(--primary-color);
+    padding: 0.4rem 0.8rem;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+}
+
+.user-menu:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+    color: var(--primary-color);
+}
+
+.user-avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    overflow: hidden;
+    margin-right: 0.5rem;
+    border: 2px solid var(--secondary-color);
+}
+
+.user-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.user-info {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.2;
+}
+
+.user-name {
+    font-weight: 600;
+    font-size: 0.85rem;
+    color: var(--primary-color);
+}
+
+.user-role {
+    font-size: 0.7rem;
+    color: var(--grey-color);
+}
     </style>
 </head>
 <body>
+    @php
+    use Illuminate\Support\Facades\Auth;
+@endphp
     <!-- Navbar - Compact and Professional -->
     <nav class="navbar navbar-expand-lg fixed-top">
         <div class="container">
@@ -721,11 +771,49 @@
                         <a class="nav-link" href="/contactez-nous">CONTACTEZ-NOUS</a>
                     </li>
                 </ul>
-                <div class="navbar-action-btns">
-                    <button class="btn-auth" data-bs-toggle="modal" data-bs-target="#loginModal">CONNEXION</button>
-                    <button class="btn-auth" data-bs-toggle="modal" data-bs-target="#registerModal">INSCRIPTION</button>
-                    <a href="/devis" class="btn-devis">DEMANDER UN DEVIS</a>
+                <!-- Navbar Buttons Area -->
+<div class="navbar-action-btns">
+    @guest
+        <!-- Buttons for not logged in users -->
+        <button class="btn-auth" data-bs-toggle="modal" data-bs-target="#loginModal">CONNEXION</button>
+        <button class="btn-auth" data-bs-toggle="modal" data-bs-target="#registerModal">INSCRIPTION</button>
+    @else
+        <!-- Dropdown for logged in users -->
+        <div class="dropdown">
+            <a class="user-menu dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                <div class="user-avatar">
+                    @if(Auth::user()->profile_image)
+                        <img src="{{ asset('storage/' . Auth::user()->profile_image) }}" alt="{{ Auth::user()->name }}">
+                    @else
+                        <img src="{{ asset('img/default-avatar.png') }}" alt="{{ Auth::user()->name }}">
+                    @endif
                 </div>
+                <div class="user-info">
+                    <span class="user-name">{{ Auth::user()->name }}</span>
+                    <span class="user-role">{{ Auth::user()->role === 'admin' ? 'Administrateur' : 'Client' }}</span>
+                </div>
+            </a>
+            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+                <li><a class="dropdown-item" href="{{ route('dashboard') }}">Tableau de bord</a></li>
+                <li><a class="dropdown-item" href="{{ route('profile') }}">Mon profil</a></li>
+                <li><a class="dropdown-item" href="{{ route('devis.history') }}">Historique des devis</a></li>
+                <li><a class="dropdown-item" href="{{ route('real.time') }}">Suivi en temps réel</a></li>
+                @if(Auth::user()->isAdmin())
+                    <li><hr class="dropdown-divider"></li>
+                    <li><a class="dropdown-item" href="{{ route('admin.dashboard') }}">Administration</a></li>
+                @endif
+                <li><hr class="dropdown-divider"></li>
+                <li>
+                    <form action="{{ route('logout') }}" method="POST">
+                        @csrf
+                        <button type="submit" class="dropdown-item">Déconnexion</button>
+                    </form>
+                </li>
+            </ul>
+        </div>
+    @endguest
+    <a href="/devis" class="btn-devis">DEMANDER UN DEVIS</a>
+</div>
         </div>
     </nav>
 
@@ -1054,79 +1142,113 @@
     </div>
 
    <!-- Login Modal -->
-    <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="loginModalLabel">Connexion</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <form>
-                        <div class="mb-3">
-                            <label for="login-email" class="form-label">Email</label>
-                            <input type="email" class="form-control" id="login-email" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="login-password" class="form-label">Mot de passe</label>
-                            <input type="password" class="form-control" id="login-password" required>
-                        </div>
-                        <div class="mb-3 form-check">
-                            <input type="checkbox" class="form-check-input" id="remember">
-                            <label class="form-check-label" for="remember">Se souvenir de moi</label>
-                        </div>
-                        <div class="text-end mb-3">
-                            <a href="#" class="text-decoration-none">Mot de passe oublié?</a>
-                        </div>
-                        <button type="submit" class="btn-submit w-100">Se connecter</button>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <p class="mb-0">Vous n'avez pas de compte? <a href="#" data-bs-toggle="modal" data-bs-target="#registerModal" data-bs-dismiss="modal">S'inscrire</a></p>
-                </div>
+<div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="loginModalLabel">Connexion</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form action="{{ route('login') }}" method="POST">
+                    @csrf
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Email</label>
+                        <input type="email" class="form-control @error('email') is-invalid @enderror" id="email" name="email" required>
+                        @error('email')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
+                    <div class="mb-3">
+                        <label for="password" class="form-label">Mot de passe</label>
+                        <input type="password" class="form-control @error('password') is-invalid @enderror" id="password" name="password" required>
+                        @error('password')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
+                    <div class="mb-3 form-check">
+                        <input type="checkbox" class="form-check-input" id="remember" name="remember">
+                        <label class="form-check-label" for="remember">Se souvenir de moi</label>
+                    </div>
+                    <div class="text-end mb-3">
+                        <a href="{{ route('password.request') }}" class="text-decoration-none">Mot de passe oublié?</a>
+                    </div>
+                    <button type="submit" class="btn-submit w-100">Se connecter</button>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <p class="mb-0">Vous n'avez pas de compte? <a href="#" data-bs-toggle="modal" data-bs-target="#registerModal" data-bs-dismiss="modal">S'inscrire</a></p>
             </div>
         </div>
     </div>
+</div>
 
     <!-- Register Modal -->
-    <div class="modal fade" id="registerModal" tabindex="-1" aria-labelledby="registerModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="registerModalLabel">Inscription</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <form>
-                        <div class="mb-3">
-                            <label for="register-name" class="form-label">Nom complet</label>
-                            <input type="text" class="form-control" id="register-name" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="register-email" class="form-label">Email</label>
-                            <input type="email" class="form-control" id="register-email" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="register-password" class="form-label">Mot de passe</label>
-                            <input type="password" class="form-control" id="register-password" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="register-confirm-password" class="form-label">Confirmer le mot de passe</label>
-                            <input type="password" class="form-control" id="register-confirm-password" required>
-                        </div>
-                        <div class="mb-3 form-check">
-                            <input type="checkbox" class="form-check-input" id="terms" required>
-                            <label class="form-check-label" for="terms">J'accepte les conditions d'utilisation</label>
-                        </div>
-                        <button type="submit" class="btn-submit w-100">S'inscrire</button>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <p class="mb-0">Vous avez déjà un compte? <a href="#" data-bs-toggle="modal" data-bs-target="#loginModal" data-bs-dismiss="modal">Se connecter</a></p>
-                </div>
+<div class="modal fade" id="registerModal" tabindex="-1" aria-labelledby="registerModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="registerModalLabel">Inscription</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form action="{{ route('register') }}" method="POST">
+                    @csrf
+                    <div class="mb-3">
+                        <label for="name" class="form-label">Nom complet</label>
+                        <input type="text" class="form-control @error('name') is-invalid @enderror" id="name" name="name" value="{{ old('name') }}" required>
+                        @error('name')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Email</label>
+                        <input type="email" class="form-control @error('email') is-invalid @enderror" id="email" name="email" value="{{ old('email') }}" required>
+                        @error('email')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
+                    <div class="mb-3">
+                        <label for="password" class="form-label">Mot de passe</label>
+                        <input type="password" class="form-control @error('password') is-invalid @enderror" id="password" name="password" required>
+                        @error('password')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
+                    <div class="mb-3">
+                        <label for="password_confirmation" class="form-label">Confirmer le mot de passe</label>
+                        <input type="password" class="form-control" id="password_confirmation" name="password_confirmation" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="company_name" class="form-label">Nom de l'entreprise (optionnel)</label>
+                        <input type="text" class="form-control @error('company_name') is-invalid @enderror" id="company_name" name="company_name" value="{{ old('company_name') }}">
+                        @error('company_name')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
+                    <div class="mb-3">
+                        <label for="telephone" class="form-label">Téléphone (optionnel)</label>
+                        <input type="text" class="form-control @error('telephone') is-invalid @enderror" id="telephone" name="telephone" value="{{ old('telephone') }}">
+                        @error('telephone')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
+                    <div class="mb-3 form-check">
+                        <input type="checkbox" class="form-check-input @error('terms') is-invalid @enderror" id="terms" name="terms" required>
+                        <label class="form-check-label" for="terms">J'accepte les conditions d'utilisation</label>
+                        @error('terms')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
+                    <button type="submit" class="btn-submit w-100">S'inscrire</button>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <p class="mb-0">Vous avez déjà un compte? <a href="#" data-bs-toggle="modal" data-bs-target="#loginModal" data-bs-dismiss="modal">Se connecter</a></p>
             </div>
         </div>
     </div>
+</div>
 
     <!-- Bootstrap JS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
@@ -1138,6 +1260,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
     
     <script>
+     
         // AOS Initialization
         AOS.init({
             duration: 600,
