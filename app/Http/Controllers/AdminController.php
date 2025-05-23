@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Models\Devis;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rule;
@@ -22,7 +23,13 @@ class AdminController extends Controller
      */
     public function dashboard()
     {
-        return view('admin.dashboard');
+        // Récupérer quelques statistiques pour le tableau de bord
+        $totalUsers = User::count();
+        $totalClients = User::where('role', 'client')->count();
+        $totalDevis = Devis::count();
+        $pendingDevis = Devis::where('status', 'pending')->count();
+        
+        return view('admin.dashboard', compact('totalUsers', 'totalClients', 'totalDevis', 'pendingDevis'));
     }
 
     /**
@@ -32,6 +39,15 @@ class AdminController extends Controller
     {
         $users = User::paginate(10);
         return view('admin.users.index', compact('users'));
+    }
+
+    /**
+     * Afficher la liste des devis
+     */
+    public function devis()
+    {
+        $devis = Devis::with('user')->orderBy('created_at', 'desc')->paginate(10);
+        return view('admin.devis.index', compact('devis'));
     }
 
     /**

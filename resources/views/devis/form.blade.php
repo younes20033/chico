@@ -840,8 +840,11 @@
                     </div>
                     
                     <div class="text-center">
-                        <button type="submit" class="btn-submit">Générer mon devis PDF</button>
-                    </div>
+    <button type="submit" class="btn-submit me-3">Générer mon devis PDF</button>
+    <button type="submit" name="submit_to_admin" value="1" class="btn-submit" style="background-color: var(--primary-color);">
+        <i class="fas fa-paper-plane me-1"></i> Soumettre à l'administration
+    </button>
+</div>
                 </form>
             </div>
         </div>
