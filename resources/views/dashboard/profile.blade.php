@@ -476,6 +476,93 @@
                 padding: 0.35rem 0.7rem;
             }
         }
+        /* Profile Actions */
+.btn-profile {
+    background-color: var(--secondary-color);
+    color: white;
+    border: none;
+    padding: 0.6rem 1.5rem;
+    border-radius: 4px;
+    font-weight: 500;
+    transition: all 0.3s;
+    font-size: 0.9rem;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.btn-profile:hover {
+    background-color: #c0392b;
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.btn-password {
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    font-weight: 500;
+    transition: all 0.3s;
+    font-size: 0.85rem;
+    text-decoration: none;
+}
+
+.btn-password:hover {
+    background-color: #3d3d3d;
+    color: white;
+}
+
+/* Profile Container */
+.profile-container {
+    padding: 2rem 0;
+    background-color: #f8f9fa;
+    min-height: 100vh;
+}
+
+/* Form Styles */
+.form-control:focus {
+    border-color: var(--secondary-color);
+    box-shadow: 0 0 0 0.2rem rgba(209, 51, 51, 0.15);
+}
+
+.invalid-feedback {
+    display: block;
+    width: 100%;
+    margin-top: 0.25rem;
+    font-size: 0.875em;
+    color: var(--secondary-color);
+}
+
+/* Tab Content */
+.tab-content {
+    min-height: 400px;
+}
+
+.tab-pane {
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Profile Image Upload */
+#profile_image_upload {
+    position: absolute;
+    opacity: 0;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+}
     </style>
 </head>
 <body>
@@ -611,13 +698,13 @@
                             <div class="row g-0">
                                 <div class="col">
                                     <div class="profile-stat-item">
-                                        <h5>12</h5>
+                                        <h5>1</h5>
                                         <span>Devis</span>
                                     </div>
                                 </div>
                                 <div class="col">
                                     <div class="profile-stat-item">
-                                        <h5>8</h5>
+                                        <h5>1</h5>
                                         <span>Transports</span>
                                     </div>
                                 </div>

@@ -8,15 +8,23 @@ use App\Models\Notification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rule;
+use App\Traits\AdminAccess;
+use Illuminate\Support\Facades\Auth;
+
+
 
 class AdminController extends Controller
 {
+    use AdminAccess;
     /**
      * Constructeur avec middleware admin
      */
-    public function __construct()
+    private function checkAdminAccess()
     {
-        $this->middleware('admin');
+        if (!Auth::check() || Auth::user()->role === 'admin') {
+            return redirect()->route('dashboard')->with('error', 'Accès non autorisé. Vous devez être administrateur.');
+        }
+        return true;
     }
 
     /**
@@ -24,6 +32,11 @@ class AdminController extends Controller
      */
     public function dashboard()
     {
+        // Utiliser la méthode du trait si nécessaire
+        if ($redirect = $this->requireAdminAccess()) {
+            return $redirect;
+        }
+
         // Récupérer quelques statistiques pour le tableau de bord
         $totalUsers = User::count();
         $totalClients = User::where('role', 'client')->count();
@@ -197,5 +210,27 @@ class AdminController extends Controller
     {
         $user->delete();
         return redirect()->route('admin.users')->with('success', 'Utilisateur supprimé avec succès');
+    }
+
+    public function notifications()
+    {
+        $notifications = Notification::with('devis')
+                                   ->orderBy('created_at', 'desc')
+                                   ->paginate(20);
+        
+        return view('admin.notifications', compact('notifications'));
+    }
+
+    /**
+     * Marquer toutes les notifications comme lues
+     */
+    public function markAllNotificationsAsRead()
+    {
+        Notification::where('read', false)->update([
+            'read' => true,
+            'read_at' => now()
+        ]);
+
+        return back()->with('success', 'Toutes les notifications ont été marquées comme lues.');
     }
 }

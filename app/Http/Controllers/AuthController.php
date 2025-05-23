@@ -2,12 +2,18 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rule;
+
+use App\Models\User;
+use App\Models\Devis;
+use App\Models\Notification;
+use Illuminate\Http\Request;
+
+use App\Traits\AdminAccess;
+
 
 
 class AuthController extends Controller
@@ -41,7 +47,12 @@ public function showForgotPasswordForm()
         if (Auth::attempt($credentials, $request->boolean('remember'))) {
             $request->session()->regenerate();
 
-            return redirect()->intended(route('dashboard'));
+            $user = Auth::user();
+
+    if ($user->role === 'admin') {
+        return redirect()->route('admin.dashboard');
+    }
+    return redirect()->route('dashboard');
         }
 
         return back()->withErrors([
@@ -101,8 +112,21 @@ public function showForgotPasswordForm()
      * Afficher le tableau de bord
      */
     public function dashboard()
-    {
-        return view('admin.dashboard');
+    {$user = Auth::user();
+        if ($user->role === 'admin') {
+        return redirect()->route('admin.dashboard');  // Redirection vers dashboard admin
+    }
+        
+         $totalDevis = Devis::where('user_id', $user->id)->count();
+    $pendingDevis = Devis::where('user_id', $user->id)->where('status', 'pending')->count();
+    $approvedDevis = Devis::where('user_id', $user->id)->where('status', 'approved')->count();
+
+    $recentDevis = Devis::where('user_id', $user->id)
+                        ->orderBy('created_at', 'desc')
+                        ->take(5)
+                        ->get();
+return view('dashboard.index', compact('totalDevis', 'pendingDevis', 'approvedDevis', 'recentDevis'));
+
     }
 
     /**
@@ -167,7 +191,7 @@ public function showForgotPasswordForm()
             'password' => ['required', 'confirmed', 'min:8'],
         ]);
 
-        auth()->user()->update([
+        auth::user()->update([
             'password' => Hash::make($validated['password']),
         ]);
 

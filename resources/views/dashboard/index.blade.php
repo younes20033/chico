@@ -810,184 +810,123 @@
 
         <!-- Stats Dashboard Cards -->
         <div class="row stats-row">
-            <div class="col-md-6 col-lg-3 mb-4">
-                <div class="stat-card-pro">
-                    <div class="stat-card-icon stat-icon-primary">
-                        <i class="fas fa-file-invoice"></i>
-                    </div>
-                    <div class="stat-card-info">
-                        <div class="stat-card-number">12</div>
-                        <div class="stat-card-text">Devis générés</div>
-                    </div>
-                    <div class="stat-card-progress">
-                        <div class="progress-bar progress-primary" style="width: 75%"></div>
-                    </div>
-                    <div class="stat-card-footer">
-                        <span class="stat-trend-up"><i class="fas fa-arrow-up"></i> 15%</span> depuis le mois dernier
-                    </div>
-                </div>
+    <div class="col-md-6 col-lg-3 mb-4">
+        <div class="stat-card-pro">
+            <div class="stat-card-icon stat-icon-primary">
+                <i class="fas fa-file-invoice"></i>
             </div>
-            
-            <div class="col-md-6 col-lg-3 mb-4">
-                <div class="stat-card-pro">
-                    <div class="stat-card-icon stat-icon-warning">
-                        <i class="fas fa-truck"></i>
-                    </div>
-                    <div class="stat-card-info">
-                        <div class="stat-card-number">8</div>
-                        <div class="stat-card-text">Transports en cours</div>
-                    </div>
-                    <div class="stat-card-progress">
-                        <div class="progress-bar progress-warning" style="width: 60%"></div>
-                    </div>
-                    <div class="stat-card-footer">
-                        <span class="stat-trend-up"><i class="fas fa-arrow-up"></i> 8%</span> depuis le mois dernier
-                    </div>
-                </div>
+            <div class="stat-card-info">
+                <div class="stat-card-number">{{ $totalDevis }}</div>
+                <div class="stat-card-text">Devis générés</div>
             </div>
-            
-            <div class="col-md-6 col-lg-3 mb-4">
-                <div class="stat-card-pro">
-                    <div class="stat-card-icon stat-icon-success">
-                        <i class="fas fa-check-circle"></i>
-                    </div>
-                    <div class="stat-card-info">
-                        <div class="stat-card-number">25</div>
-                        <div class="stat-card-text">Transports complétés</div>
-                    </div>
-                    <div class="stat-card-progress">
-                        <div class="progress-bar progress-success" style="width: 85%"></div>
-                    </div>
-                    <div class="stat-card-footer">
-                        <span class="stat-trend-up"><i class="fas fa-arrow-up"></i> 22%</span> depuis le mois dernier
-                    </div>
-                </div>
+            <div class="stat-card-progress">
+                <div class="progress-bar progress-primary" style="width: 75%"></div>
             </div>
-            
-            <div class="col-md-6 col-lg-3 mb-4">
-                <div class="stat-card-pro">
-                    <div class="stat-card-icon stat-icon-info">
-                        <i class="fas fa-star"></i>
-                    </div>
-                    <div class="stat-card-info">
-                        <div class="stat-card-number">4.8</div>
-                        <div class="stat-card-text">Note moyenne</div>
-                    </div>
-                    <div class="stat-card-progress">
-                        <div class="progress-bar progress-info" style="width: 95%"></div>
-                    </div>
-                    <div class="stat-card-footer">
-                        <span class="stat-trend-steady"><i class="fas fa-equals"></i> Stable</span> depuis le mois dernier
-                    </div>
-                </div>
+            <div class="stat-card-footer">
+                <span class="stat-trend-up"><i class="fas fa-arrow-up"></i> 15%</span> depuis le mois dernier
             </div>
         </div>
+    </div>
+    
+    <div class="col-md-6 col-lg-3 mb-4">
+        <div class="stat-card-pro">
+            <div class="stat-card-icon stat-icon-warning">
+                <i class="fas fa-clock"></i>
+            </div>
+            <div class="stat-card-info">
+                <div class="stat-card-number">{{ $pendingDevis }}</div>
+                <div class="stat-card-text">Devis en attente</div>
+            </div>
+            <div class="stat-card-progress">
+                <div class="progress-bar progress-warning" style="width: 60%"></div>
+            </div>
+            <div class="stat-card-footer">
+                <span class="stat-trend-up"><i class="fas fa-arrow-up"></i> 8%</span> depuis le mois dernier
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-6 col-lg-3 mb-4">
+        <div class="stat-card-pro">
+            <div class="stat-card-icon stat-icon-success">
+                <i class="fas fa-check-circle"></i>
+            </div>
+            <div class="stat-card-info">
+                <div class="stat-card-number">{{ $approvedDevis }}</div>
+                <div class="stat-card-text">Devis approuvés</div>
+            </div>
+            <div class="stat-card-progress">
+                <div class="progress-bar progress-success" style="width: 85%"></div>
+            </div>
+            <div class="stat-card-footer">
+                <span class="stat-trend-up"><i class="fas fa-arrow-up"></i> 22%</span> depuis le mois dernier
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-6 col-lg-3 mb-4">
+        <div class="stat-card-pro">
+            <div class="stat-card-icon stat-icon-info">
+                <i class="fas fa-star"></i>
+            </div>
+            <div class="stat-card-info">
+                <div class="stat-card-number">4.8</div>
+                <div class="stat-card-text">Note moyenne</div>
+            </div>
+            <div class="stat-card-progress">
+                <div class="progress-bar progress-info" style="width: 95%"></div>
+            </div>
+            <div class="stat-card-footer">
+                <span class="stat-trend-steady"><i class="fas fa-equals"></i> Stable</span> depuis le mois dernier
+            </div>
+        </div>
+    </div>
+</div>
         
         <!-- Main Content -->
         <div class="row">
             <!-- Activity Timeline -->
-            <div class="col-12">
-                <div class="dashboard-widget">
-                    <div class="widget-header">
-                        <h2 class="widget-title">
-                            <i class="fas fa-chart-line"></i> Activité récente
-                        </h2>
-                        <div class="widget-controls">
-                            <div class="dropdown">
-                                <button class="widget-control-btn dropdown-toggle" type="button" id="activityDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                                    <i class="fas fa-ellipsis-v"></i>
-                                </button>
-                                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="activityDropdown">
-                                    <li><a class="dropdown-item" href="#"><i class="fas fa-sync-alt me-2"></i> Actualiser</a></li>
-                                    <li><a class="dropdown-item" href="#"><i class="fas fa-expand-alt me-2"></i> Voir tout</a></li>
-                                    <li><a class="dropdown-item" href="#"><i class="fas fa-cog me-2"></i> Paramètres</a></li>
-                                </ul>
-                            </div>
-                        </div>
+          <div class="activity-timeline">
+    @if($recentDevis->count() > 0)
+        @foreach($recentDevis as $devis)
+            <div class="timeline-item">
+                <div class="timeline-icon {{ $devis->status == 'pending' ? 'bg-warning' : ($devis->status == 'approved' ? 'bg-success' : 'bg-danger') }}">
+                    <i class="fas {{ $devis->status == 'pending' ? 'fa-clock' : ($devis->status == 'approved' ? 'fa-check' : 'fa-times') }}"></i>
+                </div>
+                <div class="timeline-content">
+                    <div class="timeline-header">
+                        <span class="timeline-title">Devis #{{ $devis->reference }}</span>
+                        <span class="timeline-date">{{ $devis->created_at->format('d/m/Y') }}</span>
                     </div>
-                    <div class="widget-body">
-                        <div class="activity-timeline">
-                            <div class="timeline-item">
-                                <div class="timeline-icon bg-primary">
-                                    <i class="fas fa-file-invoice"></i>
-                                </div>
-                                <div class="timeline-content">
-                                    <div class="timeline-header">
-                                        <span class="timeline-title">Devis #12345 généré</span>
-                                        <span class="timeline-date">05/05/2025</span>
-                                    </div>
-                                    <div class="timeline-text">
-                                        Transport de marchandises vers Rabat pour un montant de 2500 DH
-                                    </div>
-                                    <div class="timeline-actions">
-                                        <a href="#" class="timeline-action-btn">Voir détails</a>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            <div class="timeline-item">
-                                <div class="timeline-icon bg-warning">
-                                    <i class="fas fa-truck"></i>
-                                </div>
-                                <div class="timeline-content">
-                                    <div class="timeline-header">
-                                        <span class="timeline-title">Transport #T-98765 en cours</span>
-                                        <span class="timeline-date">03/05/2025</span>
-                                    </div>
-                                    <div class="timeline-text">
-                                        Départ: Casablanca, Destination: Rabat - Livraison prévue: 12/05/2025
-                                    </div>
-                                    <div class="timeline-actions">
-                                        <a href="#" class="timeline-action-btn">Suivi en temps réel</a>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            <div class="timeline-item">
-                                <div class="timeline-icon bg-success">
-                                    <i class="fas fa-user-edit"></i>
-                                </div>
-                                <div class="timeline-content">
-                                    <div class="timeline-header">
-                                        <span class="timeline-title">Profil mis à jour</span>
-                                        <span class="timeline-date">02/05/2025</span>
-                                    </div>
-                                    <div class="timeline-text">
-                                        Informations de contact et préférences de notification mises à jour
-                                    </div>
-                                    <div class="timeline-actions">
-                                        <a href="{{ route('profile') }}" class="timeline-action-btn">Voir profil</a>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            <div class="timeline-item">
-                                <div class="timeline-icon bg-info">
-                                    <i class="fas fa-clipboard-check"></i>
-                                </div>
-                                <div class="timeline-content">
-                                    <div class="timeline-header">
-                                        <span class="timeline-title">Transport #T-87654 complété</span>
-                                        <span class="timeline-date">28/04/2025</span>
-                                    </div>
-                                    <div class="timeline-text">
-                                        Livraison effectuée à Marrakech avec succès
-                                    </div>
-                                    <div class="timeline-actions">
-                                        <a href="#" class="timeline-action-btn">Voir détails</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="widget-footer text-center">
-                            <a href="#" class="widget-view-all">Voir toutes les activités <i class="fas fa-arrow-right ms-1"></i></a>
-                        </div>
+                    <div class="timeline-text">
+                        {{ $devis->company_name }} - Montant: {{ number_format($devis->total_ttc, 2) }} DH
+                    </div>
+                    <div class="timeline-actions">
+                        <a href="{{ route('devis.show', $devis->id) }}" class="timeline-action-btn">Voir détails</a>
                     </div>
                 </div>
             </div>
+        @endforeach
+    @else
+        <div class="timeline-item">
+            <div class="timeline-icon bg-secondary">
+                <i class="fas fa-info"></i>
+            </div>
+            <div class="timeline-content">
+                <div class="timeline-header">
+                    <span class="timeline-title">Aucune activité récente</span>
+                    <span class="timeline-date">{{ now()->format('d/m/Y') }}</span>
+                </div>
+                <div class="timeline-text">
+                    Vous n'avez pas encore créé de devis. Commencez par créer votre premier devis.
+                </div>
+                <div class="timeline-actions">
+                    <a href="{{ route('devis.form') }}" class="timeline-action-btn">Créer un devis</a>
+                </div>
+            </div>
         </div>
-        
+    @endif
+</div>
         <!-- Quick Links Section -->
         <div class="row mt-4">
             <div class="col-12">

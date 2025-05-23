@@ -180,7 +180,7 @@ class DevisController extends Controller
         $devis = Devis::with('transports')->findOrFail($id);
         
         // Vérifier que l'utilisateur est le propriétaire du devis ou un admin
-        if (Auth::id() !== $devis->user_id && !Auth::user()->isAdmin()) {
+        if (Auth::id() !== $devis->user_id && !Auth::user()->role !== 'admin') {
             abort(403);
         }
         
@@ -195,7 +195,7 @@ class DevisController extends Controller
         $devis = Devis::findOrFail($id);
         
         // Vérifier que l'utilisateur est le propriétaire du devis ou un admin
-        if (Auth::id() !== $devis->user_id && !Auth::user()->isAdmin()) {
+        if (Auth::id() !== $devis->user_id && !Auth::user()->role !== 'admin') {
             abort(403);
         }
         
@@ -214,7 +214,7 @@ class DevisController extends Controller
     public function updateStatus(Request $request, $id)
     {
         // Vérifier que l'utilisateur est un admin
-        if (!Auth::user()->isAdmin()) {
+        if (!Auth::user()->role !== 'admin') {
             abort(403);
         }
         

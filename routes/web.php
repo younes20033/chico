@@ -6,6 +6,10 @@ use App\Http\Controllers\DevisController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AuthController;
 
+
+
+
+
 // Routes principales
 Route::get('/', function () {
     return view('welcome');
@@ -36,16 +40,13 @@ Route::middleware('guest')->group(function () {
     Route::get('/register', [AuthController::class, 'showRegisterForm'])->name('register');
     Route::post('/register', [AuthController::class, 'register']);
     Route::get('/forgot-password', [AuthController::class, 'showForgotPasswordForm'])->name('password.request');
-    Route::post('/forgot-password', [AuthController::class, 'sendResetLinkEmail'])->name('password.email');
-    Route::get('/reset-password/{token}', [AuthController::class, 'showResetPasswordForm'])->name('password.reset');
-    Route::post('/reset-password', [AuthController::class, 'resetPassword'])->name('password.update');
 });
 
 // Routes authentifiées
 Route::middleware('auth')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
     
-    // Dashboard
+    // Dashboard - CORRECTION IMPORTANTE
     Route::get('/dashboard', [AuthController::class, 'dashboard'])->name('dashboard');
     
     // Profil
@@ -68,7 +69,9 @@ Route::middleware('auth')->group(function () {
     })->name('real.time');
 });
 
-// Routes Admin
+
+
+// Routes Admin - CORRECTIONS IMPORTANTES
 Route::prefix('admin')->middleware(['auth', 'admin'])->name('admin.')->group(function () {
     Route::get('/', [AdminController::class, 'dashboard'])->name('dashboard');
     
@@ -82,7 +85,19 @@ Route::prefix('admin')->middleware(['auth', 'admin'])->name('admin.')->group(fun
     
     // Gestion des devis
     Route::get('/devis', [AdminController::class, 'devis'])->name('devis');
+    Route::get('/devis/new', [AdminController::class, 'newDevis'])->name('devis.new');
+    Route::post('/devis/{id}/approve', [AdminController::class, 'approveDevis'])->name('devis.approve');
+    Route::post('/devis/{id}/reject', [AdminController::class, 'rejectDevis'])->name('devis.reject');
+    
+    // Gestion des notifications
+    Route::get('/notifications', [AdminController::class, 'notifications'])->name('notifications');
+    Route::post('/notifications/{id}/read', [AdminController::class, 'markNotificationAsRead'])->name('notifications.read');
+    Route::post('/notifications/mark-all-read', [AdminController::class, 'markAllNotificationsAsRead'])->name('notifications.mark-all-read');
 });
+
+Route::get('/debug-routes', function () {
+    return response()->json(Route::getRoutes()->getRoutes());
+})->middleware('auth');
 
 
 

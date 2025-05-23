@@ -512,7 +512,7 @@
             <div class="row">
                 <div class="col-md-6 col-lg-3 mb-4">
                     <div class="stat-card">
-                        <!-- <div class="stat-value">{{ $totalUsers }}</div> -->
+                        <div class="stat-value">{{ $totalUsers }}</div>
                         <div class="stat-label">Utilisateurs totaux</div>
                         <div class="stat-icon">
                             <i class="fas fa-users"></i>
@@ -522,7 +522,7 @@
                 
                 <div class="col-md-6 col-lg-3 mb-4">
                     <div class="stat-card">
-                        <!-- <div class="stat-value">{{ $totalClients }}</div> -->
+                        <div class="stat-value">{{ $totalClients }}</div>
                         <div class="stat-label">Clients</div>
                         <div class="stat-icon">
                             <i class="fas fa-user-tie"></i>
@@ -532,7 +532,7 @@
                 
                 <div class="col-md-6 col-lg-3 mb-4">
                     <div class="stat-card">
-                        <!-- <div class="stat-value">{{ $totalDevis }}</div> -->
+                        <div class="stat-value">{{ $totalDevis }}</div>
                         <div class="stat-label">Devis totaux</div>
                         <div class="stat-icon">
                             <i class="fas fa-file-invoice"></i>
@@ -542,7 +542,7 @@
                 
                 <div class="col-md-6 col-lg-3 mb-4">
                     <div class="stat-card">
-                        <!-- <div class="stat-value">{{ $pendingDevis }}</div> -->
+                        <div class="stat-value">{{ $pendingDevis }}</div>
                         <div class="stat-label">Devis en attente</div>
                         <div class="stat-icon">
                             <i class="fas fa-clock"></i>
@@ -564,33 +564,36 @@
                         </h3>
                         
                         @if($notifications->count() > 0)
-                            @foreach($notifications->take(5) as $notification)
-                                <div class="notification-item {{ !$notification->read ? 'unread' : '' }}" 
-                                     onclick="markAsReadAndRedirect({{ $notification->id }}, {{ $notification->devis_id }})">
-                                    <div class="notification-title">{{ $notification->title }}</div>
-                                    <div class="notification-message">{{ $notification->message }}</div>
-                                    <div class="notification-meta">
-                                        <span>{{ $notification->created_at->diffForHumans() }}</span>
-                                        @if(!$notification->read)
-                                            <span class="badge bg-danger">Nouveau</span>
-                                        @endif
-                                    </div>
-                                </div>
-                            @endforeach
-                            
-                            @if($notifications->count() > 5)
-                                <div class="text-center mt-3">
-                                    <a href="{{ route('admin.notifications') }}" class="btn btn-outline-primary btn-sm">
-                                        Voir toutes les notifications
-                                    </a>
-                                </div>
-                            @endif
-                        @else
-                            <div class="text-center text-muted py-4">
-                                <i class="fas fa-bell-slash fa-2x mb-3"></i>
-                                <p>Aucune notification pour le moment</p>
-                            </div>
-                        @endif
+    @foreach($notifications->take(5) as $notification)
+        <div class="notification-item {{ !$notification->read ? 'unread' : '' }}" 
+             data-notification-id="{{ $notification->id }}"
+             data-devis-id="{{ $notification->devis_id ?? '' }}"
+             style="cursor: pointer;"
+             onclick="handleNotificationClick(this)">
+            <div class="notification-title">{{ $notification->title }}</div>
+            <div class="notification-message">{{ $notification->message }}</div>
+            <div class="notification-meta">
+                <span>{{ $notification->created_at->diffForHumans() }}</span>
+                @if(!$notification->read)
+                    <span class="badge bg-danger">Nouveau</span>
+                @endif
+            </div>
+        </div>
+    @endforeach
+    
+    @if($notifications->count() > 5)
+        <div class="text-center mt-3">
+            <a href="{{ route('admin.notifications') }}" class="btn btn-outline-primary btn-sm">
+                Voir toutes les notifications
+            </a>
+        </div>
+    @endif
+@else
+    <div class="text-center text-muted py-4">
+        <i class="fas fa-bell-slash fa-2x mb-3"></i>
+        <p>Aucune notification pour le moment</p>
+    </div>
+@endif
                     </div>
                 </div>
                 
@@ -661,18 +664,46 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
     
     <script>
-        function markAsReadAndRedirect(notificationId, devisId) {
-            // Marquer la notification comme lue et rediriger vers les nouveaux devis
-            fetch(`{{ route('admin.notifications.read', '') }}/${notificationId}`, {
-                method: 'POST',
-                headers: {
-                    'X-CSRF-TOKEN': '{{ csrf_token() }}',
-                    'Content-Type': 'application/json',
-                },
-            }).then(() => {
-                window.location.href = `{{ route('admin.devis.new') }}`;
-            });
+    function handleNotificationClick(element) {
+        const notificationId = element.getAttribute('data-notification-id');
+        
+        if (!notificationId) {
+            console.error('ID de notification manquant');
+            return;
         }
-    </script>
+        
+        // Désactiver le clic pendant le traitement
+        element.style.pointerEvents = 'none';
+        element.style.opacity = '0.7';
+        
+        fetch(`{{ url('/admin/notifications') }}/${notificationId}/read`, {
+            method: 'POST',
+            headers: {
+                'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                'Content-Type': 'application/json',
+            },
+        })
+        .then(response => {
+            if (response.ok) {
+                // Marquer comme lu visuellement
+                element.classList.remove('unread');
+                
+                // Rediriger vers les nouveaux devis
+                window.location.href = '{{ route("admin.devis.new") }}';
+            } else {
+                throw new Error('Erreur de réseau');
+            }
+        })
+        .catch(error => {
+            console.error('Erreur:', error);
+            
+            // Restaurer l'état
+            element.style.pointerEvents = 'auto';
+            element.style.opacity = '1';
+            
+            alert('Erreur lors de la mise à jour. Veuillez réessayer.');
+        });
+    }
+</script>
 </body>
 </html>
