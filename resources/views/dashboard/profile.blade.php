@@ -628,6 +628,9 @@
             <li><a class="dropdown-item" href="{{ route('admin.dashboard') }}">Dashboard Admin</a></li>
             <li><a class="dropdown-item" href="{{ route('admin.users') }}">Gestion utilisateurs</a></li>
             <li><a class="dropdown-item" href="{{ route('admin.devis') }}">Gestion devis</a></li>
+             <li><a class="dropdown-item" href="{{ route('admin.notifications') }}" >
+    Voir toutes les notifications
+</a></li>
             <li><hr class="dropdown-divider"></li>
             <li><a class="dropdown-item" href="{{ route('profile') }}">Mon profil</a></li>
         @else
@@ -736,9 +739,7 @@
                             <a href="#security" class="list-group-item list-group-item-action" data-bs-toggle="list">
                                 <i class="fas fa-shield-alt me-2"></i> Sécurité
                             </a>
-                            <a href="#notifications" class="list-group-item list-group-item-action" data-bs-toggle="list">
-                                <i class="fas fa-bell me-2"></i> Notifications
-                            </a>
+                            
                         </div>
                     </div>
                 </div>
@@ -1043,83 +1044,8 @@
                         </div>
                     </div>
                     
-                    <!-- Notifications Tab -->
-                    <div class="tab-pane fade" id="notifications">
-                        <div class="profile-card">
-                            <div class="profile-card-header">
-                                <h2 class="profile-card-title">
-                                    <i class="fas fa-bell me-2"></i> Préférences de notifications
-                                </h2>
-                                <p class="text-muted mb-0">Gérez la façon dont vous recevez les notifications</p>
-                            </div>
-                            
-                            <div class="mt-4">
-                                <h5 class="mb-3">Notifications par email</h5>
-                                
-                                <div class="notification-item d-flex justify-content-between align-items-center mb-3">
-                                    <div>
-                                        <p class="mb-0 fw-medium">Mises à jour de transport</p>
-                                        <small class="text-muted">Recevoir des notifications sur le statut de vos transports</small>
-                                    </div>
-                                    <div class="form-check form-switch">
-                                        <input class="form-check-input" type="checkbox" id="notify_transport" checked>
-                                    </div>
-                                </div>
-                                
-                                <div class="notification-item d-flex justify-content-between align-items-center mb-3">
-                                    <div>
-                                        <p class="mb-0 fw-medium">Confirmations de devis</p>
-                                        <small class="text-muted">Recevoir des notifications pour les nouveaux devis</small>
-                                    </div>
-                                    <div class="form-check form-switch">
-                                        <input class="form-check-input" type="checkbox" id="notify_quotes" checked>
-                                    </div>
-                                </div>
-                                
-                                <div class="notification-item d-flex justify-content-between align-items-center mb-3">
-                                    <div>
-                                        <p class="mb-0 fw-medium">Offres spéciales</p>
-                                        <small class="text-muted">Recevoir des informations sur nos promotions et offres</small>
-                                    </div>
-                                    <div class="form-check form-switch">
-                                        <input class="form-check-input" type="checkbox" id="notify_promo" checked>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            <hr class="my-4">
-                            
-                            <div>
-                                <h5 class="mb-3">Notifications par SMS</h5>
-                                
-                                <div class="notification-item d-flex justify-content-between align-items-center mb-3">
-                                    <div>
-                                        <p class="mb-0 fw-medium">Alertes de livraison</p>
-                                        <small class="text-muted">Recevoir des SMS pour les notifications de livraison</small>
-                                    </div>
-                                    <div class="form-check form-switch">
-                                        <input class="form-check-input" type="checkbox" id="sms_delivery">
-                                    </div>
-                                </div>
-                                
-                                <div class="notification-item d-flex justify-content-between align-items-center mb-3">
-                                    <div>
-                                        <p class="mb-0 fw-medium">Rappels de paiement</p>
-                                        <small class="text-muted">Recevoir des SMS pour les rappels de facturation</small>
-                                    </div>
-                                    <div class="form-check form-switch">
-                                        <input class="form-check-input" type="checkbox" id="sms_payment">
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            <div class="mt-4 text-end">
-                                <button class="btn-profile">
-                                    <i class="fas fa-save me-2"></i> Enregistrer les préférences
-                                </button>
-                            </div>
-                        </div>
-                    </div>
+                
+                   
                 </div>
             </div>
         </div>

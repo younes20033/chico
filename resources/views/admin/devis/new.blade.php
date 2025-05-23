@@ -64,6 +64,10 @@
             @if(session('success'))
                 <div class="alert alert-success">{{ session('success') }}</div>
             @endif
+
+            @if(session('info'))
+                <div class="alert alert-info">{{ session('info') }}</div>
+            @endif
             
             <div class="admin-card">
                 @if($devis->count() > 0)
@@ -92,9 +96,9 @@
                                             <span class="badge badge-pending">En attente</span>
                                         </td>
                                         <td>
-                                            <a href="{{ route('admin.devis.show', $devis->id) }}" class="btn btn-info btn-sm">
-    <i class="fas fa-eye"></i> Voir
-</a>
+                                            <a href="{{ route('admin.devis.show', $d->id) }}" class="btn btn-info btn-sm">
+                                                <i class="fas fa-eye"></i> Voir
+                                            </a>
                                             <form action="{{ route('admin.devis.approve', $d->id) }}" method="POST" class="d-inline">
                                                 @csrf
                                                 <button type="submit" class="btn-approve btn-sm">
@@ -119,8 +123,18 @@
                         <i class="fas fa-inbox fa-3x text-muted mb-3"></i>
                         <h4>Aucun nouveau devis</h4>
                         <p class="text-muted">Tous les devis ont été traités.</p>
+                        <a href="{{ route('admin.devis') }}" class="btn btn-primary">
+                            <i class="fas fa-list"></i> Voir tous les devis
+                        </a>
                     </div>
                 @endif
+            </div>
+
+            <!-- Bouton retour -->
+            <div class="text-center mt-4">
+                <a href="{{ route('admin.dashboard') }}" class="btn btn-secondary">
+                    <i class="fas fa-arrow-left"></i> Retour au dashboard
+                </a>
             </div>
         </div>
     </div>

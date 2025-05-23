@@ -727,6 +727,9 @@
             <li><a class="dropdown-item" href="{{ route('admin.dashboard') }}">Dashboard Admin</a></li>
             <li><a class="dropdown-item" href="{{ route('admin.users') }}">Gestion utilisateurs</a></li>
             <li><a class="dropdown-item" href="{{ route('admin.devis') }}">Gestion devis</a></li>
+             <li><a class="dropdown-item" href="{{ route('admin.notifications') }}" >
+    Voir toutes les notifications
+</a></li>
             <li><hr class="dropdown-divider"></li>
             <li><a class="dropdown-item" href="{{ route('profile') }}">Mon profil</a></li>
         @else

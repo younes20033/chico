@@ -5,6 +5,7 @@ use App\Http\Controllers\SimpleAuthController;
 use App\Http\Controllers\SimpleAdminController;
 use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\DevisController;
+use App\Http\Controllers\PartnerController;
 
 // Routes principales
 Route::get('/', function () {
@@ -12,9 +13,13 @@ Route::get('/', function () {
 });
 
 Route::get('/services', [ServiceController::class, 'index'])->name('services');
-Route::get('/partenaire', function () {
-    return view('partenaire');
-})->name('partenaire');
+
+// Route pour la page partenaire (GET)
+Route::get('/partenaire', [PartnerController::class, 'index'])->name('partenaire');
+
+// Route pour soumettre la candidature partenaire (POST) - AJOUTÉE
+Route::post('/partenaire/submit', [PartnerController::class, 'submitApplication'])->name('partner.submit');
+
 Route::get('/contactez-nous', function () {
     return view('contactez-nous');
 })->name('contactez-nous');
@@ -68,9 +73,9 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::get('/devis/{id}/details', [SimpleAdminController::class, 'showDevis'])->name('devis.show');
     Route::post('/devis/{id}/approve', [SimpleAdminController::class, 'approveDevis'])->name('devis.approve');
     Route::post('/devis/{id}/reject', [SimpleAdminController::class, 'rejectDevis'])->name('devis.reject');
-    Route::put('/devis/{id}/status', [DevisController::class, 'updateStatus'])->name('devis.update-status');
+    Route::put('/devis/{id}/status', [SimpleAdminController::class, 'updateDevisStatus'])->name('devis.update-status');
     
-    // Gestion des candidatures partenaires
+    // Gestion des candidatures partenaires - AJOUTÉES
     Route::get('/partners', [SimpleAdminController::class, 'partners'])->name('partners');
     Route::get('/partners/{id}/show', [SimpleAdminController::class, 'showPartner'])->name('partners.show');
     Route::put('/partners/{id}/status', [SimpleAdminController::class, 'updatePartnerStatus'])->name('partners.update-status');

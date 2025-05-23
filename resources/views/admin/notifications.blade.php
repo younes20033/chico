@@ -77,6 +77,12 @@
                 <h4>Aucune notification</h4>
             </div>
         @endif
+
+        <div class="text-center mt-4">
+                <a href="{{ route('admin.dashboard') }}" class="btn btn-secondary">
+                    <i class="fas fa-arrow-left"></i> Retour au dashboard
+                </a>
+            </div>
     </div>
 </body>
 </html>

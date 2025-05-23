@@ -8,7 +8,7 @@ return new class extends Migration
 {
     public function up(): void
     {
-        Schema::create('notifications', function (Blueprint $table) {
+        Schema::table('notifications', function (Blueprint $table) {
             $table->id();
             $table->string('type'); // 'nouveau_devis'
             $table->string('title');
@@ -17,6 +17,7 @@ return new class extends Migration
             $table->boolean('read')->default(false);
             $table->timestamp('read_at')->nullable();
             $table->timestamps();
+            $table->foreignId('partner_id')->nullable()->constrained()->onDelete('cascade');
         });
     }
 

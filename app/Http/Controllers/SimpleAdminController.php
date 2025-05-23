@@ -5,10 +5,13 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Schema;
 use Illuminate\Validation\Rule;
 use App\Models\User;
 use App\Models\Devis;
 use App\Models\Notification;
+use App\Models\Partner; // AJOUTÉ
 
 class SimpleAdminController extends Controller
 {
@@ -115,6 +118,11 @@ class SimpleAdminController extends Controller
                      ->orderBy('created_at', 'desc')
                      ->paginate(10);
 
+        // Debug pour vérifier les données
+        if ($devis->count() === 0) {
+            return view('admin.devis.new', compact('devis'))->with('info', 'Aucun nouveau devis en attente.');
+        }
+
         // UTILISEZ VOTRE VUE ADMIN NEW DEVIS EXISTANTE
         return view('admin.devis.new', compact('devis'));
     }
@@ -156,9 +164,69 @@ class SimpleAdminController extends Controller
     }
 
     /**
-     * COPIEZ ICI TOUTES VOS AUTRES MÉTHODES EXISTANTES DE AdminController
-     * Par exemple :
+     * GESTION DES PARTENAIRES - MÉTHODES AJOUTÉES
      */
+    
+    /**
+     * Liste des candidatures partenaires
+     */
+    public function partners()
+    {
+        $redirect = $this->checkAdmin();
+        if ($redirect) return $redirect;
+
+        try {
+            $partners = Partner::orderBy('created_at', 'desc')->paginate(10);
+        } catch (\Exception $e) {
+            // Si la table partners n'existe pas, retourner une collection vide
+            $partners = collect()->paginate(10);
+        }
+        
+        // UTILISEZ VOTRE VUE ADMIN PARTNERS EXISTANTE
+        return view('admin.partners.index', compact('partners'));
+    }
+
+    /**
+     * Afficher les détails d'une candidature partenaire
+     */
+    public function showPartner($id)
+    {
+        $redirect = $this->checkAdmin();
+        if ($redirect) return $redirect;
+
+        try {
+            $partner = Partner::findOrFail($id);
+            return view('admin.partners.show', compact('partner'));
+        } catch (\Exception $e) {
+            return redirect()->route('admin.partners')->with('error', 'Candidature partenaire non trouvée.');
+        }
+    }
+
+    /**
+     * Mettre à jour le statut d'une candidature partenaire
+     */
+    public function updatePartnerStatus(Request $request, $id)
+    {
+        $redirect = $this->checkAdmin();
+        if ($redirect) return $redirect;
+
+        $request->validate([
+            'status' => 'required|in:approved,rejected'
+        ]);
+
+        try {
+            $partner = Partner::findOrFail($id);
+            $partner->update([
+                'status' => $request->status,
+                'admin_notes' => $request->admin_notes
+            ]);
+            
+            $statusText = $request->status === 'approved' ? 'approuvée' : 'rejetée';
+            return back()->with('success', "La candidature a été {$statusText} avec succès.");
+        } catch (\Exception $e) {
+            return back()->with('error', 'Erreur lors de la mise à jour du statut.');
+        }
+    }
 
     /**
      * Créer un utilisateur - UTILISE VOS VUES EXISTANTES
@@ -260,9 +328,13 @@ class SimpleAdminController extends Controller
         $redirect = $this->checkAdmin();
         if ($redirect) return $redirect;
 
-        $notifications = Notification::with('devis')
-                                   ->orderBy('created_at', 'desc')
-                                   ->paginate(20);
+        try {
+            $notifications = Notification::with('devis')
+                                       ->orderBy('created_at', 'desc')
+                                       ->paginate(20);
+        } catch (\Exception $e) {
+            $notifications = collect()->paginate(20);
+        }
         
         return view('admin.notifications', compact('notifications'));
     }
@@ -275,10 +347,14 @@ class SimpleAdminController extends Controller
         $redirect = $this->checkAdmin();
         if ($redirect) return $redirect;
 
-        $notification = Notification::findOrFail($id);
-        $notification->markAsRead();
-        
-        return redirect()->route('admin.devis.new');
+        try {
+            $notification = Notification::findOrFail($id);
+            $notification->markAsRead();
+            
+            return redirect()->route('admin.devis.new');
+        } catch (\Exception $e) {
+            return back()->with('error', 'Notification non trouvée.');
+        }
     }
 
     /**
@@ -289,15 +365,19 @@ class SimpleAdminController extends Controller
         $redirect = $this->checkAdmin();
         if ($redirect) return $redirect;
 
-        Notification::where('read', false)->update([
-            'read' => true,
-            'read_at' => now()
-        ]);
+        try {
+            Notification::where('read', false)->update([
+                'read' => true,
+                'read_at' => now()
+            ]);
 
-        return back()->with('success', 'Toutes les notifications ont été marquées comme lues.');
+            return back()->with('success', 'Toutes les notifications ont été marquées comme lues.');
+        } catch (\Exception $e) {
+            return back()->with('error', 'Erreur lors de la mise à jour des notifications.');
+        }
     }
 
-     public function showDevis($id)
+    public function showDevis($id)
     {
         $redirect = $this->checkAdmin();
         if ($redirect) return $redirect;
@@ -305,5 +385,33 @@ class SimpleAdminController extends Controller
         $devis = Devis::with('transports', 'user')->findOrFail($id);
         
         return view('dashboard.devis-show', compact('devis'));
+    }
+
+    /**
+     * Mettre à jour le statut d'un devis - MÉTHODE AJOUTÉE
+     */
+    public function updateDevisStatus(Request $request, $id)
+    {
+        $redirect = $this->checkAdmin();
+        if ($redirect) return $redirect;
+
+        $request->validate([
+            'status' => 'required|in:pending,approved,rejected'
+        ]);
+
+        try {
+            $devis = Devis::findOrFail($id);
+            $devis->update(['status' => $request->status]);
+            
+            $statusText = [
+                'approved' => 'approuvé',
+                'rejected' => 'rejeté',
+                'pending' => 'remis en attente'
+            ];
+            
+            return back()->with('success', "Le devis a été {$statusText[$request->status]} avec succès.");
+        } catch (\Exception $e) {
+            return back()->with('error', 'Erreur lors de la mise à jour du statut.');
+        }
     }
 }

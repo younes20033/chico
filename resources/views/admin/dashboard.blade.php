@@ -497,6 +497,9 @@
             <li><a class="dropdown-item" href="{{ route('admin.dashboard') }}">Dashboard Admin</a></li>
             <li><a class="dropdown-item" href="{{ route('admin.users') }}">Gestion utilisateurs</a></li>
             <li><a class="dropdown-item" href="{{ route('admin.devis') }}">Gestion devis</a></li>
+            <li><a class="dropdown-item" href="{{ route('admin.notifications') }}" >
+    Voir toutes les notifications
+</a></li>
             <li><hr class="dropdown-divider"></li>
             <li><a class="dropdown-item" href="{{ route('profile') }}">Mon profil</a></li>
         @else
@@ -529,11 +532,13 @@
             </div>
             
             @if(session('success'))
-                <div class="alert alert-success alert-dismissible fade show" role="alert">
-                    {{ session('success') }}
-                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-                </div>
-            @endif
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        {{ session('success') }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+@endif
+
+
             
             <!-- Dashboard Stats -->
             <div class="row">
