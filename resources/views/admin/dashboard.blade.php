@@ -28,79 +28,138 @@
             background-color: #f5f5f5;
         }
         
-        /* Admin Sidebar */
-        .admin-sidebar {
-            background-color: var(--primary-color);
-            min-height: 100vh;
-            color: white;
-            padding-top: 1rem;
+        /* Navbar - Compact and Professional */
+        .navbar {
+            box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);
+            padding: 0.5rem 1rem;
+            transition: all 0.3s ease;
+            background-color: white;
         }
         
-        .admin-sidebar-header {
-            padding: 1rem;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            margin-bottom: 1rem;
-            text-align: center;
+        .navbar-brand img {
+            height: 45px;
         }
         
-        .admin-sidebar-header img {
-            height: 40px;
-            margin-bottom: 1rem;
+        .navbar-nav .nav-link {
+            font-weight: 500;
+            text-transform: uppercase;
+            color: var(--dark-color);
+            font-size: 0.85rem;
+            padding: 0.5rem 0.75rem;
         }
         
-        .admin-sidebar-header h3 {
-            font-size: 1.2rem;
-            margin-bottom: 0;
+        .navbar-nav .nav-link:hover,
+        .navbar-nav .nav-link.active {
+            color: var(--secondary-color);
         }
         
-        .admin-menu {
-            list-style: none;
-            padding-left: 0;
+        .navbar-nav .nav-item {
+            position: relative;
         }
         
-        .admin-menu-item {
+        .navbar-nav .nav-item::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: 0;
+            left: 0.75rem;
+            background-color: var(--secondary-color);
+            transition: width 0.3s;
+        }
+        
+        .navbar-nav .nav-item:hover::after,
+        .navbar-nav .nav-item.active::after {
+            width: calc(100% - 1.5rem);
+        }
+        
+        .dropdown-menu {
+            border-radius: 0.25rem;
+            border: none;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+            padding: 0.5rem 0;
+            margin-top: 0.5rem;
+            min-width: 12rem;
+        }
+        
+        .dropdown-item {
+            padding: 0.5rem 1rem;
+            font-size: 0.85rem;
+        }
+        
+        .dropdown-item:hover {
+            background-color: #f8f9fa;
+            color: var(--secondary-color);
+        }
+        
+        /* User Menu */
+        .user-menu {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            color: var(--primary-color);
+            padding: 0.4rem 0.8rem;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+        }
+
+        .user-menu:hover {
+            background-color: rgba(0, 0, 0, 0.05);
+            color: var(--primary-color);
+        }
+        
+        .user-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            overflow: hidden;
+            margin-right: 0.5rem;
+            border: 2px solid var(--secondary-color);
+        }
+
+        .user-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .user-info {
+            display: flex;
+            flex-direction: column;
+            line-height: 1.2;
+        }
+
+        .user-name {
+            font-weight: 600;
+            font-size: 0.85rem;
+            color: var(--primary-color);
+        }
+
+        .user-role {
+            font-size: 0.7rem;
+            color: var(--grey-color);
+        }
+        
+        /* Admin Dashboard Content */
+        .admin-container {
+            padding: 2rem 0;
+        }
+        
+        .admin-title {
+            color: var(--primary-color);
+            font-size: 1.8rem;
+            font-weight: 600;
             margin-bottom: 0.5rem;
         }
         
-        .admin-menu-link {
-            display: block;
-            padding: 0.75rem 1rem;
-            color: rgba(255, 255, 255, 0.8);
-            text-decoration: none;
-            border-left: 3px solid transparent;
-            transition: all 0.3s;
-        }
-        
-        .admin-menu-link:hover, .admin-menu-link.active {
-            background-color: rgba(255, 255, 255, 0.1);
-            color: white;
-            border-left-color: var(--secondary-color);
-        }
-        
-        .admin-menu-link i {
-            margin-right: 0.5rem;
-            width: 20px;
-            text-align: center;
-        }
-        
-        /* Admin Content */
-        .admin-content {
-            padding: 2rem;
-        }
-        
-        .admin-content-header {
+        .admin-subtitle {
+            color: var(--grey-color);
+            font-size: 1rem;
             margin-bottom: 2rem;
         }
         
-        .admin-content-title {
-            font-size: 1.5rem;
-            font-weight: 600;
-            color: var(--primary-color);
-            margin-bottom: 0.5rem;
-        }
-        
-        /* Dashboard cards */
-        .dashboard-stat-card {
+        /* Dashboard Stats */
+        .stat-card {
             background-color: white;
             border-radius: 8px;
             box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
@@ -108,9 +167,15 @@
             margin-bottom: 1.5rem;
             position: relative;
             overflow: hidden;
+            transition: all 0.3s;
         }
         
-        .dashboard-stat-card::before {
+        .stat-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+        }
+        
+        .stat-card::before {
             content: '';
             position: absolute;
             top: 0;
@@ -120,20 +185,20 @@
             background-color: var(--secondary-color);
         }
         
-        .dashboard-stat-value {
+        .stat-value {
             font-size: 2rem;
             font-weight: 700;
             color: var(--primary-color);
             margin-bottom: 0.5rem;
         }
         
-        .dashboard-stat-label {
+        .stat-label {
             font-size: 0.9rem;
             color: var(--grey-color);
             margin-bottom: 0;
         }
         
-        .dashboard-stat-icon {
+        .stat-icon {
             position: absolute;
             top: 1rem;
             right: 1rem;
@@ -141,7 +206,7 @@
             color: rgba(209, 51, 51, 0.1);
         }
         
-        /* Admin Card */
+        /* Admin Cards */
         .admin-card {
             background-color: white;
             border-radius: 8px;
@@ -157,166 +222,457 @@
             margin-bottom: 1.5rem;
             border-bottom: 1px solid #f1f1f1;
             padding-bottom: 0.75rem;
+            display: flex;
+            align-items: center;
+        }
+        
+        .admin-card-title i {
+            color: var(--secondary-color);
+            margin-right: 0.5rem;
+        }
+        
+        .admin-card-title .badge {
+            margin-left: auto;
+            font-size: 0.7rem;
+        }
+        
+        /* Notifications List */
+        .notification-item {
+            padding: 1rem;
+            border-left: 4px solid var(--secondary-color);
+            background-color: #f8f9fa;
+            margin-bottom: 1rem;
+            border-radius: 0 4px 4px 0;
+            position: relative;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .notification-item:hover {
+            background-color: #e9ecef;
+            transform: translateX(5px);
+        }
+        
+        .notification-item.unread {
+            border-left-color: var(--secondary-color);
+            background-color: rgba(209, 51, 51, 0.05);
+        }
+        
+        .notification-title {
+            font-weight: 600;
+            color: var(--primary-color);
+            margin-bottom: 0.25rem;
+        }
+        
+        .notification-message {
+            color: var(--grey-color);
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .notification-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.8rem;
+            color: var(--grey-color);
+        }
+        
+        /* Quick Actions */
+        .quick-action-btn {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.6rem 1.2rem;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            text-decoration: none;
+            transition: all 0.3s;
+            margin-right: 0.5rem;
+            margin-bottom: 0.5rem;
+            border: none;
+        }
+        
+        .quick-action-btn i {
+            margin-right: 0.5rem;
+        }
+        
+        .quick-action-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .btn-primary-custom {
+            background-color: var(--secondary-color);
+            color: white;
+        }
+        
+        .btn-primary-custom:hover {
+            background-color: #c0392b;
+            color: white;
+        }
+        
+        .btn-success-custom {
+            background-color: #28a745;
+            color: white;
+        }
+        
+        .btn-info-custom {
+            background-color: var(--primary-color);
+            color: white;
+        }
+        
+        /* Recent Activity */
+        .activity-item {
+            display: flex;
+            align-items: flex-start;
+            padding: 0.75rem 0;
+            border-bottom: 1px solid #f1f1f1;
+        }
+        
+        .activity-item:last-child {
+            border-bottom: none;
+        }
+        
+        .activity-icon {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 1rem;
+            font-size: 0.8rem;
+        }
+        
+        .activity-icon.new {
+            background-color: rgba(209, 51, 51, 0.1);
+            color: var(--secondary-color);
+        }
+        
+        .activity-icon.approved {
+            background-color: rgba(40, 167, 69, 0.1);
+            color: #28a745;
+        }
+        
+        .activity-icon.rejected {
+            background-color: rgba(220, 53, 69, 0.1);
+            color: #dc3545;
+        }
+        
+        .activity-content {
+            flex: 1;
+        }
+        
+        .activity-title {
+            font-weight: 500;
+            color: var(--primary-color);
+            margin-bottom: 0.25rem;
+        }
+        
+        .activity-description {
+            color: var(--grey-color);
+            font-size: 0.85rem;
+            margin-bottom: 0.25rem;
+        }
+        
+        .activity-time {
+            color: var(--grey-color);
+            font-size: 0.75rem;
         }
         
         /* Responsive Adjustments */
         @media (max-width: 991.98px) {
-            .admin-sidebar {
-                min-height: auto;
-                margin-bottom: 1rem;
+            .admin-container {
+                padding: 1rem;
             }
             
-            .admin-content {
-                padding: 1rem;
+            .admin-title {
+                font-size: 1.5rem;
+            }
+            
+            .stat-value {
+                font-size: 1.5rem;
             }
         }
         
         @media (max-width: 767.98px) {
-            .admin-content-title {
-                font-size: 1.3rem;
+            .notification-item {
+                margin-bottom: 0.5rem;
             }
             
-            .dashboard-stat-value {
-                font-size: 1.5rem;
+            .quick-action-btn {
+                width: 100%;
+                justify-content: center;
+                margin-right: 0;
             }
+        }
+        
+        .btn-devis {
+            background-color: var(--secondary-color);
+            color: white;
+            text-decoration: none;
+            font-size: 0.8rem;
+            padding: 0.4rem 0.8rem;
+            border-radius: 4px;
+            font-weight: 500;
+            border: none;
+            transition: all 0.2s;
+        }
+        
+        .btn-devis:hover {
+            background-color: #c0392b;
         }
     </style>
 </head>
 <body>
-    <div class="container-fluid">
-        <div class="row">
-            <!-- Sidebar -->
-            <div class="col-lg-2 p-0 admin-sidebar">
-                <div class="admin-sidebar-header">
-                    <img src="/logo.png" alt="CHICO TRANS Logo">
-                    <h3>Administration</h3>
-                </div>
-                
-                <ul class="admin-menu">
-                    <li class="admin-menu-item">
-                        <a href="{{ route('admin.dashboard') }}" class="admin-menu-link active">
-                            <i class="fas fa-tachometer-alt"></i> Tableau de bord
-                        </a>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg sticky-top">
+        <div class="container">
+            <a class="navbar-brand" href="/">
+                <img src="/logo.png" alt="CHICO TRANS Logo">
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">ACCUEIL</a>
                     </li>
-                    <li class="admin-menu-item">
-                        <a href="{{ route('admin.users') }}" class="admin-menu-link">
-                            <i class="fas fa-users"></i> Utilisateurs
-                        </a>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/qui-sommes-nous">QUI SOMMES-NOUS</a>
                     </li>
-                    <li class="admin-menu-item">
-                        <a href="{{ route('admin.devis') }}" class="admin-menu-link">
-                            <i class="fas fa-file-invoice"></i> Devis
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            NOS SERVICES
                         </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <li><a class="dropdown-item" href="/services#transport-national">Transport national</a></li>
+                            <li><a class="dropdown-item" href="/services#transport-international">Transport international</a></li>
+                            <li><a class="dropdown-item" href="/services#logistique-complete">Logistique complète</a></li>
+                            <li><a class="dropdown-item" href="/services#stockage-temporaire">Stockage temporaire</a></li>
+                        </ul>
                     </li>
-                    <li class="admin-menu-item">
-                        <a href="/" class="admin-menu-link">
-                            <i class="fas fa-home"></i> Retour au site
-                        </a>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/partenaire">DEVENIR PARTENAIRE</a>
                     </li>
-                    <li class="admin-menu-item">
-                        <form action="{{ route('logout') }}" method="POST" class="d-inline">
-                            @csrf
-                            <button type="submit" class="admin-menu-link w-100 text-start" style="background: none; border: none;">
-                                <i class="fas fa-sign-out-alt"></i> Déconnexion
-                            </button>
-                        </form>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/contactez-nous">CONTACTEZ-NOUS</a>
                     </li>
                 </ul>
+                
+                <div class="dropdown">
+                    <a class="user-menu dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <div class="user-avatar">
+                            @if(Auth::user()->profile_image)
+                                <img src="{{ asset('storage/' . Auth::user()->profile_image) }}" alt="{{ Auth::user()->name }}">
+                            @else
+                                <img src="{{ asset('img/default-avatar.png') }}" alt="{{ Auth::user()->name }}">
+                            @endif
+                        </div>
+                        <div class="user-info">
+                            <span class="user-name">{{ Auth::user()->name }}</span>
+                            <span class="user-role">Administrateur</span>
+                        </div>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+                        <li><a class="dropdown-item" href="{{ route('admin.dashboard') }}">Administration</a></li>
+                        <li><a class="dropdown-item" href="{{ route('profile') }}">Mon profil</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li>
+                            <form action="{{ route('logout') }}" method="POST">
+                                @csrf
+                                <button type="submit" class="dropdown-item">Déconnexion</button>
+                            </form>
+                        </li>
+                    </ul>
+                </div>
+                <a href="/devis" class="btn-devis ms-3">DEMANDER UN DEVIS</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Admin Dashboard Content -->
+    <div class="admin-container">
+        <div class="container">
+            <div class="mb-4">
+                <h1 class="admin-title">Tableau de bord - Administration</h1>
+                <p class="admin-subtitle">Bienvenue dans l'espace d'administration de CHICO TRANS</p>
             </div>
             
-            <!-- Main Content -->
-            <div class="col-lg-10 admin-content">
-                <div class="admin-content-header">
-                    <h1 class="admin-content-title">Tableau de bord</h1>
-                    <p class="text-muted">Bienvenue dans l'administration de CHICO TRANS</p>
+            @if(session('success'))
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    {{ session('success') }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+            @endif
+            
+            <!-- Dashboard Stats -->
+            <div class="row">
+                <div class="col-md-6 col-lg-3 mb-4">
+                    <div class="stat-card">
+                        <!-- <div class="stat-value">{{ $totalUsers }}</div> -->
+                        <div class="stat-label">Utilisateurs totaux</div>
+                        <div class="stat-icon">
+                            <i class="fas fa-users"></i>
+                        </div>
+                    </div>
                 </div>
                 
-                <!-- Dashboard Stats -->
-                <div class="row">
-                    <div class="col-md-6 col-lg-3 mb-4">
-                        <div class="dashboard-stat-card">
-                            <div class="dashboard-stat-value">{{ $totalUsers }}</div>
-                            <div class="dashboard-stat-label">Utilisateurs totaux</div>
-                            <div class="dashboard-stat-icon">
-                                <i class="fas fa-users"></i>
-                            </div>
+                <div class="col-md-6 col-lg-3 mb-4">
+                    <div class="stat-card">
+                        <!-- <div class="stat-value">{{ $totalClients }}</div> -->
+                        <div class="stat-label">Clients</div>
+                        <div class="stat-icon">
+                            <i class="fas fa-user-tie"></i>
                         </div>
                     </div>
-                    
-                    <div class="col-md-6 col-lg-3 mb-4">
-                        <div class="dashboard-stat-card">
-                            <div class="dashboard-stat-value">{{ $totalClients }}</div>
-                            <div class="dashboard-stat-label">Clients</div>
-                            <div class="dashboard-stat-icon">
-                                <i class="fas fa-user-tie"></i>
-                            </div>
+                </div>
+                
+                <div class="col-md-6 col-lg-3 mb-4">
+                    <div class="stat-card">
+                        <!-- <div class="stat-value">{{ $totalDevis }}</div> -->
+                        <div class="stat-label">Devis totaux</div>
+                        <div class="stat-icon">
+                            <i class="fas fa-file-invoice"></i>
                         </div>
                     </div>
-                    
-                    <div class="col-md-6 col-lg-3 mb-4">
-                        <div class="dashboard-stat-card">
-                            <div class="dashboard-stat-value">{{ $totalDevis }}</div>
-                            <div class="dashboard-stat-label">Devis totaux</div>
-                            <div class="dashboard-stat-icon">
+                </div>
+                
+                <div class="col-md-6 col-lg-3 mb-4">
+                    <div class="stat-card">
+                        <!-- <div class="stat-value">{{ $pendingDevis }}</div> -->
+                        <div class="stat-label">Devis en attente</div>
+                        <div class="stat-icon">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="row">
+                <!-- Notifications récentes -->
+                <div class="col-lg-8">
+                    <div class="admin-card">
+                        <h3 class="admin-card-title">
+                            <i class="fas fa-bell"></i>
+                            Notifications récentes
+                            @if($notifications->where('read', false)->count() > 0)
+                                <span class="badge bg-danger">{{ $notifications->where('read', false)->count() }}</span>
+                            @endif
+                        </h3>
+                        
+                        @if($notifications->count() > 0)
+                            @foreach($notifications->take(5) as $notification)
+                                <div class="notification-item {{ !$notification->read ? 'unread' : '' }}" 
+                                     onclick="markAsReadAndRedirect({{ $notification->id }}, {{ $notification->devis_id }})">
+                                    <div class="notification-title">{{ $notification->title }}</div>
+                                    <div class="notification-message">{{ $notification->message }}</div>
+                                    <div class="notification-meta">
+                                        <span>{{ $notification->created_at->diffForHumans() }}</span>
+                                        @if(!$notification->read)
+                                            <span class="badge bg-danger">Nouveau</span>
+                                        @endif
+                                    </div>
+                                </div>
+                            @endforeach
+                            
+                            @if($notifications->count() > 5)
+                                <div class="text-center mt-3">
+                                    <a href="{{ route('admin.notifications') }}" class="btn btn-outline-primary btn-sm">
+                                        Voir toutes les notifications
+                                    </a>
+                                </div>
+                            @endif
+                        @else
+                            <div class="text-center text-muted py-4">
+                                <i class="fas fa-bell-slash fa-2x mb-3"></i>
+                                <p>Aucune notification pour le moment</p>
+                            </div>
+                        @endif
+                    </div>
+                </div>
+                
+                <!-- Actions rapides -->
+                <div class="col-lg-4">
+                    <div class="admin-card">
+                        <h3 class="admin-card-title">
+                            <i class="fas fa-bolt"></i>
+                            Actions rapides
+                        </h3>
+                        
+                        <div class="d-grid gap-2">
+                            <a href="{{ route('admin.devis.new') }}" class="quick-action-btn btn-primary-custom">
                                 <i class="fas fa-file-invoice"></i>
-                            </div>
+                                Nouveaux devis ({{ $pendingDevis }})
+                            </a>
+                            
+                            <a href="{{ route('admin.users.create') }}" class="quick-action-btn btn-success-custom">
+                                <i class="fas fa-user-plus"></i>
+                                Ajouter un utilisateur
+                            </a>
+                            
+                            <a href="{{ route('admin.users') }}" class="quick-action-btn btn-info-custom">
+                                <i class="fas fa-users-cog"></i>
+                                Gérer les utilisateurs
+                            </a>
+                            
+                            <a href="{{ route('admin.devis') }}" class="quick-action-btn btn-info-custom">
+                                <i class="fas fa-list"></i>
+                                Tous les devis
+                            </a>
                         </div>
                     </div>
                     
-                    <div class="col-md-6 col-lg-3 mb-4">
-                        <div class="dashboard-stat-card">
-                            <div class="dashboard-stat-value">{{ $pendingDevis }}</div>
-                            <div class="dashboard-stat-label">Devis en attente</div>
-                            <div class="dashboard-stat-icon">
-                                <i class="fas fa-clock"></i>
+                    <!-- Activité récente -->
+                    <div class="admin-card">
+                        <h3 class="admin-card-title">
+                            <i class="fas fa-history"></i>
+                            Activité récente
+                        </h3>
+                        
+                        @if($recentDevis->count() > 0)
+                            @foreach($recentDevis->take(4) as $devis)
+                                <div class="activity-item">
+                                    <div class="activity-icon {{ $devis->status == 'pending' ? 'new' : ($devis->status == 'approved' ? 'approved' : 'rejected') }}">
+                                        <i class="fas {{ $devis->status == 'pending' ? 'fa-plus' : ($devis->status == 'approved' ? 'fa-check' : 'fa-times') }}"></i>
+                                    </div>
+                                    <div class="activity-content">
+                                        <div class="activity-title">Devis #{{ $devis->reference }}</div>
+                                        <div class="activity-description">{{ $devis->contact_name }} - {{ $devis->company_name }}</div>
+                                        <div class="activity-time">{{ $devis->created_at->diffForHumans() }}</div>
+                                    </div>
+                                </div>
+                            @endforeach
+                        @else
+                            <div class="text-center text-muted py-3">
+                                <i class="fas fa-history fa-2x mb-2"></i>
+                                <p class="mb-0">Aucune activité récente</p>
                             </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Quick Actions -->
-                <div class="admin-card">
-                    <h2 class="admin-card-title">Actions rapides</h2>
-                    <div class="row">
-                        <div class="col-md-4 mb-3">
-                            <a href="{{ route('admin.users.create') }}" class="btn btn-primary w-100">
-                                <i class="fas fa-user-plus me-2"></i> Ajouter un utilisateur
-                            </a>
-                        </div>
-                        <div class="col-md-4 mb-3">
-                            <a href="{{ route('admin.devis') }}" class="btn btn-success w-100">
-                                <i class="fas fa-file-invoice me-2"></i> Gérer les devis
-                            </a>
-                        </div>
-                        <div class="col-md-4 mb-3">
-                            <a href="{{ route('admin.users') }}" class="btn btn-info w-100 text-white">
-                                <i class="fas fa-users-cog me-2"></i> Gérer les utilisateurs
-                            </a>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- System Information -->
-                <div class="admin-card">
-                    <h2 class="admin-card-title">Informations système</h2>
-                    <div class="row">
-                        <div class="col-md-6">
-                            <p><strong>Version PHP :</strong> {{ phpversion() }}</p>
-                            <p><strong>Version Laravel :</strong> {{ app()->version() }}</p>
-                            <p><strong>Date :</strong> {{ date('d/m/Y H:i') }}</p>
-                        </div>
-                        <div class="col-md-6">
-                            <p><strong>Environnement :</strong> {{ app()->environment() }}</p>
-                            <p><strong>Serveur :</strong> {{ $_SERVER['SERVER_SOFTWARE'] ?? 'Inconnu' }}</p>
-                            <p><strong>Base de données :</strong> {{ config('database.connections.mysql.driver') }}</p>
-                        </div>
+                        @endif
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    
+
     <!-- Bootstrap JS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+        function markAsReadAndRedirect(notificationId, devisId) {
+            // Marquer la notification comme lue et rediriger vers les nouveaux devis
+            fetch(`{{ route('admin.notifications.read', '') }}/${notificationId}`, {
+                method: 'POST',
+                headers: {
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                    'Content-Type': 'application/json',
+                },
+            }).then(() => {
+                window.location.href = `{{ route('admin.devis.new') }}`;
+            });
+        }
+    </script>
 </body>
 </html>

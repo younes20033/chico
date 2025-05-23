@@ -102,7 +102,7 @@ public function showForgotPasswordForm()
      */
     public function dashboard()
     {
-        return view('dashboard.index');
+        return view('admin.dashboard');
     }
 
     /**
