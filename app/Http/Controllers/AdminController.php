@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use App\Models\Devis;
+use App\Models\Notification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rule;
@@ -28,8 +29,31 @@ class AdminController extends Controller
         $totalClients = User::where('role', 'client')->count();
         $totalDevis = Devis::count();
         $pendingDevis = Devis::where('status', 'pending')->count();
+        $approvedDevis = Devis::where('status', 'approved')->count();
+        $rejectedDevis = Devis::where('status', 'rejected')->count();
         
-        return view('admin.dashboard', compact('totalUsers', 'totalClients', 'totalDevis', 'pendingDevis'));
+        // Récupérer les notifications non lues
+        $notifications = Notification::where('read', false)
+                                   ->orderBy('created_at', 'desc')
+                                   ->with('devis')
+                                   ->get();
+        
+        // Récupérer les derniers devis soumis
+        $recentDevis = Devis::with('user')
+                           ->orderBy('created_at', 'desc')
+                           ->take(5)
+                           ->get();
+        
+        return view('admin.dashboard', compact(
+            'totalUsers', 
+            'totalClients', 
+            'totalDevis', 
+            'pendingDevis',
+            'approvedDevis',
+            'rejectedDevis',
+            'notifications',
+            'recentDevis'
+        ));
     }
 
     /**
@@ -48,6 +72,53 @@ class AdminController extends Controller
     {
         $devis = Devis::with('user')->orderBy('created_at', 'desc')->paginate(10);
         return view('admin.devis.index', compact('devis'));
+    }
+
+    /**
+     * Afficher les nouveaux devis (devis en attente)
+     */
+    public function newDevis()
+    {
+        $devis = Devis::with('user')
+                     ->where('status', 'pending')
+                     ->orderBy('created_at', 'desc')
+                     ->paginate(10);
+        
+        return view('admin.devis.new', compact('devis'));
+    }
+
+    /**
+     * Approuver un devis
+     */
+    public function approveDevis($id)
+    {
+        $devis = Devis::findOrFail($id);
+        $devis->update(['status' => 'approved']);
+        
+        return back()->with('success', 'Le devis a été approuvé avec succès.');
+    }
+
+    /**
+     * Rejeter un devis
+     */
+    public function rejectDevis($id)
+    {
+        $devis = Devis::findOrFail($id);
+        $devis->update(['status' => 'rejected']);
+        
+        return back()->with('success', 'Le devis a été rejeté.');
+    }
+
+    /**
+     * Marquer une notification comme lue
+     */
+    public function markNotificationAsRead($id)
+    {
+        $notification = Notification::findOrFail($id);
+        $notification->markAsRead();
+        
+        // Rediriger vers la page des nouveaux devis
+        return redirect()->route('admin.devis.new');
     }
 
     /**

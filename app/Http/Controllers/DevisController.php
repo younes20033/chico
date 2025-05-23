@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Devis;
 use App\Models\DevisTransport;
+use App\Models\Notification;
 use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Carbon\Carbon;
@@ -140,6 +141,14 @@ class DevisController extends Controller
                     'description' => $transportData['description'] ?? null
                 ]);
             }
+
+            // Créer une notification pour l'administrateur
+            Notification::create([
+                'type' => 'nouveau_devis',
+                'title' => 'Nouveau devis soumis',
+                'message' => "Un nouveau devis #{$factureNo} a été soumis par {$validated['contact_name']} ({$validated['company_name']})",
+                'devis_id' => $devis->id
+            ]);
             
             // Rediriger vers l'historique des devis si l'option "Soumettre à l'admin" est sélectionnée
             if ($request->has('submit_to_admin')) {
