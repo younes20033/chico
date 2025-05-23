@@ -6,14 +6,10 @@
     <title>Gestion des utilisateurs - Admin CHICO TRANS</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
             --primary-color: #4d4d4d;
             --secondary-color: #d13333;
-            --dark-color: #333333;
-            --light-color: #f8f9fa;
-            --grey-color: #6c757d;
         }
         
         body {
@@ -21,88 +17,55 @@
             background-color: #f5f5f5;
         }
         
-        .admin-container {
-            padding: 2rem 0;
-        }
-        
-        .admin-title {
-            color: var(--primary-color);
-            font-size: 1.8rem;
-            font-weight: 600;
-            margin-bottom: 0.5rem;
-        }
-        
-        .admin-subtitle {
-            color: var(--grey-color);
-            font-size: 1rem;
-            margin-bottom: 2rem;
-        }
-        
         .admin-card {
-            background-color: white;
-            border-radius: 8px;
-            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+            background: white;
+            border-radius: 10px;
             padding: 1.5rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
             margin-bottom: 1.5rem;
         }
         
-        .btn-primary-custom {
-            background-color: var(--secondary-color);
-            color: white;
-            border: none;
-            padding: 0.5rem 1rem;
-            border-radius: 4px;
+        .badge-role {
+            padding: 0.35em 0.65em;
+            font-size: 0.75em;
             font-weight: 500;
-            transition: all 0.3s;
-            text-decoration: none;
+            border-radius: 20px;
         }
         
-        .btn-primary-custom:hover {
-            background-color: #c0392b;
-            color: white;
-        }
+        .badge-admin { background-color: #dc3545; color: white; }
+        .badge-client { background-color: #17a2b8; color: white; }
         
-        .table th {
-            background-color: var(--light-color);
-            font-weight: 600;
-            color: var(--primary-color);
-        }
-        
-        .badge-admin {
-            background-color: var(--secondary-color);
-        }
-        
-        .badge-client {
-            background-color: var(--primary-color);
+        .btn-action {
+            padding: 0.25rem 0.5rem;
+            font-size: 0.75rem;
+            margin-right: 0.25rem;
         }
     </style>
 </head>
 <body>
-    <div class="admin-container">
-        <div class="container">
-            <div class="d-flex justify-content-between align-items-center mb-4">
-                <div>
-                    <h1 class="admin-title">Gestion des utilisateurs</h1>
-                    <p class="admin-subtitle">Gérez tous les utilisateurs de la plateforme</p>
-                </div>
-                <a href="{{ route('admin.users.create') }}" class="btn-primary-custom">
-                    <i class="fas fa-plus me-2"></i>Ajouter un utilisateur
+    <div class="container py-4">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h1>Gestion des utilisateurs</h1>
+            <div>
+                <a href="{{ route('admin.users.create') }}" class="btn btn-success">
+                    <i class="fas fa-user-plus"></i> Ajouter un utilisateur
+                </a>
+                <a href="{{ route('admin.dashboard') }}" class="btn btn-secondary">
+                    <i class="fas fa-arrow-left"></i> Retour au dashboard
                 </a>
             </div>
-            
-            @if(session('success'))
-                <div class="alert alert-success alert-dismissible fade show" role="alert">
-                    {{ session('success') }}
-                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-                </div>
-            @endif
-            
-            <div class="admin-card">
+        </div>
+        
+        @if(session('success'))
+            <div class="alert alert-success">{{ session('success') }}</div>
+        @endif
+        
+        <div class="admin-card">
+            @if($users->count() > 0)
                 <div class="table-responsive">
-                    <table class="table table-hover">
+                    <table class="table table-striped">
                         <thead>
                             <tr>
-                                <th>ID</th>
                                 <th>Nom</th>
                                 <th>Email</th>
                                 <th>Entreprise</th>
@@ -114,26 +77,28 @@
                         <tbody>
                             @foreach($users as $user)
                                 <tr>
-                                    <td>{{ $user->id }}</td>
-                                    <td>{{ $user->name }}</td>
+                                    <td><strong>{{ $user->name }}</strong></td>
                                     <td>{{ $user->email }}</td>
-                                    <td>{{ $user->company_name ?? 'N/A' }}</td>
+                                    <td>{{ $user->company_name ?: '-' }}</td>
                                     <td>
-                                        <span class="badge {{ $user->role === 'admin' ? 'badge-admin' : 'badge-client' }}">
-                                            {{ $user->role === 'admin' ? 'Administrateur' : 'Client' }}
-                                        </span>
+                                        @if($user->role === 'admin')
+                                            <span class="badge badge-role badge-admin">Admin</span>
+                                        @else
+                                            <span class="badge badge-role badge-client">Client</span>
+                                        @endif
                                     </td>
                                     <td>{{ $user->created_at->format('d/m/Y') }}</td>
                                     <td>
-                                        <a href="{{ route('admin.users.edit', $user) }}" class="btn btn-sm btn-outline-primary me-1">
-                                            <i class="fas fa-edit"></i>
+                                        <a href="{{ route('admin.users.edit', $user) }}" class="btn btn-warning btn-action">
+                                            <i class="fas fa-edit"></i> Modifier
                                         </a>
                                         @if($user->id !== Auth::id())
-                                            <form action="{{ route('admin.users.destroy', $user) }}" method="POST" class="d-inline">
+                                            <form action="{{ route('admin.users.destroy', $user) }}" method="POST" class="d-inline" 
+                                                  onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cet utilisateur ?')">
                                                 @csrf
                                                 @method('DELETE')
-                                                <button type="submit" class="btn btn-sm btn-outline-danger" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cet utilisateur ?')">
-                                                    <i class="fas fa-trash"></i>
+                                                <button type="submit" class="btn btn-danger btn-action">
+                                                    <i class="fas fa-trash"></i> Supprimer
                                                 </button>
                                             </form>
                                         @endif
@@ -145,10 +110,19 @@
                 </div>
                 
                 {{ $users->links() }}
-            </div>
+            @else
+                <div class="text-center py-5">
+                    <i class="fas fa-users fa-3x text-muted mb-3"></i>
+                    <h4>Aucun utilisateur trouvé</h4>
+                    <p class="text-muted">Il n'y a aucun utilisateur dans le système pour le moment.</p>
+                    <a href="{{ route('admin.users.create') }}" class="btn btn-success">
+                        <i class="fas fa-user-plus"></i> Ajouter le premier utilisateur
+                    </a>
+                </div>
+            @endif
         </div>
     </div>
-
+    
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

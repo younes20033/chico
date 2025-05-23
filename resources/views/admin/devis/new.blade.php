@@ -92,9 +92,9 @@
                                             <span class="badge badge-pending">En attente</span>
                                         </td>
                                         <td>
-                                            <a href="{{ route('devis.show', $d->id) }}" class="btn btn-sm btn-info me-1">
-                                                <i class="fas fa-eye"></i>
-                                            </a>
+                                            <a href="{{ route('admin.devis.show', $devis->id) }}" class="btn btn-info btn-sm">
+    <i class="fas fa-eye"></i> Voir
+</a>
                                             <form action="{{ route('admin.devis.approve', $d->id) }}" method="POST" class="d-inline">
                                                 @csrf
                                                 <button type="submit" class="btn-approve btn-sm">

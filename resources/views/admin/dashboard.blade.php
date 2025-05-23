@@ -423,6 +423,15 @@
         .btn-devis:hover {
             background-color: #c0392b;
         }
+        .btn-warning-custom {
+    background-color: #ffc107;
+    color: #212529;
+}
+
+.btn-warning-custom:hover {
+    background-color: #e0a800;
+    color: #212529;
+}
     </style>
 </head>
 <body>
@@ -463,31 +472,49 @@
                 </ul>
                 
                 <div class="dropdown">
-                    <a class="user-menu dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        <div class="user-avatar">
-                            @if(Auth::user()->profile_image)
-                                <img src="{{ asset('storage/' . Auth::user()->profile_image) }}" alt="{{ Auth::user()->name }}">
-                            @else
-                                <img src="{{ asset('img/default-avatar.png') }}" alt="{{ Auth::user()->name }}">
-                            @endif
-                        </div>
-                        <div class="user-info">
-                            <span class="user-name">{{ Auth::user()->name }}</span>
-                            <span class="user-role">Administrateur</span>
-                        </div>
-                    </a>
-                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
-                        <li><a class="dropdown-item" href="{{ route('admin.dashboard') }}">Administration</a></li>
-                        <li><a class="dropdown-item" href="{{ route('profile') }}">Mon profil</a></li>
-                        <li><hr class="dropdown-divider"></li>
-                        <li>
-                            <form action="{{ route('logout') }}" method="POST">
-                                @csrf
-                                <button type="submit" class="dropdown-item">Déconnexion</button>
-                            </form>
-                        </li>
-                    </ul>
-                </div>
+    <a class="user-menu dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+        <div class="user-avatar">
+            @if(Auth::user()->profile_image)
+                <img src="{{ asset('storage/' . Auth::user()->profile_image) }}" alt="{{ Auth::user()->name }}">
+            @else
+                <img src="{{ asset('img/default-avatar.png') }}" alt="{{ Auth::user()->name }}">
+            @endif
+        </div>
+        <div class="user-info">
+            <span class="user-name">{{ Auth::user()->name }}</span>
+            <span class="user-role">
+                @if(Auth::user()->role === 'admin')
+                    Administrateur
+                @else
+                    Client
+                @endif
+            </span>
+        </div>
+    </a>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+        @if(Auth::user()->role === 'admin')
+            <!-- Menu pour Admin -->
+            <li><a class="dropdown-item" href="{{ route('admin.dashboard') }}">Dashboard Admin</a></li>
+            <li><a class="dropdown-item" href="{{ route('admin.users') }}">Gestion utilisateurs</a></li>
+            <li><a class="dropdown-item" href="{{ route('admin.devis') }}">Gestion devis</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item" href="{{ route('profile') }}">Mon profil</a></li>
+        @else
+            <!-- Menu pour Client -->
+            <li><a class="dropdown-item" href="{{ route('dashboard') }}">Tableau de bord</a></li>
+            <li><a class="dropdown-item" href="{{ route('profile') }}">Mon profil</a></li>
+            <li><a class="dropdown-item" href="{{ route('devis.history') }}">Historique des devis</a></li>
+            <li><a class="dropdown-item" href="{{ route('real.time') }}">Suivi en temps réel</a></li>
+        @endif
+        <li><hr class="dropdown-divider"></li>
+        <li>
+            <form action="{{ route('logout') }}" method="POST">
+                @csrf
+                <button type="submit" class="dropdown-item">Déconnexion</button>
+            </form>
+        </li>
+    </ul>
+</div>
                 <a href="/devis" class="btn-devis ms-3">DEMANDER UN DEVIS</a>
             </div>
         </div>
@@ -606,26 +633,31 @@
                         </h3>
                         
                         <div class="d-grid gap-2">
-                            <a href="{{ route('admin.devis.new') }}" class="quick-action-btn btn-primary-custom">
-                                <i class="fas fa-file-invoice"></i>
-                                Nouveaux devis ({{ $pendingDevis }})
-                            </a>
-                            
-                            <a href="{{ route('admin.users.create') }}" class="quick-action-btn btn-success-custom">
-                                <i class="fas fa-user-plus"></i>
-                                Ajouter un utilisateur
-                            </a>
-                            
-                            <a href="{{ route('admin.users') }}" class="quick-action-btn btn-info-custom">
-                                <i class="fas fa-users-cog"></i>
-                                Gérer les utilisateurs
-                            </a>
-                            
-                            <a href="{{ route('admin.devis') }}" class="quick-action-btn btn-info-custom">
-                                <i class="fas fa-list"></i>
-                                Tous les devis
-                            </a>
-                        </div>
+    <a href="{{ route('admin.devis.new') }}" class="quick-action-btn btn-primary-custom">
+        <i class="fas fa-file-invoice"></i>
+        Nouveaux devis ({{ $pendingDevis }})
+    </a>
+    
+    <a href="{{ route('admin.users.create') }}" class="quick-action-btn btn-success-custom">
+        <i class="fas fa-user-plus"></i>
+        Ajouter un utilisateur
+    </a>
+    
+    <a href="{{ route('admin.users') }}" class="quick-action-btn btn-info-custom">
+        <i class="fas fa-users-cog"></i>
+        Gérer les utilisateurs
+    </a>
+    
+    <a href="{{ route('admin.devis') }}" class="quick-action-btn btn-info-custom">
+        <i class="fas fa-list"></i>
+        Tous les devis
+    </a>
+    
+    <a href="{{ route('admin.partners') }}" class="quick-action-btn btn-warning-custom">
+        <i class="fas fa-handshake"></i>
+        Candidatures partenaires
+    </a>
+</div>
                     </div>
                     
                     <!-- Activité récente -->

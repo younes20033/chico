@@ -634,37 +634,49 @@
     @else
         <!-- Dropdown for logged in users -->
         <div class="dropdown">
-            <a class="user-menu dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                <div class="user-avatar">
-                    @if(Auth::user()->profile_image)
-                        <img src="{{ asset('storage/' . Auth::user()->profile_image) }}" alt="{{ Auth::user()->name }}">
-                    @else
-                        <img src="{{ asset('img/default-avatar.png') }}" alt="{{ Auth::user()->name }}">
-                    @endif
-                </div>
-                <div class="user-info">
-                    <span class="user-name">{{ Auth::user()->name }}</span>
-                    <span class="user-role">{{ Auth::user()->role === 'admin' ? 'Administrateur' : 'Client' }}</span>
-                </div>
-            </a>
-            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
-                <li><a class="dropdown-item" href="{{ route('dashboard') }}">Tableau de bord</a></li>
-                <li><a class="dropdown-item" href="{{ route('profile') }}">Mon profil</a></li>
-                <li><a class="dropdown-item" href="{{ route('devis.history') }}">Historique des devis</a></li>
-                <li><a class="dropdown-item" href="{{ route('real.time') }}">Suivi en temps réel</a></li>
-                @if(Auth::user()->isAdmin())
-                    <li><hr class="dropdown-divider"></li>
-                    <li><a class="dropdown-item" href="{{ route('admin.dashboard') }}">Administration</a></li>
-                @endif
-                <li><hr class="dropdown-divider"></li>
-                <li>
-                    <form action="{{ route('logout') }}" method="POST">
-                        @csrf
-                        <button type="submit" class="dropdown-item">Déconnexion</button>
-                    </form>
-                </li>
-            </ul>
+    <a class="user-menu dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+        <div class="user-avatar">
+            @if(Auth::user()->profile_image)
+                <img src="{{ asset('storage/' . Auth::user()->profile_image) }}" alt="{{ Auth::user()->name }}">
+            @else
+                <img src="{{ asset('img/default-avatar.png') }}" alt="{{ Auth::user()->name }}">
+            @endif
         </div>
+        <div class="user-info">
+            <span class="user-name">{{ Auth::user()->name }}</span>
+            <span class="user-role">
+                @if(Auth::user()->role === 'admin')
+                    Administrateur
+                @else
+                    Client
+                @endif
+            </span>
+        </div>
+    </a>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+        @if(Auth::user()->role === 'admin')
+            <!-- Menu pour Admin -->
+            <li><a class="dropdown-item" href="{{ route('admin.dashboard') }}">Dashboard Admin</a></li>
+            <li><a class="dropdown-item" href="{{ route('admin.users') }}">Gestion utilisateurs</a></li>
+            <li><a class="dropdown-item" href="{{ route('admin.devis') }}">Gestion devis</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item" href="{{ route('profile') }}">Mon profil</a></li>
+        @else
+            <!-- Menu pour Client -->
+            <li><a class="dropdown-item" href="{{ route('dashboard') }}">Tableau de bord</a></li>
+            <li><a class="dropdown-item" href="{{ route('profile') }}">Mon profil</a></li>
+            <li><a class="dropdown-item" href="{{ route('devis.history') }}">Historique des devis</a></li>
+            <li><a class="dropdown-item" href="{{ route('real.time') }}">Suivi en temps réel</a></li>
+        @endif
+        <li><hr class="dropdown-divider"></li>
+        <li>
+            <form action="{{ route('logout') }}" method="POST">
+                @csrf
+                <button type="submit" class="dropdown-item">Déconnexion</button>
+            </form>
+        </li>
+    </ul>
+</div>
     @endguest
     <a href="/devis" class="btn-devis">DEMANDER UN DEVIS</a>
 </div>
@@ -840,10 +852,21 @@
                     </div>
                     
                     <div class="text-center">
-    <button type="submit" class="btn-submit me-3">Générer mon devis PDF</button>
-    <button type="submit" name="submit_to_admin" value="1" class="btn-submit" style="background-color: var(--primary-color);">
-        <i class="fas fa-paper-plane me-1"></i> Soumettre à l'administration
+    <!-- Bouton pour télécharger le PDF -->
+    <button type="submit" name="action" value="download" class="btn-submit me-3">
+        <i class="fas fa-download me-1"></i> Générer mon devis PDF
     </button>
+    
+    <!-- Bouton pour soumettre à l'administration -->
+    @auth
+        <button type="submit" name="action" value="submit" class="btn-submit" style="background-color: var(--primary-color);">
+            <i class="fas fa-paper-plane me-1"></i> Soumettre à l'administration
+        </button>
+    @else
+        <a href="{{ route('login') }}" class="btn-submit" style="background-color: var(--primary-color); text-decoration: none; display: inline-block;">
+            <i class="fas fa-paper-plane me-1"></i> Soumettre à l'administration
+        </a>
+    @endauth
 </div>
                 </form>
             </div>
@@ -1009,6 +1032,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
     
     <script>
+        
         // AOS Initialization
         AOS.init({
             duration: 800,

@@ -14,6 +14,7 @@ class Notification extends Model
         'title',
         'message',
         'devis_id',
+        'partner_id', // NOUVEAU: Pour les candidatures partenaires
         'read',
         'read_at'
     ];
@@ -26,6 +27,12 @@ class Notification extends Model
     public function devis()
     {
         return $this->belongsTo(Devis::class);
+    }
+
+    // NOUVEAU: Relation avec les partenaires
+    public function partner()
+    {
+        return $this->belongsTo(Partner::class);
     }
 
     public function markAsRead()

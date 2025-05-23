@@ -65,4 +65,9 @@ class User extends Authenticatable
     {
         return $this->role === 'client';
     }
+
+    public function getRoleLabel(): string
+{
+    return $this->role === 'admin' ? 'Administrateur' : 'Client';
+}
 }

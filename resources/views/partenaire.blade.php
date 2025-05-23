@@ -738,37 +738,49 @@
     @else
         <!-- Dropdown for logged in users -->
         <div class="dropdown">
-            <a class="user-menu dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                <div class="user-avatar">
-                    @if(Auth::user()->profile_image)
-                        <img src="{{ asset('storage/' . Auth::user()->profile_image) }}" alt="{{ Auth::user()->name }}">
-                    @else
-                        <img src="{{ asset('img/default-avatar.png') }}" alt="{{ Auth::user()->name }}">
-                    @endif
-                </div>
-                <div class="user-info">
-                    <span class="user-name">{{ Auth::user()->name }}</span>
-                    <span class="user-role">{{ Auth::user()->role === 'admin' ? 'Administrateur' : 'Client' }}</span>
-                </div>
-            </a>
-            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
-                <li><a class="dropdown-item" href="{{ route('dashboard') }}">Tableau de bord</a></li>
-                <li><a class="dropdown-item" href="{{ route('profile') }}">Mon profil</a></li>
-                <li><a class="dropdown-item" href="{{ route('devis.history') }}">Historique des devis</a></li>
-                <li><a class="dropdown-item" href="{{ route('real.time') }}">Suivi en temps réel</a></li>
-                @if(Auth::user()->isAdmin())
-                    <li><hr class="dropdown-divider"></li>
-                    <li><a class="dropdown-item" href="{{ route('admin.dashboard') }}">Administration</a></li>
-                @endif
-                <li><hr class="dropdown-divider"></li>
-                <li>
-                    <form action="{{ route('logout') }}" method="POST">
-                        @csrf
-                        <button type="submit" class="dropdown-item">Déconnexion</button>
-                    </form>
-                </li>
-            </ul>
+    <a class="user-menu dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+        <div class="user-avatar">
+            @if(Auth::user()->profile_image)
+                <img src="{{ asset('storage/' . Auth::user()->profile_image) }}" alt="{{ Auth::user()->name }}">
+            @else
+                <img src="{{ asset('img/default-avatar.png') }}" alt="{{ Auth::user()->name }}">
+            @endif
         </div>
+        <div class="user-info">
+            <span class="user-name">{{ Auth::user()->name }}</span>
+            <span class="user-role">
+                @if(Auth::user()->role === 'admin')
+                    Administrateur
+                @else
+                    Client
+                @endif
+            </span>
+        </div>
+    </a>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+        @if(Auth::user()->role === 'admin')
+            <!-- Menu pour Admin -->
+            <li><a class="dropdown-item" href="{{ route('admin.dashboard') }}">Dashboard Admin</a></li>
+            <li><a class="dropdown-item" href="{{ route('admin.users') }}">Gestion utilisateurs</a></li>
+            <li><a class="dropdown-item" href="{{ route('admin.devis') }}">Gestion devis</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item" href="{{ route('profile') }}">Mon profil</a></li>
+        @else
+            <!-- Menu pour Client -->
+            <li><a class="dropdown-item" href="{{ route('dashboard') }}">Tableau de bord</a></li>
+            <li><a class="dropdown-item" href="{{ route('profile') }}">Mon profil</a></li>
+            <li><a class="dropdown-item" href="{{ route('devis.history') }}">Historique des devis</a></li>
+            <li><a class="dropdown-item" href="{{ route('real.time') }}">Suivi en temps réel</a></li>
+        @endif
+        <li><hr class="dropdown-divider"></li>
+        <li>
+            <form action="{{ route('logout') }}" method="POST">
+                @csrf
+                <button type="submit" class="dropdown-item">Déconnexion</button>
+            </form>
+        </li>
+    </ul>
+</div>
     @endguest
     <a href="/devis" class="btn-devis">DEMANDER UN DEVIS</a>
 </div>
@@ -930,82 +942,145 @@
                 <p data-aos="fade-up" data-aos-delay="100">Remplissez le formulaire ci-dessous pour exprimer votre intérêt à devenir partenaire de CHICO TRANS. Notre équipe vous contactera dans les plus brefs délais pour discuter des opportunités de collaboration.</p>
                 
                 <div class="partner-form" data-aos="fade-up" data-aos-delay="200">
-                    <form>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <label for="company_name" class="form-label">Nom de l'entreprise *</label>
-                                <input type="text" id="company_name" class="form-control" required>
-                            </div>
-                            <div class="col-md-6">
-                                <label for="activity" class="form-label">Secteur d'activité *</label>
-                                <input type="text" id="activity" class="form-control" required>
-                            </div>
-                        </div>
-                        
-                        <div class="row">
-                            <div class="col-md-6">
-                                <label for="contact_name" class="form-label">Nom du contact *</label>
-                                <input type="text" id="contact_name" class="form-control" required>
-                            </div>
-                            <div class="col-md-6">
-                                <label for="position" class="form-label">Fonction *</label>
-                                <input type="text" id="position" class="form-control" required>
-                            </div>
-                        </div>
-                        
-                        <div class="row">
-                            <div class="col-md-6">
-                                <label for="email" class="form-label">Email professionnel *</label>
-                                <input type="email" id="email" class="form-control" required>
-                            </div>
-                            <div class="col-md-6">
-                                <label for="phone" class="form-label">Téléphone *</label>
-                                <input type="tel" id="phone" class="form-control" required>
-                            </div>
-                        </div>
-                        
-                        <div class="row">
-                            <div class="col-md-6">
-                                <label for="location" class="form-label">Ville/Pays *</label>
-                                <input type="text" id="location" class="form-control" required>
-                            </div>
-                            <div class="col-md-6">
-                                <label for="website" class="form-label">Site web</label>
-                                <input type="url" id="website" class="form-control">
-                            </div>
-                        </div>
-                        
-                        <div class="row">
-                            <div class="col-12">
-                                <label for="partnership_type" class="form-label">Type de partenariat souhaité *</label>
-                                <select id="partnership_type" class="form-control" required>
-                                    <option value="" disabled selected>Sélectionnez une option</option>
-                                    <option value="transporteur">Transporteur</option>
-                                    <option value="agent_commercial">Agent commercial</option>
-                                    <option value="logistique">Prestataire logistique</option>
-                                    <option value="distributeur">Distributeur</option>
-                                    <option value="autre">Autre</option>
-                                </select>
-                            </div>
-                        </div>
-                        
-                        <div class="row">
-                            <div class="col-12">
-                                <label for="message" class="form-label">Comment envisagez-vous la collaboration avec CHICO TRANS ? *</label>
-                                <textarea id="message" class="form-control" rows="4" required></textarea>
-                            </div>
-                        </div>
-                        
-                        <div class="form-check">
-                            <input type="checkbox" id="terms" class="form-check-input" required>
-                            <label for="terms" class="form-check-label">J'accepte que CHICO TRANS traite mes données personnelles conformément à sa politique de confidentialité pour répondre à ma demande de partenariat.</label>
-                        </div>
-                        
-                        <div class="text-center">
-                            <button type="submit" class="btn-submit">Soumettre ma candidature</button>
-                        </div>
-                    </form>
-                </div>
+    @if(session('success'))
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <i class="fas fa-check-circle me-2"></i>
+            {{ session('success') }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    @endif
+
+    @if(session('error'))
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <i class="fas fa-exclamation-triangle me-2"></i>
+            {{ session('error') }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    @endif
+
+    @if($errors->any())
+        <div class="alert alert-danger">
+            <ul class="mb-0">
+                @foreach($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
+
+    <form action="{{ route('partner.submit') }}" method="POST">
+        @csrf
+        <div class="row">
+            <div class="col-md-6">
+                <label for="company_name" class="form-label">Nom de l'entreprise *</label>
+                <input type="text" id="company_name" name="company_name" class="form-control @error('company_name') is-invalid @enderror" value="{{ old('company_name') }}" required>
+                @error('company_name')
+                    <div class="invalid-feedback">{{ $message }}</div>
+                @enderror
+            </div>
+            <div class="col-md-6">
+                <label for="activity" class="form-label">Secteur d'activité *</label>
+                <input type="text" id="activity" name="activity" class="form-control @error('activity') is-invalid @enderror" value="{{ old('activity') }}" required>
+                @error('activity')
+                    <div class="invalid-feedback">{{ $message }}</div>
+                @enderror
+            </div>
+        </div>
+        
+        <div class="row">
+            <div class="col-md-6">
+                <label for="contact_name" class="form-label">Nom du contact *</label>
+                <input type="text" id="contact_name" name="contact_name" class="form-control @error('contact_name') is-invalid @enderror" value="{{ old('contact_name') }}" required>
+                @error('contact_name')
+                    <div class="invalid-feedback">{{ $message }}</div>
+                @enderror
+            </div>
+            <div class="col-md-6">
+                <label for="position" class="form-label">Fonction *</label>
+                <input type="text" id="position" name="position" class="form-control @error('position') is-invalid @enderror" value="{{ old('position') }}" required>
+                @error('position')
+                    <div class="invalid-feedback">{{ $message }}</div>
+                @enderror
+            </div>
+        </div>
+        
+        <div class="row">
+            <div class="col-md-6">
+                <label for="email" class="form-label">Email professionnel *</label>
+                <input type="email" id="email" name="email" class="form-control @error('email') is-invalid @enderror" value="{{ old('email') }}" required>
+                @error('email')
+                    <div class="invalid-feedback">{{ $message }}</div>
+                @enderror
+            </div>
+            <div class="col-md-6">
+                <label for="phone" class="form-label">Téléphone *</label>
+                <input type="tel" id="phone" name="phone" class="form-control @error('phone') is-invalid @enderror" value="{{ old('phone') }}" required>
+                @error('phone')
+                    <div class="invalid-feedback">{{ $message }}</div>
+                @enderror
+            </div>
+        </div>
+        
+        <div class="row">
+            <div class="col-md-6">
+                <label for="location" class="form-label">Ville/Pays *</label>
+                <input type="text" id="location" name="location" class="form-control @error('location') is-invalid @enderror" value="{{ old('location') }}" required>
+                @error('location')
+                    <div class="invalid-feedback">{{ $message }}</div>
+                @enderror
+            </div>
+            <div class="col-md-6">
+                <label for="website" class="form-label">Site web</label>
+                <input type="url" id="website" name="website" class="form-control @error('website') is-invalid @enderror" value="{{ old('website') }}">
+                @error('website')
+                    <div class="invalid-feedback">{{ $message }}</div>
+                @enderror
+            </div>
+        </div>
+        
+        <div class="row">
+            <div class="col-12">
+                <label for="partnership_type" class="form-label">Type de partenariat souhaité *</label>
+                <select id="partnership_type" name="partnership_type" class="form-control @error('partnership_type') is-invalid @enderror" required>
+                    <option value="" disabled {{ old('partnership_type') ? '' : 'selected' }}>Sélectionnez une option</option>
+                    <option value="transporteur" {{ old('partnership_type') == 'transporteur' ? 'selected' : '' }}>Transporteur</option>
+                    <option value="agent_commercial" {{ old('partnership_type') == 'agent_commercial' ? 'selected' : '' }}>Agent commercial</option>
+                    <option value="logistique" {{ old('partnership_type') == 'logistique' ? 'selected' : '' }}>Prestataire logistique</option>
+                    <option value="distributeur" {{ old('partnership_type') == 'distributeur' ? 'selected' : '' }}>Distributeur</option>
+                    <option value="autre" {{ old('partnership_type') == 'autre' ? 'selected' : '' }}>Autre</option>
+                </select>
+                @error('partnership_type')
+                    <div class="invalid-feedback">{{ $message }}</div>
+                @enderror
+            </div>
+        </div>
+        
+        <div class="row">
+            <div class="col-12">
+                <label for="message" class="form-label">Comment envisagez-vous la collaboration avec CHICO TRANS ? *</label>
+                <textarea id="message" name="message" class="form-control @error('message') is-invalid @enderror" rows="4" required>{{ old('message') }}</textarea>
+                @error('message')
+                    <div class="invalid-feedback">{{ $message }}</div>
+                @enderror
+            </div>
+        </div>
+        
+        <div class="form-check">
+            <input type="checkbox" id="terms" name="terms" class="form-check-input @error('terms') is-invalid @enderror" {{ old('terms') ? 'checked' : '' }} required>
+            <label for="terms" class="form-check-label">J'accepte que CHICO TRANS traite mes données personnelles conformément à sa politique de confidentialité pour répondre à ma demande de partenariat.</label>
+            @error('terms')
+                <div class="invalid-feedback">{{ $message }}</div>
+            @enderror
+        </div>
+        
+        <div class="text-center">
+            <button type="submit" class="btn-submit">
+                <i class="fas fa-paper-plane me-2"></i>
+                Soumettre ma candidature
+            </button>
+        </div>
+    </form>
+</div>
             </div>
         </div>
     </section>

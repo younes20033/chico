@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Validation\Rule;
 use App\Models\User;
 use App\Models\Devis;
 
@@ -18,7 +20,7 @@ class SimpleAuthController extends Controller
         if (Auth::check()) {
             return $this->redirectBasedOnRole();
         }
-        return view('auth.simple-login'); // Gardez votre vue simple pour login
+        return view('auth.simple-login');
     }
 
     /**
@@ -51,7 +53,7 @@ class SimpleAuthController extends Controller
         if (Auth::check()) {
             return $this->redirectBasedOnRole();
         }
-        return view('auth.simple-register'); // Gardez votre vue simple pour register
+        return view('auth.simple-register');
     }
 
     /**
@@ -94,7 +96,7 @@ class SimpleAuthController extends Controller
     }
 
     /**
-     * Dashboard utilisateur - UTILISE VOS VUES EXISTANTES
+     * Dashboard utilisateur
      */
     public function dashboard()
     {
@@ -109,7 +111,7 @@ class SimpleAuthController extends Controller
             return redirect()->route('admin.dashboard');
         }
 
-        // Pour les clients - UTILISE VOTRE VUE EXISTANTE
+        // Pour les clients - Utiliser les données réelles
         $totalDevis = Devis::where('user_id', $user->id)->count();
         $pendingDevis = Devis::where('user_id', $user->id)->where('status', 'pending')->count();
         $approvedDevis = Devis::where('user_id', $user->id)->where('status', 'approved')->count();
@@ -119,12 +121,11 @@ class SimpleAuthController extends Controller
                             ->take(5)
                             ->get();
 
-        // UTILISEZ VOTRE VUE DASHBOARD EXISTANTE
         return view('dashboard.index', compact('totalDevis', 'pendingDevis', 'approvedDevis', 'recentDevis'));
     }
 
     /**
-     * Profil utilisateur - UTILISE VOS VUES EXISTANTES
+     * Profil utilisateur
      */
     public function profile()
     {
@@ -132,12 +133,11 @@ class SimpleAuthController extends Controller
             return redirect()->route('login');
         }
 
-        // UTILISEZ VOTRE VUE PROFILE EXISTANTE
         return view('dashboard.profile');
     }
 
     /**
-     * Mettre à jour le profil - GARDE VOTRE LOGIQUE EXISTANTE
+     * Mettre à jour le profil
      */
     public function updateProfile(Request $request)
     {
@@ -159,7 +159,7 @@ class SimpleAuthController extends Controller
             'profile_image' => 'nullable|image|max:2048',
         ]);
 
-        // GARDE VOTRE LOGIQUE D'UPLOAD D'IMAGE EXISTANTE
+        // Gestion de l'upload d'image
         if ($request->hasFile('profile_image')) {
             if ($user->profile_image) {
                 Storage::disk('public')->delete($user->profile_image);
@@ -177,7 +177,7 @@ class SimpleAuthController extends Controller
     }
 
     /**
-     * Mes devis - UTILISE VOS VUES EXISTANTES
+     * Mes devis
      */
     public function myDevis()
     {
@@ -189,12 +189,11 @@ class SimpleAuthController extends Controller
                      ->orderBy('created_at', 'desc')
                      ->paginate(10);
 
-        // UTILISEZ VOTRE VUE DEVIS-HISTORY EXISTANTE
         return view('dashboard.devis-history', compact('devis'));
     }
 
     /**
-     * Changement de mot de passe
+     * Afficher le formulaire de changement de mot de passe
      */
     public function showChangePassword()
     {
@@ -202,8 +201,55 @@ class SimpleAuthController extends Controller
             return redirect()->route('login');
         }
 
-        // UTILISEZ VOTRE VUE CHANGE-PASSWORD EXISTANTE
         return view('dashboard.change-password');
+    }
+
+    /**
+     * Changer le mot de passe
+     */
+    public function changePassword(Request $request)
+    {
+        if (!Auth::check()) {
+            return redirect()->route('login');
+        }
+
+        $request->validate([
+            'current_password' => 'required|current_password',
+            'password' => 'required|string|min:8|confirmed',
+        ]);
+
+        Auth::user()->update([
+            'password' => Hash::make($request->password),
+        ]);
+
+        return redirect()->route('profile')->with('success', 'Mot de passe mis à jour avec succès !');
+    }
+
+    /**
+     * Afficher les détails d'un devis pour le client
+     */
+    public function showMyDevis($id)
+    {
+        if (!Auth::check()) {
+            return redirect()->route('login');
+        }
+
+        $devis = Devis::with('transports')->findOrFail($id);
+        
+        // Vérifier que l'utilisateur est le propriétaire du devis ou un admin
+        if (Auth::id() !== $devis->user_id && Auth::user()->role !== 'admin') {
+            abort(403, 'Accès non autorisé');
+        }
+        
+        return view('dashboard.devis-show', compact('devis'));
+    }
+
+    /**
+     * Afficher le formulaire de mot de passe oublié
+     */
+    public function showForgotPassword()
+    {
+        return view('auth.forgot-password');
     }
 
     /**
@@ -219,7 +265,4 @@ class SimpleAuthController extends Controller
         
         return redirect()->route('dashboard');
     }
-
-    // AJOUTEZ ICI TOUTES VOS AUTRES MÉTHODES EXISTANTES DE AuthController
-    // Comme showForgotPassword, changePassword, etc.
 }

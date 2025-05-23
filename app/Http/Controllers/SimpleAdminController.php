@@ -296,4 +296,14 @@ class SimpleAdminController extends Controller
 
         return back()->with('success', 'Toutes les notifications ont été marquées comme lues.');
     }
+
+     public function showDevis($id)
+    {
+        $redirect = $this->checkAdmin();
+        if ($redirect) return $redirect;
+
+        $devis = Devis::with('transports', 'user')->findOrFail($id);
+        
+        return view('dashboard.devis-show', compact('devis'));
+    }
 }
