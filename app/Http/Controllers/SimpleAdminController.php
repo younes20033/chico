@@ -2,55 +2,66 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\Rule;
 use App\Models\User;
 use App\Models\Devis;
 use App\Models\Notification;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Validation\Rule;
-use Illuminate\Support\Facades\Auth;
 
-class AdminController extends Controller
+class SimpleAdminController extends Controller
 {
     /**
      * Vérification admin simple
      */
     private function checkAdmin()
     {
-        if (!Auth::check() || Auth::user()->role !== 'admin') {
-            return redirect()->route('dashboard')->with('error', 'Accès non autorisé. Vous devez être administrateur.');
+        if (!Auth::check()) {
+            return redirect()->route('login')->with('error', 'Vous devez être connecté.');
         }
+
+        if (Auth::user()->role !== 'admin') {
+            return redirect()->route('dashboard')->with('error', 'Accès non autorisé. Seuls les administrateurs peuvent accéder à cette page.');
+        }
+
         return null;
     }
 
     /**
-     * Afficher le tableau de bord admin
+     * Dashboard admin - UTILISE VOTRE VUE EXISTANTE
      */
     public function dashboard()
     {
         $redirect = $this->checkAdmin();
         if ($redirect) return $redirect;
 
-        // Récupérer quelques statistiques pour le tableau de bord
+        // Statistiques
         $totalUsers = User::count();
         $totalClients = User::where('role', 'client')->count();
         $totalDevis = Devis::count();
         $pendingDevis = Devis::where('status', 'pending')->count();
         $approvedDevis = Devis::where('status', 'approved')->count();
         $rejectedDevis = Devis::where('status', 'rejected')->count();
-        
-        // Récupérer les notifications non lues
-        $notifications = Notification::where('read', false)
-                                   ->orderBy('created_at', 'desc')
-                                   ->with('devis')
-                                   ->get();
-        
-        // Récupérer les derniers devis soumis
+
+        // Notifications récentes
+        $notifications = collect();
+        try {
+            $notifications = Notification::where('read', false)
+                                       ->orderBy('created_at', 'desc')
+                                       ->with('devis')
+                                       ->get();
+        } catch (\Exception $e) {
+            // Table notifications n'existe pas encore
+        }
+
+        // Derniers devis
         $recentDevis = Devis::with('user')
                            ->orderBy('created_at', 'desc')
                            ->take(5)
                            ->get();
-        
+
+        // UTILISEZ VOTRE VUE ADMIN DASHBOARD EXISTANTE
         return view('admin.dashboard', compact(
             'totalUsers', 
             'totalClients', 
@@ -64,19 +75,21 @@ class AdminController extends Controller
     }
 
     /**
-     * Afficher la liste des utilisateurs
+     * Liste des utilisateurs - UTILISE VOTRE VUE EXISTANTE
      */
     public function users()
     {
         $redirect = $this->checkAdmin();
         if ($redirect) return $redirect;
 
-        $users = User::paginate(10);
+        $users = User::orderBy('created_at', 'desc')->paginate(10);
+        
+        // UTILISEZ VOTRE VUE ADMIN USERS EXISTANTE
         return view('admin.users.index', compact('users'));
     }
 
     /**
-     * Afficher la liste des devis
+     * Liste des devis - UTILISE VOTRE VUE EXISTANTE
      */
     public function devis()
     {
@@ -84,11 +97,13 @@ class AdminController extends Controller
         if ($redirect) return $redirect;
 
         $devis = Devis::with('user')->orderBy('created_at', 'desc')->paginate(10);
+        
+        // UTILISEZ VOTRE VUE ADMIN DEVIS EXISTANTE
         return view('admin.devis.index', compact('devis'));
     }
 
     /**
-     * Afficher les nouveaux devis (devis en attente)
+     * Nouveaux devis - UTILISE VOTRE VUE EXISTANTE
      */
     public function newDevis()
     {
@@ -99,65 +114,65 @@ class AdminController extends Controller
                      ->where('status', 'pending')
                      ->orderBy('created_at', 'desc')
                      ->paginate(10);
-        
+
+        // UTILISEZ VOTRE VUE ADMIN NEW DEVIS EXISTANTE
         return view('admin.devis.new', compact('devis'));
     }
 
     /**
-     * Approuver un devis
+     * Approuver un devis - GARDE VOTRE LOGIQUE EXISTANTE
      */
     public function approveDevis($id)
     {
         $redirect = $this->checkAdmin();
         if ($redirect) return $redirect;
 
-        $devis = Devis::findOrFail($id);
-        $devis->update(['status' => 'approved']);
-        
-        return back()->with('success', 'Le devis a été approuvé avec succès.');
+        try {
+            $devis = Devis::findOrFail($id);
+            $devis->update(['status' => 'approved']);
+            
+            return back()->with('success', 'Le devis a été approuvé avec succès.');
+        } catch (\Exception $e) {
+            return back()->with('error', 'Erreur lors de l\'approbation du devis.');
+        }
     }
 
     /**
-     * Rejeter un devis
+     * Rejeter un devis - GARDE VOTRE LOGIQUE EXISTANTE
      */
     public function rejectDevis($id)
     {
         $redirect = $this->checkAdmin();
         if ($redirect) return $redirect;
 
-        $devis = Devis::findOrFail($id);
-        $devis->update(['status' => 'rejected']);
-        
-        return back()->with('success', 'Le devis a été rejeté.');
+        try {
+            $devis = Devis::findOrFail($id);
+            $devis->update(['status' => 'rejected']);
+            
+            return back()->with('success', 'Le devis a été rejeté.');
+        } catch (\Exception $e) {
+            return back()->with('error', 'Erreur lors du rejet du devis.');
+        }
     }
 
     /**
-     * Marquer une notification comme lue
+     * COPIEZ ICI TOUTES VOS AUTRES MÉTHODES EXISTANTES DE AdminController
+     * Par exemple :
      */
-    public function markNotificationAsRead($id)
-    {
-        $redirect = $this->checkAdmin();
-        if ($redirect) return $redirect;
-
-        $notification = Notification::findOrFail($id);
-        $notification->markAsRead();
-        
-        return redirect()->route('admin.devis.new');
-    }
 
     /**
-     * Afficher le formulaire d'ajout d'utilisateur
+     * Créer un utilisateur - UTILISE VOS VUES EXISTANTES
      */
     public function createUser()
     {
         $redirect = $this->checkAdmin();
         if ($redirect) return $redirect;
-
+        
         return view('admin.users.create');
     }
 
     /**
-     * Enregistrer un nouvel utilisateur
+     * Enregistrer un utilisateur - GARDE VOTRE LOGIQUE EXISTANTE
      */
     public function storeUser(Request $request)
     {
@@ -186,7 +201,7 @@ class AdminController extends Controller
     }
 
     /**
-     * Afficher le formulaire d'édition d'utilisateur
+     * Éditer un utilisateur - UTILISE VOS VUES EXISTANTES
      */
     public function editUser(User $user)
     {
@@ -197,7 +212,7 @@ class AdminController extends Controller
     }
 
     /**
-     * Mettre à jour un utilisateur
+     * Mettre à jour un utilisateur - GARDE VOTRE LOGIQUE EXISTANTE
      */
     public function updateUser(Request $request, User $user)
     {
@@ -226,7 +241,7 @@ class AdminController extends Controller
     }
 
     /**
-     * Supprimer un utilisateur
+     * Supprimer un utilisateur - GARDE VOTRE LOGIQUE EXISTANTE
      */
     public function destroyUser(User $user)
     {
@@ -238,7 +253,7 @@ class AdminController extends Controller
     }
 
     /**
-     * Afficher les notifications
+     * Notifications - UTILISE VOS VUES EXISTANTES
      */
     public function notifications()
     {
@@ -253,7 +268,21 @@ class AdminController extends Controller
     }
 
     /**
-     * Marquer toutes les notifications comme lues
+     * Marquer notification comme lue - GARDE VOTRE LOGIQUE EXISTANTE
+     */
+    public function markNotificationAsRead($id)
+    {
+        $redirect = $this->checkAdmin();
+        if ($redirect) return $redirect;
+
+        $notification = Notification::findOrFail($id);
+        $notification->markAsRead();
+        
+        return redirect()->route('admin.devis.new');
+    }
+
+    /**
+     * Marquer toutes les notifications comme lues - GARDE VOTRE LOGIQUE EXISTANTE
      */
     public function markAllNotificationsAsRead()
     {

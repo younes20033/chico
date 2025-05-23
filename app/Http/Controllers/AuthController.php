@@ -14,8 +14,6 @@ use Illuminate\Http\Request;
 
 use App\Traits\AdminAccess;
 
-
-
 class AuthController extends Controller
 {
     /**
@@ -25,14 +23,14 @@ class AuthController extends Controller
     {
         return view('auth.login');
     }
-/**
- * Afficher le formulaire de récupération de mot de passe
- */
-public function showForgotPasswordForm()
-{
-    return view('auth.forgot-password');
-}
 
+    /**
+     * Afficher le formulaire de récupération de mot de passe
+     */
+    public function showForgotPasswordForm()
+    {
+        return view('auth.forgot-password');
+    }
 
     /**
      * Gérer la demande de connexion
@@ -49,10 +47,12 @@ public function showForgotPasswordForm()
 
             $user = Auth::user();
 
-    if ($user->role === 'admin') {
-        return redirect()->route('admin.dashboard');
-    }
-    return redirect()->route('dashboard');
+            // Redirection basée sur le rôle de l'utilisateur
+            if ($user->role === 'admin') {
+                return redirect()->route('admin.dashboard');
+            }
+            
+            return redirect()->route('dashboard');
         }
 
         return back()->withErrors([
@@ -112,21 +112,30 @@ public function showForgotPasswordForm()
      * Afficher le tableau de bord
      */
     public function dashboard()
-    {$user = Auth::user();
-        if ($user->role === 'admin') {
-        return redirect()->route('admin.dashboard');  // Redirection vers dashboard admin
-    }
+    {
+        $user = Auth::user();
         
-         $totalDevis = Devis::where('user_id', $user->id)->count();
-    $pendingDevis = Devis::where('user_id', $user->id)->where('status', 'pending')->count();
-    $approvedDevis = Devis::where('user_id', $user->id)->where('status', 'approved')->count();
+        // Redirection automatique pour les admins
+        if ($user->role === 'admin') {
+            return redirect()->route('admin.dashboard');
+        }
+        
+        // Pour les clients normaux
+        $totalDevis = Devis::where('user_id', $user->id)->count();
+        $pendingDevis = Devis::where('user_id', $user->id)->where('status', 'pending')->count();
+        $approvedDevis = Devis::where('user_id', $user->id)->where('status', 'approved')->count();
 
-    $recentDevis = Devis::where('user_id', $user->id)
-                        ->orderBy('created_at', 'desc')
-                        ->take(5)
-                        ->get();
-return view('dashboard.index', compact('totalDevis', 'pendingDevis', 'approvedDevis', 'recentDevis'));
-
+        $recentDevis = Devis::where('user_id', $user->id)
+                            ->orderBy('created_at', 'desc')
+                            ->take(5)
+                            ->get();
+        dd([
+        'user_id' => $user->id,
+        'user_role' => $user->role,
+        'is_admin' => $user->role === 'admin'
+    ]);
+                            
+        return view('dashboard.index', compact('totalDevis', 'pendingDevis', 'approvedDevis', 'recentDevis'));
     }
 
     /**
@@ -191,7 +200,7 @@ return view('dashboard.index', compact('totalDevis', 'pendingDevis', 'approvedDe
             'password' => ['required', 'confirmed', 'min:8'],
         ]);
 
-        auth::user()->update([
+        Auth::user()->update([
             'password' => Hash::make($validated['password']),
         ]);
 

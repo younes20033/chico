@@ -48,6 +48,7 @@ class DevisController extends Controller
             'tva_rate' => 'required|numeric|min:0|max:100',
             'special_requirements' => 'nullable|string',
             'terms' => 'required|accepted',
+            'action' => 'nullable|string|in:download,submit', // AJOUT: validation de l'action
         ]);
 
         // Générer un numéro de devis unique
@@ -102,61 +103,85 @@ class DevisController extends Controller
         // Nommer le fichier PDF
         $filename = 'DEVIS_' . str_replace('/', '_', $factureNo) . '.pdf';
         
-        // Si l'utilisateur est connecté, enregistrer le devis dans la base de données
-        if (Auth::check()) {
-            // Enregistrer le PDF dans le stockage
-            $pdfPath = 'devis/' . $filename;
-            Storage::disk('public')->put($pdfPath, $pdf->output());
-            
-            // Créer l'enregistrement de devis
-            $devis = Devis::create([
-                'user_id' => Auth::id(),
-                'company_name' => $validated['company_name'],
-                'contact_name' => $validated['contact_name'],
-                'email' => $validated['email'],
-                'telephone' => $validated['telephone'],
-                'address' => $validated['address'],
-                'city' => $validated['city'],
-                'postal_code' => $validated['postal_code'] ?? null,
-                'ice' => $validated['ice'] ?? null,
-                'reference' => $factureNo,
-                'status' => 'pending',
-                'pdf_path' => $pdfPath,
-                'special_requirements' => $validated['special_requirements'] ?? null,
-                'total_ht' => $totalHT,
-                'total_tva' => $totalTVA,
-                'total_ttc' => $totalTTC,
-                'tva_rate' => $validated['tva_rate']
-            ]);
-            
-            // Enregistrer les transports liés au devis
-            foreach ($validated['transports'] as $transportData) {
-                DevisTransport::create([
-                    'devis_id' => $devis->id,
-                    'date' => $transportData['date'],
-                    'destination' => $transportData['destination'],
-                    'vehicle_type' => $transportData['vehicle_type'],
-                    'price' => $transportData['price'],
-                    'reference' => $transportData['reference'] ?? null,
-                    'description' => $transportData['description'] ?? null
+        // NOUVEAU: Vérifier quelle action a été demandée
+        $action = $request->input('action', 'download'); // Par défaut: télécharger
+        
+        // Si l'utilisateur est connecté ET que l'action est "submit", enregistrer en base
+        if (Auth::check() && $action === 'submit') {
+            try {
+                // Enregistrer le PDF dans le stockage
+                $pdfPath = 'devis/' . $filename;
+                Storage::disk('public')->put($pdfPath, $pdf->output());
+                
+                // Créer l'enregistrement de devis
+                $devis = Devis::create([
+                    'user_id' => Auth::id(),
+                    'company_name' => $validated['company_name'],
+                    'contact_name' => $validated['contact_name'],
+                    'email' => $validated['email'],
+                    'telephone' => $validated['telephone'],
+                    'address' => $validated['address'],
+                    'city' => $validated['city'],
+                    'postal_code' => $validated['postal_code'] ?? null,
+                    'ice' => $validated['ice'] ?? null,
+                    'reference' => $factureNo,
+                    'status' => 'pending',
+                    'pdf_path' => $pdfPath,
+                    'special_requirements' => $validated['special_requirements'] ?? null,
+                    'total_ht' => $totalHT,
+                    'total_tva' => $totalTVA,
+                    'total_ttc' => $totalTTC,
+                    'tva_rate' => $validated['tva_rate']
                 ]);
-            }
+                
+                // Enregistrer les transports liés au devis
+                foreach ($validated['transports'] as $transportData) {
+                    DevisTransport::create([
+                        'devis_id' => $devis->id,
+                        'date' => $transportData['date'],
+                        'destination' => $transportData['destination'],
+                        'vehicle_type' => $transportData['vehicle_type'],
+                        'price' => $transportData['price'],
+                        'reference' => $transportData['reference'] ?? null,
+                        'description' => $transportData['description'] ?? null
+                    ]);
+                }
 
-            // Créer une notification pour l'administrateur
-            Notification::create([
-                'type' => 'nouveau_devis',
-                'title' => 'Nouveau devis soumis',
-                'message' => "Un nouveau devis #{$factureNo} a été soumis par {$validated['contact_name']} ({$validated['company_name']})",
-                'devis_id' => $devis->id
-            ]);
-            
-            // Rediriger vers l'historique des devis si l'option "Soumettre à l'admin" est sélectionnée
-            if ($request->has('submit_to_admin')) {
-                return redirect()->route('devis.history')->with('success', 'Votre devis a été enregistré et soumis à l\'administration pour traitement.');
+                // Créer une notification pour l'administrateur
+                try {
+                    Notification::create([
+                        'type' => 'nouveau_devis',
+                        'title' => 'Nouveau devis soumis',
+                        'message' => "Un nouveau devis #{$factureNo} a été soumis par {$validated['contact_name']} ({$validated['company_name']})",
+                        'devis_id' => $devis->id
+                    ]);
+                } catch (\Exception $e) {
+                    // Si la table notifications n'existe pas, continuer sans erreur
+                }
+                
+                // NOUVEAU: Rediriger vers l'historique avec message de succès
+                return redirect()->route('devis.history')->with('success', 
+                    'Votre devis #' . $factureNo . ' a été soumis avec succès à l\'administration !');
+                    
+            } catch (\Exception $e) {
+                // En cas d'erreur, revenir au formulaire avec message d'erreur
+                return back()->withInput()->withErrors(['error' => 
+                    'Erreur lors de la soumission du devis : ' . $e->getMessage()]);
             }
         }
 
-        // Télécharger le PDF
+        // NOUVEAU: Si l'action est "download" ou utilisateur non connecté, télécharger le PDF
+        if ($action === 'download') {
+            return $pdf->download($filename);
+        }
+        
+        // NOUVEAU: Si utilisateur non connecté mais veut soumettre, rediriger vers login
+        if (!Auth::check() && $action === 'submit') {
+            return redirect()->route('login')->with('error', 
+                'Vous devez être connecté pour soumettre un devis à l\'administration.');
+        }
+
+        // Par défaut, télécharger le PDF
         return $pdf->download($filename);
     }
 
@@ -165,6 +190,10 @@ class DevisController extends Controller
      */
     public function history()
     {
+        if (!Auth::check()) {
+            return redirect()->route('login');
+        }
+
         $devis = Devis::where('user_id', Auth::id())
                       ->orderBy('created_at', 'desc')
                       ->paginate(10);
@@ -179,9 +208,9 @@ class DevisController extends Controller
     {
         $devis = Devis::with('transports')->findOrFail($id);
         
-        // Vérifier que l'utilisateur est le propriétaire du devis ou un admin
-        if (Auth::id() !== $devis->user_id && !Auth::user()->role !== 'admin') {
-            abort(403);
+        // CORRECTION: Vérifier que l'utilisateur est le propriétaire du devis ou un admin
+        if (Auth::id() !== $devis->user_id && Auth::user()->role !== 'admin') {
+            abort(403, 'Accès non autorisé');
         }
         
         return view('dashboard.devis-show', compact('devis'));
@@ -194,9 +223,9 @@ class DevisController extends Controller
     {
         $devis = Devis::findOrFail($id);
         
-        // Vérifier que l'utilisateur est le propriétaire du devis ou un admin
-        if (Auth::id() !== $devis->user_id && !Auth::user()->role !== 'admin') {
-            abort(403);
+        // CORRECTION: Vérifier que l'utilisateur est le propriétaire du devis ou un admin
+        if (Auth::id() !== $devis->user_id && Auth::user()->role !== 'admin') {
+            abort(403, 'Accès non autorisé');
         }
         
         $filepath = storage_path('app/public/' . $devis->pdf_path);
@@ -205,7 +234,7 @@ class DevisController extends Controller
             return back()->with('error', 'Le fichier PDF n\'est pas disponible.');
         }
         
-        return response()->file($filepath);
+        return response()->download($filepath, 'DEVIS_' . $devis->reference . '.pdf');
     }
 
     /**
@@ -213,9 +242,9 @@ class DevisController extends Controller
      */
     public function updateStatus(Request $request, $id)
     {
-        // Vérifier que l'utilisateur est un admin
-        if (!Auth::user()->role !== 'admin') {
-            abort(403);
+        // CORRECTION: Vérifier que l'utilisateur est un admin
+        if (Auth::user()->role !== 'admin') {
+            abort(403, 'Accès non autorisé');
         }
         
         $validated = $request->validate([

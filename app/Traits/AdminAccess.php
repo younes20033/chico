@@ -1,5 +1,7 @@
 <?php
+
 namespace App\Traits;
+
 use Illuminate\Support\Facades\Auth;
 
 trait AdminAccess
@@ -31,5 +33,3 @@ trait AdminAccess
         return null;
     }
 }
-
-?>
