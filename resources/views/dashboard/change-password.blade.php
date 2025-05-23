@@ -367,10 +367,13 @@
                         <li><a class="dropdown-item" href="{{ route('dashboard') }}">Tableau de bord</a></li>
                         <li><a class="dropdown-item" href="{{ route('profile') }}">Mon profil</a></li>
                         <li><a class="dropdown-item" href="{{ route('devis.history') }}">Historique des devis</a></li>
-                        <li><a class="dropdown-item" href="{{ route('real.time') }}">Suivi en temps réel</a></li>
+                        
                         @if(Auth::user()->isAdmin())
                             <li><hr class="dropdown-divider"></li>
                             <li><a class="dropdown-item" href="{{ route('admin.dashboard') }}">Administration</a></li>
+                            <li><a class="dropdown-item" href="{{ route('admin.notifications') }}" >
+    Voir toutes les notifications
+</a></li>
                         @endif
                         <li><hr class="dropdown-divider"></li>
                         <li>

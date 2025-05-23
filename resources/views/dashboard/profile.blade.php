@@ -638,7 +638,7 @@
             <li><a class="dropdown-item" href="{{ route('dashboard') }}">Tableau de bord</a></li>
             <li><a class="dropdown-item" href="{{ route('profile') }}">Mon profil</a></li>
             <li><a class="dropdown-item" href="{{ route('devis.history') }}">Historique des devis</a></li>
-            <li><a class="dropdown-item" href="{{ route('real.time') }}">Suivi en temps réel</a></li>
+            
         @endif
         <li><hr class="dropdown-divider"></li>
         <li>
@@ -709,22 +709,7 @@
                         </div>
                         <h4 class="profile-name mt-3 mb-1">{{ Auth::user()->name }}</h4>
                         <p class="profile-role mb-2">{{ Auth::user()->role === 'admin' ? 'Administrateur' : 'Client' }}</p>
-                        <div class="profile-stats">
-                            <div class="row g-0">
-                                <div class="col">
-                                    <div class="profile-stat-item">
-                                        <h5>1</h5>
-                                        <span>Devis</span>
-                                    </div>
-                                </div>
-                                <div class="col">
-                                    <div class="profile-stat-item">
-                                        <h5>1</h5>
-                                        <span>Transports</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                       
                     </div>
                     
                     <!-- Navigation Menu -->

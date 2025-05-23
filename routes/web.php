@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\SimpleAuthController;
+use App\Http\Controllers\SimpleAuthController; // Utiliser le contrôleur complet
 use App\Http\Controllers\SimpleAdminController;
 use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\DevisController;
@@ -17,12 +17,13 @@ Route::get('/services', [ServiceController::class, 'index'])->name('services');
 // Route pour la page partenaire (GET)
 Route::get('/partenaire', [PartnerController::class, 'index'])->name('partenaire');
 
-// Route pour soumettre la candidature partenaire (POST) - AJOUTÉE
+// Route pour soumettre la candidature partenaire (POST)
 Route::post('/partenaire/submit', [PartnerController::class, 'submitApplication'])->name('partner.submit');
 
 Route::get('/contactez-nous', function () {
     return view('contactez-nous');
 })->name('contactez-nous');
+
 Route::get('/qui-sommes-nous', function () {
     return view('qui-sommes-nous');
 })->name('qui-sommes-nous');
@@ -31,28 +32,27 @@ Route::get('/qui-sommes-nous', function () {
 Route::get('/devis', [DevisController::class, 'index'])->name('devis.form');
 Route::post('/devis/generate', [DevisController::class, 'generatePDF'])->name('devis.generate');
 
-// AUTHENTIFICATION SIMPLE
-Route::get('/login', [SimpleAuthController::class, 'showLogin'])->name('login');
+// AUTHENTIFICATION - Utiliser SimpleAuthController complet
+Route::get('/login', [SimpleAuthController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [SimpleAuthController::class, 'login']);
-Route::get('/register', [SimpleAuthController::class, 'showRegister'])->name('register');
+Route::get('/register', [SimpleAuthController::class, 'showRegisterForm'])->name('register');
 Route::post('/register', [SimpleAuthController::class, 'register']);
 Route::post('/logout', [SimpleAuthController::class, 'logout'])->name('logout');
 
 // Routes de mot de passe
-Route::get('/forgot-password', [SimpleAuthController::class, 'showForgotPassword'])->name('password.request');
+Route::get('/forgot-password', [SimpleAuthController::class, 'showForgotPasswordForm'])->name('password.request');
 
-// Routes protégées - CLIENT (contrôle dans les méthodes)
+// Routes protégées - CLIENT
 Route::get('/dashboard', [SimpleAuthController::class, 'dashboard'])->name('dashboard');
 Route::get('/profile', [SimpleAuthController::class, 'profile'])->name('profile');
 Route::put('/profile', [SimpleAuthController::class, 'updateProfile'])->name('profile.update');
-Route::get('/change-password', [SimpleAuthController::class, 'showChangePassword'])->name('password.change');
-Route::put('/change-password', [SimpleAuthController::class, 'changePassword'])->name('password.update');
+Route::get('/change-password', [SimpleAuthController::class, 'showChangePasswordForm'])->name('password.change');
+Route::put('/change-password', [SimpleAuthController::class, 'updatePassword'])->name('password.update');
 Route::get('/devis-history', [SimpleAuthController::class, 'myDevis'])->name('devis.history');
 Route::get('/devis/{id}/details', [SimpleAuthController::class, 'showMyDevis'])->name('devis.show');
 Route::get('/devis/{id}/download', [DevisController::class, 'downloadPDF'])->name('devis.download');
-Route::get('/real-time', function () {
-    return view('dashboard.real-time');
-})->name('real.time');
+
+
 
 // Routes Admin - SANS MIDDLEWARE (contrôle dans SimpleAdminController)
 Route::prefix('admin')->name('admin.')->group(function () {
@@ -75,7 +75,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::post('/devis/{id}/reject', [SimpleAdminController::class, 'rejectDevis'])->name('devis.reject');
     Route::put('/devis/{id}/status', [SimpleAdminController::class, 'updateDevisStatus'])->name('devis.update-status');
     
-    // Gestion des candidatures partenaires - AJOUTÉES
+    // Gestion des candidatures partenaires
     Route::get('/partners', [SimpleAdminController::class, 'partners'])->name('partners');
     Route::get('/partners/{id}/show', [SimpleAdminController::class, 'showPartner'])->name('partners.show');
     Route::put('/partners/{id}/status', [SimpleAdminController::class, 'updatePartnerStatus'])->name('partners.update-status');

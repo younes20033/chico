@@ -767,6 +767,9 @@
             <li><a class="dropdown-item" href="{{ route('admin.dashboard') }}">Dashboard Admin</a></li>
             <li><a class="dropdown-item" href="{{ route('admin.users') }}">Gestion utilisateurs</a></li>
             <li><a class="dropdown-item" href="{{ route('admin.devis') }}">Gestion devis</a></li>
+            <li><a class="dropdown-item" href="{{ route('admin.notifications') }}" >
+    Voir toutes les notifications
+</a></li>
             <li><hr class="dropdown-divider"></li>
             <li><a class="dropdown-item" href="{{ route('profile') }}">Mon profil</a></li>
         @else
@@ -774,7 +777,7 @@
             <li><a class="dropdown-item" href="{{ route('dashboard') }}">Tableau de bord</a></li>
             <li><a class="dropdown-item" href="{{ route('profile') }}">Mon profil</a></li>
             <li><a class="dropdown-item" href="{{ route('devis.history') }}">Historique des devis</a></li>
-            <li><a class="dropdown-item" href="{{ route('real.time') }}">Suivi en temps réel</a></li>
+            
         @endif
         <li><hr class="dropdown-divider"></li>
         <li>
@@ -980,20 +983,7 @@
                                 </a>
                             </div>
                             
-                            <div class="col-md-4 mb-3">
-                                <a href="{{ route('real.time') }}" class="quick-link-item">
-                                    <div class="quick-link-icon bg-success">
-                                        <i class="fas fa-map-marked-alt"></i>
-                                    </div>
-                                    <div class="quick-link-text">
-                                        <h4>Suivi en temps réel</h4>
-                                        <p>Localisez vos transports en direct</p>
-                                    </div>
-                                    <div class="quick-link-arrow">
-                                        <i class="fas fa-chevron-right"></i>
-                                    </div>
-                                </a>
-                            </div>
+                            
                         </div>
                     </div>
                 </div>
