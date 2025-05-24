@@ -1,815 +1,393 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CHICO TRANS - Qui sommes-nous</title>
+@extends('layouts.app')
+
+@section('title', 'CHICO TRANS - Qui sommes-nous')
+
+@section('description', 'Découvrez l\'histoire, les valeurs et l\'équipe qui font de CHICO TRANS un leader dans le secteur du transport de remorques depuis plus de 20 ans.')
+
+@push('styles')
+<style>
+    /* Page Header */
+    .page-header {
+        position: relative;
+        background-image: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('/img6.jpg');
+        background-size: cover;
+        background-position: center;
+        height: 350px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-top: 0;
+        text-align: center;
+        color: white;
+    }
     
-    <!-- Bootstrap CSS -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    .page-title {
+        font-size: 2.2rem;
+        font-weight: 700;
+        margin-bottom: 1rem;
+    }
     
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    .page-description {
+        font-size: 1.1rem;
+        max-width: 800px;
+        margin: 0 auto;
+        line-height: 1.6;
+    }
     
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    /* About Story Section */
+    .about-content h3 {
+        color: var(--secondary-color);
+        margin-bottom: 1.25rem;
+        font-size: 1.5rem;
+        font-weight: 600;
+        line-height: 1.4;
+    }
     
-    <!-- AOS - Animation On Scroll -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
+    .about-content p {
+        color: var(--grey-color);
+        margin-bottom: 1rem;
+        line-height: 1.6;
+        font-size: 0.95rem;
+    }
     
-    <style>
-        :root {
-            --primary-color: #4d4d4d;
-            --secondary-color: #d13333;
-            --dark-color: #333333;
-            --light-color: #f8f9fa;
-            --grey-color: #6c757d;
-        }
-        
-        body {
-            font-family: 'Poppins', sans-serif;
-            overflow-x: hidden;
-        }
-        
-        /* Navbar - Compact and Professional */
-        .navbar {
-            box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);
-            padding: 0.5rem 1rem;
-            transition: all 0.3s ease;
-            background-color: white;
-        }
-        
-        .navbar-brand img {
-            height: 45px;
-        }
-        
-        .navbar-nav .nav-link {
-            font-weight: 500;
-            text-transform: uppercase;
-            color: var(--dark-color);
-            font-size: 0.85rem;
-            padding: 0.5rem 0.75rem;
-        }
-        
-        .navbar-nav .nav-link:hover,
-        .navbar-nav .nav-link.active {
-            color: var(--secondary-color);
-        }
-        
-        .navbar-nav .nav-item {
-            position: relative;
-        }
-        
-        .navbar-nav .nav-item::after {
-            content: '';
-            position: absolute;
-            width: 0;
-            height: 2px;
-            bottom: 0;
-            left: 0.75rem;
-            background-color: var(--secondary-color);
-            transition: width 0.3s;
-        }
-        
-        .navbar-nav .nav-item:hover::after,
-        .navbar-nav .nav-item.active::after {
-            width: calc(100% - 1.5rem);
-        }
-        
-        .dropdown-menu {
-            border-radius: 0.25rem;
-            border: none;
-            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
-            padding: 0.5rem 0;
-            margin-top: 0.5rem;
-            min-width: 12rem;
-        }
-        
-        .dropdown-item {
-            padding: 0.5rem 1rem;
-            font-size: 0.85rem;
-        }
-        
-        .dropdown-item:hover {
-            background-color: #f8f9fa;
-            color: var(--secondary-color);
-        }
-        
-        /* Optimized Navbar Buttons */
-        .navbar-action-btns {
-            display: flex;
-            align-items: center;
-        }
-        
-        .btn-auth {
-            border: 1px solid var(--primary-color);
-            background-color: transparent;
-            color: var(--primary-color);
-            font-size: 0.8rem;
-            padding: 0.4rem 0.8rem;
-            border-radius: 4px;
-            font-weight: 500;
-            margin-right: 0.5rem;
-            transition: all 0.2s;
-        }
-        
-        .btn-auth:hover {
-            background-color: var(--primary-color);
-            color: white;
-        }
-        
-        .btn-devis {
-            background-color: var(--secondary-color);
-            color: white;
-            text-decoration: none;
-            font-size: 0.8rem;
-            padding: 0.4rem 0.8rem;
-            border-radius: 4px;
-            font-weight: 500;
-            border: none;
-            transition: all 0.2s;
-        }
-        
-        .btn-devis:hover {
-            background-color: #c0392b;
-        }
-        
-        @media (max-width: 991.98px) {
-            .navbar-action-btns {
-                margin-top: 0.5rem;
-                flex-wrap: wrap;
-            }
-            
-            .btn-auth, .btn-devis {
-                margin-bottom: 0.5rem;
-                font-size: 0.75rem;
-                padding: 0.35rem 0.7rem;
-            }
-        }
-        
-        /* Page Header */
-        .page-header {
-            position: relative;
-            background-image: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('/img6.jpg');
-            background-size: cover;
-            background-position: center;
-            height: 350px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-top: 0;
-            text-align: center;
-            color: white;
-        }
-        
-        .page-title {
-            font-size: 2.2rem;
-            font-weight: 700;
-            margin-bottom: 1rem;
-        }
-        
-        .page-description {
-            font-size: 1.1rem;
-            max-width: 800px;
-            margin: 0 auto;
-            line-height: 1.6;
-        }
-        
-        /* Section Styles */
-        .section-padding {
-            padding: 4rem 0;
-        }
-        
-        .section-light {
-            background-color: white;
-        }
-        
-        .section-dark {
-            background-color: var(--light-color);
-        }
-        
-        .section-title {
-            position: relative;
-            color: var(--primary-color);
-            font-size: 1.8rem;
-            font-weight: 600;
-            margin-bottom: 2.5rem;
-            text-align: center;
-        }
-        
-        .section-title::after {
-            content: '';
-            position: absolute;
-            bottom: -0.75rem;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 60px;
-            height: 3px;
-            background-color: var(--secondary-color);
-        }
-        
-        /* About Story Section */
-        .about-content h3 {
-            color: var(--secondary-color);
-            margin-bottom: 1.25rem;
-            font-size: 1.5rem;
-            font-weight: 600;
-            line-height: 1.4;
-        }
-        
-        .about-content p {
-            color: var(--grey-color);
-            margin-bottom: 1rem;
-            line-height: 1.6;
-            font-size: 0.95rem;
-        }
-        
-        .about-image img {
-            border-radius: 8px;
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
-            width: 100%;
-        }
-        
-        /* Timeline Section */
-        .timeline {
-            position: relative;
-            max-width: 1140px;
-            margin: 0 auto;
-            padding: 0;
-            overflow: hidden;
-        }
-        
+    .about-image img {
+        border-radius: 8px;
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+        width: 100%;
+    }
+    
+    /* Timeline Section */
+    .timeline {
+        position: relative;
+        max-width: 1140px;
+        margin: 0 auto;
+        padding: 0;
+        overflow: hidden;
+    }
+    
+    .timeline::before {
+        content: '';
+        position: absolute;
+        width: 3px;
+        background-color: var(--secondary-color);
+        top: 0;
+        bottom: 0;
+        left: 50%;
+        margin-left: -1.5px;
+        z-index: 0;
+    }
+    
+    .timeline-item {
+        padding: 0 0 2.5rem 0;
+        position: relative;
+        width: 100%;
+        clear: both;
+    }
+    
+    .timeline-content {
+        background-color: white;
+        border-radius: 8px;
+        box-shadow: 0 3px 15px rgba(0, 0, 0, 0.05);
+        padding: 1.5rem;
+        position: relative;
+        width: calc(50% - 40px);
+        z-index: 1;
+    }
+    
+    .timeline-left {
+        float: left;
+    }
+    
+    .timeline-right {
+        float: right;
+    }
+    
+    .timeline-marker {
+        position: absolute;
+        width: 24px;
+        height: 24px;
+        background-color: white;
+        border: 4px solid var(--secondary-color);
+        border-radius: 50%;
+        top: 20px;
+        z-index: 1;
+        left: 50%;
+        margin-left: -12px;
+        box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.5);
+    }
+    
+    .timeline-date {
+        font-weight: 600;
+        color: var(--secondary-color);
+        margin-bottom: 0.5rem;
+        font-size: 1rem;
+    }
+    
+    .timeline-title {
+        color: var(--primary-color);
+        margin-bottom: 0.75rem;
+        font-size: 1.1rem;
+        font-weight: 600;
+    }
+    
+    .timeline-text {
+        color: var(--grey-color);
+        line-height: 1.5;
+        font-size: 0.9rem;
+    }
+    
+    /* Clearfix for timeline */
+    .timeline::after {
+        content: "";
+        display: table;
+        clear: both;
+    }
+    
+    @media (max-width: 767.98px) {
         .timeline::before {
-            content: '';
-            position: absolute;
-            width: 3px;
-            background-color: var(--secondary-color);
-            top: 0;
-            bottom: 0;
-            left: 50%;
-            margin-left: -1.5px;
-            z-index: 0;
-        }
-        
-        .timeline-item {
-            padding: 0 0 2.5rem 0;
-            position: relative;
-            width: 100%;
-            clear: both;
+            left: 30px;
         }
         
         .timeline-content {
-            background-color: white;
-            border-radius: 8px;
-            box-shadow: 0 3px 15px rgba(0, 0, 0, 0.05);
-            padding: 1.5rem;
-            position: relative;
-            width: calc(50% - 40px);
-            z-index: 1;
-        }
-        
-        .timeline-left {
-            float: left;
-        }
-        
-        .timeline-right {
+            width: calc(100% - 80px);
             float: right;
+            margin-left: 60px;
         }
         
         .timeline-marker {
-            position: absolute;
-            width: 24px;
-            height: 24px;
-            background-color: white;
-            border: 4px solid var(--secondary-color);
-            border-radius: 50%;
-            top: 20px;
-            z-index: 1;
-            left: 50%;
-            margin-left: -12px;
-            box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.5);
+            left: 16px;
+            margin-left: 0;
+        }
+    }
+    
+    /* Mission and Values Section */
+    .mission-box, .values-box {
+        background-color: white;
+        border-radius: 8px;
+        box-shadow: 0 3px 15px rgba(0, 0, 0, 0.05);
+        padding: 2rem;
+        height: 100%;
+        margin-bottom: 1.5rem;
+    }
+    
+    .mission-title, .values-title {
+        color: var(--secondary-color);
+        font-size: 1.4rem;
+        font-weight: 600;
+        margin-bottom: 1.5rem;
+        text-align: center;
+    }
+    
+    .mission-text, .values-text {
+        color: var(--grey-color);
+        line-height: 1.6;
+        margin-bottom: 1.5rem;
+        font-size: 0.95rem;
+    }
+    
+    .values-list {
+        list-style: none;
+        padding-left: 0;
+    }
+    
+    .value-item {
+        margin-bottom: 1.25rem;
+        display: flex;
+        align-items: flex-start;
+    }
+    
+    .value-icon {
+        color: var(--secondary-color);
+        font-size: 1.1rem;
+        margin-right: 0.75rem;
+        margin-top: 0.2rem;
+    }
+    
+    .value-content {
+        flex: 1;
+    }
+    
+    .value-title {
+        font-weight: 600;
+        color: var(--primary-color);
+        margin-bottom: 0.25rem;
+        font-size: 1rem;
+    }
+    
+    .value-text {
+        color: var(--grey-color);
+        line-height: 1.5;
+        font-size: 0.9rem;
+    }
+    
+    /* Stats Section */
+    .stats-section {
+        background-image: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url('/photo.png');
+        background-size: cover;
+        background-position: center;
+        background-attachment: fixed;
+        color: white;
+        padding: 5rem 0;
+    }
+    
+    .stats-section .section-title {
+        color: white;
+    }
+    
+    .stat-box {
+        padding: 1.5rem;
+        text-align: center;
+        position: relative;
+    }
+    
+    .stat-circle {
+        width: 130px;
+        height: 130px;
+        border-radius: 50%;
+        border: 4px solid rgba(255, 255, 255, 0.2);
+        background-color: rgba(209, 51, 51, 0.8);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        margin: 0 auto 1rem;
+    }
+    
+    .stat-number {
+        font-size: 1.8rem;
+        font-weight: 700;
+        color: white;
+    }
+    
+    .stat-text {
+        font-size: 0.9rem;
+        color: white;
+        max-width: 120px;
+        margin: 0 auto;
+        line-height: 1.3;
+    }
+    
+    /* Certifications Section */
+    .certification-card {
+        background-color: white;
+        border-radius: 8px;
+        box-shadow: 0 3px 15px rgba(0, 0, 0, 0.05);
+        padding: 1.5rem;
+        text-align: center;
+        height: 100%;
+        transition: all 0.3s;
+        margin-bottom: 1.5rem;
+    }
+    
+    .certification-card:hover {
+        transform: translateY(-7px);
+        box-shadow: 0 12px 30px rgba(0, 0, 0, 0.1);
+    }
+    
+    .certification-icon {
+        font-size: 2rem;
+        color: var(--secondary-color);
+        margin-bottom: 1rem;
+        height: 60px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    .certification-title {
+        font-size: 1.1rem;
+        font-weight: 600;
+        color: var(--primary-color);
+        margin-bottom: 1rem;
+    }
+    
+    .certification-text {
+        color: var(--grey-color);
+        line-height: 1.5;
+        font-size: 0.9rem;
+    }
+    
+    /* CTA Section */
+    .cta-section {
+        background-color: white;
+        text-align: center;
+        padding: 4rem 0;
+    }
+    
+    .cta-title {
+        font-size: 1.8rem;
+        font-weight: 600;
+        color: var(--primary-color);
+        margin-bottom: 1.25rem;
+    }
+    
+    .cta-text {
+        font-size: 1rem;
+        color: var(--grey-color);
+        line-height: 1.6;
+        max-width: 800px;
+        margin: 0 auto 2rem;
+    }
+    
+    .btn-cta {
+        display: inline-block;
+        padding: 0.7rem 1.5rem;
+        border-radius: 4px;
+        font-weight: 500;
+        font-size: 0.9rem;
+        transition: all 0.3s;
+        text-decoration: none;
+        margin: 0 0.5rem 1rem;
+    }
+    
+    .btn-cta-primary {
+        background-color: var(--secondary-color);
+        color: white;
+        border: none;
+    }
+    
+    .btn-cta-secondary {
+        background-color: transparent;
+        color: var(--primary-color);
+        border: 1px solid var(--primary-color);
+    }
+    
+    .btn-cta:hover {
+        transform: translateY(-3px);
+    }
+    
+    .btn-cta-primary:hover {
+        background-color: #c0392b;
+        color: white;
+    }
+    
+    .btn-cta-secondary:hover {
+        background-color: var(--primary-color);
+        color: white;
+    }
+    
+    /* Responsive Styles */
+    @media (max-width: 768px) {
+        .page-header {
+            height: 50vh;
+            min-height: 300px;
         }
         
-        .timeline-date {
-            font-weight: 600;
-            color: var(--secondary-color);
-            margin-bottom: 0.5rem;
-            font-size: 1rem;
-        }
-        
-        .timeline-title {
-            color: var(--primary-color);
-            margin-bottom: 0.75rem;
-            font-size: 1.1rem;
-            font-weight: 600;
-        }
-        
-        .timeline-text {
-            color: var(--grey-color);
-            line-height: 1.5;
-            font-size: 0.9rem;
-        }
-        
-        /* Clearfix for timeline */
-        .timeline::after {
-            content: "";
-            display: table;
-            clear: both;
-        }
-        
-        @media (max-width: 767.98px) {
-            .timeline::before {
-                left: 30px;
-            }
-            
-            .timeline-content {
-                width: calc(100% - 80px);
-                float: right;
-                margin-left: 60px;
-            }
-            
-            .timeline-marker {
-                left: 16px;
-                margin-left: 0;
-            }
-        }
-        
-        /* Mission and Values Section */
-        .mission-box, .values-box {
-            background-color: white;
-            border-radius: 8px;
-            box-shadow: 0 3px 15px rgba(0, 0, 0, 0.05);
-            padding: 2rem;
-            height: 100%;
-            margin-bottom: 1.5rem;
-        }
-        
-        .mission-title, .values-title {
-            color: var(--secondary-color);
-            font-size: 1.4rem;
-            font-weight: 600;
-            margin-bottom: 1.5rem;
-            text-align: center;
-        }
-        
-        .mission-text, .values-text {
-            color: var(--grey-color);
-            line-height: 1.6;
-            margin-bottom: 1.5rem;
-            font-size: 0.95rem;
-        }
-        
-        .values-list {
-            list-style: none;
-            padding-left: 0;
-        }
-        
-        .value-item {
-            margin-bottom: 1.25rem;
-            display: flex;
-            align-items: flex-start;
-        }
-        
-        .value-icon {
-            color: var(--secondary-color);
-            font-size: 1.1rem;
-            margin-right: 0.75rem;
-            margin-top: 0.2rem;
-        }
-        
-        .value-content {
-            flex: 1;
-        }
-        
-        .value-title {
-            font-weight: 600;
-            color: var(--primary-color);
-            margin-bottom: 0.25rem;
-            font-size: 1rem;
-        }
-        
-        .value-text {
-            color: var(--grey-color);
-            line-height: 1.5;
-            font-size: 0.9rem;
-        }
-        
-        /* Stats Section */
-        .stats-section {
-            background-image: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url('/photo.png');
-            background-size: cover;
-            background-position: center;
-            background-attachment: fixed;
-            color: white;
-            padding: 5rem 0;
-        }
-        
-        .stats-section .section-title {
-            color: white;
-        }
-        
-        .stat-box {
-            padding: 1.5rem;
-            text-align: center;
-            position: relative;
-        }
-        
-        .stat-circle {
-            width: 130px;
-            height: 130px;
-            border-radius: 50%;
-            border: 4px solid rgba(255, 255, 255, 0.2);
-            background-color: rgba(209, 51, 51, 0.8);
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            margin: 0 auto 1rem;
-        }
-        
-        .stat-number {
-            font-size: 1.8rem;
-            font-weight: 700;
-            color: white;
-        }
-        
-        .stat-text {
-            font-size: 0.9rem;
-            color: white;
-            max-width: 120px;
-            margin: 0 auto;
-            line-height: 1.3;
-        }
-        
-        /* Certifications Section */
-        .certification-card {
-            background-color: white;
-            border-radius: 8px;
-            box-shadow: 0 3px 15px rgba(0, 0, 0, 0.05);
-            padding: 1.5rem;
-            text-align: center;
-            height: 100%;
-            transition: all 0.3s;
-            margin-bottom: 1.5rem;
-        }
-        
-        .certification-card:hover {
-            transform: translateY(-7px);
-            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.1);
-        }
-        
-        .certification-icon {
+        .page-title {
             font-size: 2rem;
-            color: var(--secondary-color);
-            margin-bottom: 1rem;
-            height: 60px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
         }
         
-        .certification-title {
-            font-size: 1.1rem;
-            font-weight: 600;
-            color: var(--primary-color);
-            margin-bottom: 1rem;
-        }
-        
-        .certification-text {
-            color: var(--grey-color);
-            line-height: 1.5;
-            font-size: 0.9rem;
-        }
-        
-        /* CTA Section */
-        .cta-section {
-            background-color: white;
-            text-align: center;
-            padding: 4rem 0;
-        }
-        
-        .cta-title {
-            font-size: 1.8rem;
-            font-weight: 600;
-            color: var(--primary-color);
-            margin-bottom: 1.25rem;
-        }
-        
-        .cta-text {
+        .page-description {
             font-size: 1rem;
-            color: var(--grey-color);
-            line-height: 1.6;
-            max-width: 800px;
-            margin: 0 auto 2rem;
         }
         
-        .btn-cta {
-            display: inline-block;
-            padding: 0.7rem 1.5rem;
-            border-radius: 4px;
-            font-weight: 500;
-            font-size: 0.9rem;
-            transition: all 0.3s;
-            text-decoration: none;
-            margin: 0 0.5rem 1rem;
+        .section-title {
+            font-size: 1.6rem;
         }
-        
-        .btn-cta-primary {
-            background-color: var(--secondary-color);
-            color: white;
-            border: none;
-        }
-        
-        .btn-cta-secondary {
-            background-color: transparent;
-            color: var(--primary-color);
-            border: 1px solid var(--primary-color);
-        }
-        
-        .btn-cta:hover {
-            transform: translateY(-3px);
-        }
-        
-        .btn-cta-primary:hover {
-            background-color: #c0392b;
-            color: white;
-        }
-        
-        .btn-cta-secondary:hover {
-            background-color: var(--primary-color);
-            color: white;
-        }
-        
-        /* Footer */
-        .footer {
-            background-color: var(--dark-color);
-            color: #ddd;
-            padding: 4rem 0 2rem;
-            font-size: 0.9rem;
-        }
-        
-        .footer-logo {
-            height: 60px;
-            margin-bottom: 1.5rem;
-        }
-        
-        .footer-text {
-            color: #b0b0b0;
-            line-height: 1.6;
-            margin-bottom: 1.5rem;
-        }
-        
-        .footer-title {
-            font-size: 1.1rem;
-            font-weight: 600;
-            color: white;
-            margin-bottom: 1.5rem;
-            position: relative;
-            padding-bottom: 0.75rem;
-        }
-        
-        .footer-title::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 40px;
-            height: 2px;
-            background-color: var(--secondary-color);
-        }
-        
-        .footer-links {
-            list-style: none;
-            padding-left: 0;
-        }
-        
-        .footer-links li {
-            margin-bottom: 0.75rem;
-        }
-        
-        .footer-links a {
-            color: #b0b0b0;
-            text-decoration: none;
-            transition: all 0.3s;
-        }
-        
-        .footer-links a:hover {
-            color: var(--secondary-color);
-            padding-left: 5px;
-        }
-        
-        .footer-bottom {
-            text-align: center;
-            padding-top: 2rem;
-            margin-top: 2rem;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            color: #b0b0b0;
-        }
-        
-        /* Back to top button */
-        .back-to-top {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            width: 40px;
-            height: 40px;
-            background-color: var(--secondary-color);
-            color: white;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 4px;
-            cursor: pointer;
-            opacity: 0;
-            visibility: hidden;
-            transition: all 0.3s;
-            z-index: 999;
-            font-size: 1rem;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
-        }
-        
-        .back-to-top:hover {
-            background-color: #c0392b;
-        }
-        
-        .back-to-top.visible {
-            opacity: 1;
-            visibility: visible;
-        }
-        
-        /* Modal styles */
-        .modal-content {
-            border-radius: 8px;
-            border: none;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-        }
-        
-        .modal-header {
-            border-bottom: none;
-            padding: 1.5rem 1.5rem 0.5rem;
-        }
-        
-        .modal-body {
-            padding: 1rem 1.5rem;
-        }
-        
-        .modal-footer {
-            border-top: none;
-            padding: 0.5rem 1.5rem 1.5rem;
-            justify-content: center;
-        }
-        
-        .form-label {
-            font-size: 0.9rem;
-            color: var(--grey-color);
-            font-weight: 500;
-        }
-        /* User Menu Styles */
-.user-menu {
-    display: flex;
-    align-items: center;
-    text-decoration: none;
-    color: var(--primary-color);
-    padding: 0.4rem 0.8rem;
-    border-radius: 4px;
-    transition: all 0.3s ease;
-}
+    }
+</style>
+@endpush
 
-.user-menu:hover {
-    background-color: rgba(0, 0, 0, 0.05);
-    color: var(--primary-color);
-}
-
-.user-avatar {
-    width: 36px;
-    height: 36px;
-    border-radius: 50%;
-    overflow: hidden;
-    margin-right: 0.5rem;
-    border: 2px solid var(--secondary-color);
-}
-
-.user-avatar img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-
-.user-info {
-    display: flex;
-    flex-direction: column;
-    line-height: 1.2;
-}
-
-.user-name {
-    font-weight: 600;
-    font-size: 0.85rem;
-    color: var(--primary-color);
-}
-
-.user-role {
-    font-size: 0.7rem;
-    color: var(--grey-color);
-}
-    </style>
-</head>
-<body>
-    <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg fixed-top">
-        <div class="container">
-            <a class="navbar-brand" href="/">
-                <img src="/logo.png" alt="CHICO TRANS Logo">
-            </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav me-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="/">ACCUEIL</a>
-                    </li>
-                    <li class="nav-item active">
-                        <a class="nav-link active" href="/qui-sommes-nous">QUI SOMMES-NOUS</a>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="/services" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            NOS SERVICES
-                        </a>
-                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <li><a class="dropdown-item" href="/services#transport-national">Transport national</a></li>
-                            <li><a class="dropdown-item" href="/services#transport-international">Transport international</a></li>
-                            <li><a class="dropdown-item" href="/services#logistique-complete">Logistique complète</a></li>
-                            <li><a class="dropdown-item" href="/services#stockage-temporaire">Stockage temporaire</a></li>
-                        </ul>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/partenaire">DEVENIR PARTENAIRE</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/contactez-nous">CONTACTEZ-NOUS</a>
-                    </li>
-                </ul>
-                  <!-- Navbar Buttons Area -->
-<div class="navbar-action-btns">
-    @guest
-        <!-- Buttons for not logged in users -->
-        <button class="btn-auth" data-bs-toggle="modal" data-bs-target="#loginModal">CONNEXION</button>
-        <button class="btn-auth" data-bs-toggle="modal" data-bs-target="#registerModal">INSCRIPTION</button>
-    @else
-        <!-- Dropdown for logged in users -->
-        <div class="dropdown">
-    <a class="user-menu dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-        <div class="user-avatar">
-            @if(Auth::user()->profile_image)
-                <img src="{{ asset('storage/' . Auth::user()->profile_image) }}" alt="{{ Auth::user()->name }}">
-            @else
-                <img src="{{ asset('img/default-avatar.png') }}" alt="{{ Auth::user()->name }}">
-            @endif
-        </div>
-        <div class="user-info">
-            <span class="user-name">{{ Auth::user()->name }}</span>
-            <span class="user-role">
-                @if(Auth::user()->role === 'admin')
-                    Administrateur
-                @else
-                    Client
-                @endif
-            </span>
-        </div>
-    </a>
-    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
-        @if(Auth::user()->role === 'admin')
-            <!-- Menu pour Admin -->
-            <li><a class="dropdown-item" href="{{ route('admin.dashboard') }}">Dashboard Admin</a></li>
-            <li><a class="dropdown-item" href="{{ route('admin.users') }}">Gestion utilisateurs</a></li>
-            <li><a class="dropdown-item" href="{{ route('admin.devis') }}">Gestion devis</a></li>
-             <li><a class="dropdown-item" href="{{ route('admin.notifications') }}" >
-    Voir toutes les notifications
-</a></li>
-            <li><hr class="dropdown-divider"></li>
-            <li><a class="dropdown-item" href="{{ route('profile') }}">Mon profil</a></li>
-        @else
-            <!-- Menu pour Client -->
-            <li><a class="dropdown-item" href="{{ route('dashboard') }}">Tableau de bord</a></li>
-            <li><a class="dropdown-item" href="{{ route('profile') }}">Mon profil</a></li>
-            <li><a class="dropdown-item" href="{{ route('devis.history') }}">Historique des devis</a></li>
-            
-        @endif
-        <li><hr class="dropdown-divider"></li>
-        <li>
-            <form action="{{ route('logout') }}" method="POST">
-                @csrf
-                <button type="submit" class="dropdown-item">Déconnexion</button>
-            </form>
-        </li>
-    </ul>
-</div>
-    @endguest
-    <a href="/devis" class="btn-devis">DEMANDER UN DEVIS</a>
-</div>
-            </div>
-        </div>
-    </nav>
-
+@section('content')
     <!-- Page Header -->
     <header class="page-header">
         <div class="container">
@@ -1104,286 +682,90 @@
             </div>
         </div>
     </section>
-    
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-4 mb-4 mb-lg-0">
-                   <a href="/"><img src="/favicon.ico" alt="CHICO TRANS Logo" class="footer-logo"></a> 
-                    <p class="footer-text">Le Transport C'est Notre Spécialité. CHICO TRANS vous offre des solutions de transport fiables et efficaces depuis plus de 20 ans. Notre engagement: sécurité, ponctualité et satisfaction client.</p>
-                </div>
-                <div class="col-md-6 col-lg-4 mb-4 mb-lg-0">
-                    <h3 class="footer-title">Liens rapides</h3>
-                    <ul class="footer-links">
-                        <li><a href="/">Accueil</a></li>
-                        <li><a href="/qui-sommes-nous">Qui sommes-nous</a></li>
-                        <li><a href="/services">Nos services</a></li>
-                        <li><a href="/partenaire">Devenir partenaire</a></li>
-                        <li><a href="/contactez-nous">Contactez-nous</a></li>
-                    </ul>
-                </div>
-                <div class="col-md-6 col-lg-4">
-                    <h3 class="footer-title">Nos services</h3>
-                    <ul class="footer-links">
-                        <li><a href="/services#transport-national">Transport national</a></li>
-                        <li><a href="/services#transport-international">Transport international</a></li>
-                        <li><a href="/services#logistique-complete">Logistique complète</a></li>
-                        <li><a href="/services#stockage-temporaire">Stockage temporaire</a></li>
-                    </ul>
-                </div>
-            </div>
-            <div class="footer-bottom">
-                <p>&copy; 2025 CHICO TRANS. Tous droits réservés.</p>
-            </div>
-        </div>
-    </footer>
-    
-    <!-- Back to top button -->
-    <div class="back-to-top" id="backToTop">
-        <i class="fas fa-chevron-up"></i>
-    </div>
-    
-     <!-- Login Modal -->
-<div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="loginModalLabel">Connexion</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <form action="{{ route('login') }}" method="POST">
-                    @csrf
-                    <div class="mb-3">
-                        <label for="email" class="form-label">Email</label>
-                        <input type="email" class="form-control @error('email') is-invalid @enderror" id="email" name="email" required>
-                        @error('email')
-                            <div class="invalid-feedback">{{ $message }}</div>
-                        @enderror
-                    </div>
-                    <div class="mb-3">
-                        <label for="password" class="form-label">Mot de passe</label>
-                        <input type="password" class="form-control @error('password') is-invalid @enderror" id="password" name="password" required>
-                        @error('password')
-                            <div class="invalid-feedback">{{ $message }}</div>
-                        @enderror
-                    </div>
-                    <div class="mb-3 form-check">
-                        <input type="checkbox" class="form-check-input" id="remember" name="remember">
-                        <label class="form-check-label" for="remember">Se souvenir de moi</label>
-                    </div>
-                    <div class="text-end mb-3">
-                        <a href="{{ route('password.request') }}" class="text-decoration-none">Mot de passe oublié?</a>
-                    </div>
-                    <button type="submit" class="btn-submit w-100">Se connecter</button>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <p class="mb-0">Vous n'avez pas de compte? <a href="#" data-bs-toggle="modal" data-bs-target="#registerModal" data-bs-dismiss="modal">S'inscrire</a></p>
-            </div>
-        </div>
-    </div>
-</div>
+@endsection
 
-    <!-- Register Modal -->
-<div class="modal fade" id="registerModal" tabindex="-1" aria-labelledby="registerModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="registerModalLabel">Inscription</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <form action="{{ route('register') }}" method="POST">
-                    @csrf
-                    <div class="mb-3">
-                        <label for="name" class="form-label">Nom complet</label>
-                        <input type="text" class="form-control @error('name') is-invalid @enderror" id="name" name="name" value="{{ old('name') }}" required>
-                        @error('name')
-                            <div class="invalid-feedback">{{ $message }}</div>
-                        @enderror
-                    </div>
-                    <div class="mb-3">
-                        <label for="email" class="form-label">Email</label>
-                        <input type="email" class="form-control @error('email') is-invalid @enderror" id="email" name="email" value="{{ old('email') }}" required>
-                        @error('email')
-                            <div class="invalid-feedback">{{ $message }}</div>
-                        @enderror
-                    </div>
-                    <div class="mb-3">
-                        <label for="password" class="form-label">Mot de passe</label>
-                        <input type="password" class="form-control @error('password') is-invalid @enderror" id="password" name="password" required>
-                        @error('password')
-                            <div class="invalid-feedback">{{ $message }}</div>
-                        @enderror
-                    </div>
-                    <div class="mb-3">
-                        <label for="password_confirmation" class="form-label">Confirmer le mot de passe</label>
-                        <input type="password" class="form-control" id="password_confirmation" name="password_confirmation" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="company_name" class="form-label">Nom de l'entreprise (optionnel)</label>
-                        <input type="text" class="form-control @error('company_name') is-invalid @enderror" id="company_name" name="company_name" value="{{ old('company_name') }}">
-                        @error('company_name')
-                            <div class="invalid-feedback">{{ $message }}</div>
-                        @enderror
-                    </div>
-                    <div class="mb-3">
-                        <label for="telephone" class="form-label">Téléphone (optionnel)</label>
-                        <input type="text" class="form-control @error('telephone') is-invalid @enderror" id="telephone" name="telephone" value="{{ old('telephone') }}">
-                        @error('telephone')
-                            <div class="invalid-feedback">{{ $message }}</div>
-                        @enderror
-                    </div>
-                    <div class="mb-3 form-check">
-                        <input type="checkbox" class="form-check-input @error('terms') is-invalid @enderror" id="terms" name="terms" required>
-                        <label class="form-check-label" for="terms">J'accepte les conditions d'utilisation</label>
-                        @error('terms')
-                            <div class="invalid-feedback">{{ $message }}</div>
-                        @enderror
-                    </div>
-                    <button type="submit" class="btn-submit w-100">S'inscrire</button>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <p class="mb-0">Vous avez déjà un compte? <a href="#" data-bs-toggle="modal" data-bs-target="#loginModal" data-bs-dismiss="modal">Se connecter</a></p>
-            </div>
-        </div>
-    </div>
-</div>
-
-    
-    <!-- Bootstrap JS -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
-    
-    <!-- jQuery -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    
-    <!-- AOS - Animation On Scroll -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
-    
-    <script>
-        // AOS Initialization
-        AOS.init({
-            duration: 600,
-            easing: 'ease-in-out',
-            once: true,
-            offset: 100,
-            delay: 100
-        });
-
-        // Counter Animation
-        const counterAnimation = () => {
-            $('.counter-value').each(function() {
-                const $this = $(this);
-                const countTo = $this.attr('data-count');
-                
-                $({countNum: 0}).animate({
-                    countNum: countTo
-                }, {
-                    duration: 1500,
-                    easing: 'swing',
-                    step: function() {
-                        $this.text(Math.floor(this.countNum));
-                    },
-                    complete: function() {
-                        $this.text(this.countNum);
-                    }
-                });
-            });
-        };
-        
-        // Animation au scroll
-        let counterAnimated = false;
-        const statsSection = document.querySelector('.stats-section');
-        
-        const checkIfInView = () => {
-            if (statsSection) {
-                const windowHeight = window.innerHeight;
-                const elementTop = statsSection.getBoundingClientRect().top;
-                
-                if (elementTop < windowHeight - 100 && !counterAnimated) {
-                    counterAnimation();
-                    counterAnimated = true;
+@push('scripts')
+<script>
+    // Counter Animation
+    const counterAnimation = () => {
+        $('.counter-value').each(function() {
+            const $this = $(this);
+            const countTo = $this.attr('data-count');
+            
+            $({countNum: 0}).animate({
+                countNum: countTo
+            }, {
+                duration: 1500,
+                easing: 'swing',
+                step: function() {
+                    $this.text(Math.floor(this.countNum));
+                },
+                complete: function() {
+                    $this.text(this.countNum);
                 }
-            }
-        };
-        
-        // Check on scroll and on page load
-        window.addEventListener('scroll', checkIfInView);
-        window.addEventListener('load', checkIfInView);
-        
-        // Back to top button
-        const backToTopButton = document.getElementById('backToTop');
-        
-        window.addEventListener('scroll', function() {
-            if (window.pageYOffset > 300) {
-                backToTopButton.classList.add('visible');
-            } else {
-                backToTopButton.classList.remove('visible');
-            }
-        });
-        
-        backToTopButton.addEventListener('click', function() {
-            window.scrollTo({
-                top: 0,
-                behavior: 'smooth'
             });
         });
-        
-        // Fix timeline on mobile
-        const fixTimelineOnMobile = () => {
-            if (window.innerWidth < 768) {
-                const timelineItems = document.querySelectorAll('.timeline-content');
-                timelineItems.forEach(item => {
-                    item.style.width = 'calc(100% - 80px)';
-                    item.style.marginLeft = '60px';
-                    item.style.float = 'right';
-                });
-
-                const timelineMarkers = document.querySelectorAll('.timeline-marker');
-                timelineMarkers.forEach(marker => {
-                    marker.style.left = '16px';
-                    marker.style.marginLeft = '0';
-                });
-            } else {
-                const timelineItems = document.querySelectorAll('.timeline-content');
-                timelineItems.forEach(item => {
-                    if (item.classList.contains('timeline-left')) {
-                        item.style.width = 'calc(50% - 40px)';
-                        item.style.marginLeft = '0';
-                        item.style.float = 'left';
-                    } else if (item.classList.contains('timeline-right')) {
-                        item.style.width = 'calc(50% - 40px)';
-                        item.style.marginLeft = '0';
-                        item.style.float = 'right';
-                    }
-                });
-
-                const timelineMarkers = document.querySelectorAll('.timeline-marker');
-                timelineMarkers.forEach(marker => {
-                    marker.style.left = '50%';
-                    marker.style.marginLeft = '-12px';
-                });
+    };
+    
+    // Animation au scroll
+    let counterAnimated = false;
+    const statsSection = document.querySelector('.stats-section');
+    
+    const checkIfInView = () => {
+        if (statsSection) {
+            const windowHeight = window.innerHeight;
+            const elementTop = statsSection.getBoundingClientRect().top;
+            
+            if (elementTop < windowHeight - 100 && !counterAnimated) {
+                counterAnimation();
+                counterAnimated = true;
             }
-        };
-        
-        // Call on load and resize
-        window.addEventListener('load', fixTimelineOnMobile);
-        window.addEventListener('resize', fixTimelineOnMobile);
-        
-        // Add padding to body to account for fixed navbar
-        document.addEventListener('DOMContentLoaded', function() {
-            const navbarHeight = document.querySelector('.navbar').offsetHeight;
-            document.body.style.paddingTop = navbarHeight + 'px';
-        });
-        
-        // Update padding when window is resized
-        window.addEventListener('resize', function() {
-            const navbarHeight = document.querySelector('.navbar').offsetHeight;
-            document.body.style.paddingTop = navbarHeight + 'px';
-        });
-    </script>
-</body>
-</html>
+        }
+    };
+    
+    // Check on scroll and on page load
+    window.addEventListener('scroll', checkIfInView);
+    window.addEventListener('load', checkIfInView);
+    
+    // Fix timeline on mobile
+    const fixTimelineOnMobile = () => {
+        if (window.innerWidth < 768) {
+            const timelineItems = document.querySelectorAll('.timeline-content');
+            timelineItems.forEach(item => {
+                item.style.width = 'calc(100% - 80px)';
+                item.style.marginLeft = '60px';
+                item.style.float = 'right';
+            });
+
+            const timelineMarkers = document.querySelectorAll('.timeline-marker');
+            timelineMarkers.forEach(marker => {
+                marker.style.left = '16px';
+                marker.style.marginLeft = '0';
+            });
+        } else {
+            const timelineItems = document.querySelectorAll('.timeline-content');
+            timelineItems.forEach(item => {
+                if (item.classList.contains('timeline-left')) {
+                    item.style.width = 'calc(50% - 40px)';
+                    item.style.marginLeft = '0';
+                    item.style.float = 'left';
+                } else if (item.classList.contains('timeline-right')) {
+                    item.style.width = 'calc(50% - 40px)';
+                    item.style.marginLeft = '0';
+                    item.style.float = 'right';
+                }
+            });
+
+            const timelineMarkers = document.querySelectorAll('.timeline-marker');
+            timelineMarkers.forEach(marker => {
+                marker.style.left = '50%';
+                marker.style.marginLeft = '-12px';
+            });
+        }
+    };
+    
+    // Call on load and resize
+    window.addEventListener('load', fixTimelineOnMobile);
+    window.addEventListener('resize', fixTimelineOnMobile);
+</script>
+@endpush

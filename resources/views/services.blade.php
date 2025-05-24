@@ -1,1054 +1,469 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nos Services - CHICO TRANS</title>
-    
-    <!-- Bootstrap CSS -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
-    
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    
-    <!-- AOS - Animation On Scroll -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
-    
-    <style>
-        :root {
-            --primary-color: #4d4d4d;
-            --secondary-color: #d13333;
-            --dark-color: #333333;
-            --light-color: #f8f9fa;
-            --grey-color: #6c757d;
-        }
-        
-        body {
-            font-family: 'Poppins', sans-serif;
-            overflow-x: hidden;
-        }
-        
-        /* Navbar - Compact and Professional */
-        .navbar {
-            box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);
-            padding: 0.5rem 1rem;
-            transition: all 0.3s ease;
-            background-color: white;
-        }
-        
-        .navbar-brand img {
-            height: 45px;
-        }
-        
-        .navbar-nav .nav-link {
-            font-weight: 500;
-            text-transform: uppercase;
-            color: var(--dark-color);
-            font-size: 0.85rem;
-            padding: 0.5rem 0.75rem;
-        }
-        
-        .navbar-nav .nav-link:hover,
-        .navbar-nav .nav-link.active {
-            color: var(--secondary-color);
-        }
-        
-        .navbar-nav .nav-item {
-            position: relative;
-        }
-        
-        .navbar-nav .nav-item::after {
-            content: '';
-            position: absolute;
-            width: 0;
-            height: 2px;
-            bottom: 0;
-            left: 0.75rem;
-            background-color: var(--secondary-color);
-            transition: width 0.3s;
-        }
-        
-        .navbar-nav .nav-item:hover::after,
-        .navbar-nav .nav-item.active::after {
-            width: calc(100% - 1.5rem);
-        }
-        
-        .dropdown-menu {
-            border-radius: 0.25rem;
-            border: none;
-            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
-            padding: 0.5rem 0;
-            margin-top: 0.5rem;
-            min-width: 12rem;
-        }
-        
-        .dropdown-item {
-            padding: 0.5rem 1rem;
-            font-size: 0.85rem;
-        }
-        
-        .dropdown-item:hover {
-            background-color: #f8f9fa;
-            color: var(--secondary-color);
-        }
-        
-        /* Optimized Navbar Buttons */
-        .navbar-action-btns {
-            display: flex;
-            align-items: center;
-        }
-        
-        .btn-auth {
-            border: 1px solid var(--primary-color);
-            background-color: transparent;
-            color: var(--primary-color);
-            font-size: 0.8rem;
-            padding: 0.4rem 0.8rem;
-            border-radius: 4px;
-            font-weight: 500;
-            margin-right: 0.5rem;
-            transition: all 0.2s;
-        }
-        
-        .btn-auth:hover {
-            background-color: var(--primary-color);
-            color: white;
-        }
-        
-        .btn-devis {
-            background-color: var(--secondary-color);
-            color: white;
-            text-decoration: none;
-            font-size: 0.8rem;
-            padding: 0.4rem 0.8rem;
-            border-radius: 4px;
-            font-weight: 500;
-            border: none;
-            transition: all 0.2s;
-        }
-        
-        .btn-devis:hover {
-            background-color: #c0392b;
-        }
-        
-        @media (max-width: 991.98px) {
-            .navbar-action-btns {
-                margin-top: 0.5rem;
-                flex-wrap: wrap;
-            }
-            
-            .btn-auth, .btn-devis {
-                margin-bottom: 0.5rem;
-                font-size: 0.75rem;
-                padding: 0.35rem 0.7rem;
-            }
-        }
+@extends('layouts.app')
 
-        /* Services Hero Section */
-        .services-hero {
-            position: relative;
-            height: 50vh;
-            min-height: 350px;
-            background-image: linear-gradient(rgba(0, 0, 0, 0.65), rgba(0, 0, 0, 0.65)), url('/img13.jpeg');
-            background-size: cover;
-            background-attachment: fixed;
-            background-position: center;
-            display: flex;
-            align-items: center;
-            text-align: center;
-            color: white;
-            margin-top: 75px;
+@section('title', 'CHICO TRANS - Nos Services')
+
+@section('description', 'Découvrez nos services de transport national, international, logistique complète et stockage temporaire. Solutions adaptées à tous vos besoins.')
+
+@push('styles')
+<style>
+    /* Services Hero Section */
+    .services-hero {
+        position: relative;
+        height: 50vh;
+        min-height: 350px;
+        background-image: linear-gradient(rgba(0, 0, 0, 0.65), rgba(0, 0, 0, 0.65)), url('/img13.jpeg');
+        background-size: cover;
+        background-attachment: fixed;
+        background-position: center;
+        display: flex;
+        align-items: center;
+        text-align: center;
+        color: white;
+        margin-top: 0px;
+    }
+    
+    .services-hero-content {
+        max-width: 800px;
+        margin: 0 auto;
+    }
+    
+    .services-hero-content h1 {
+        font-size: 2.5rem;
+        font-weight: 700;
+        margin-bottom: 1.2rem;
+        animation: fadeInDown 1s ease;
+    }
+    
+    .services-hero-content p {
+        font-size: 1.1rem;
+        margin-bottom: 2rem;
+        animation: fadeInUp 1s ease 0.3s;
+        animation-fill-mode: both;
+    }
+    
+    @keyframes fadeInDown {
+        from {
+            opacity: 0;
+            transform: translateY(-30px);
         }
-        
-        .services-hero-content {
-            max-width: 800px;
-            margin: 0 auto;
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+    
+    @keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+    
+    /* Services Slider Navigation */
+    .services-slider {
+        position: relative;
+        margin-bottom: 40px;
+    }
+    
+    .services-nav {
+        position: relative;
+        display: flex;
+        width: auto;
+        overflow-x: auto;
+        scrollbar-width: none; /* Firefox */
+        -ms-overflow-style: none; /* IE/Edge */
+        -webkit-overflow-scrolling: touch;
+        padding: 0;
+        background-color: white;
+        border-radius: 0px;
+    }
+    
+    .services-nav::-webkit-scrollbar {
+        display: none; /* Chrome, Safari, Opera */
+    }
+    
+    .services-nav .nav-item {
+        flex: 1;
+        white-space: nowrap;
+        background-color: white;
+        text-align: center;
+    }
+    
+    .services-nav .nav-link {
+        border: none;
+        background: transparent;
+        color: var(--primary-color);
+        font-weight: 600;
+        font-size: 0.9rem;
+        padding: 15px 20px;
+        position: relative;
+        transition: all 0.3s ease;
+        border-radius: 50px;
+    }
+    
+    .services-nav .nav-link.active {
+        color: white;
+        background-color: var(--secondary-color);
+        box-shadow: 0 4px 10px rgba(209, 51, 51, 0.3);
+    }
+    
+    .services-nav .nav-link i {
+        margin-right: 8px;
+        font-size: 1rem;
+        color: var(--secondary-color);
+        vertical-align: middle;
+    }
+    
+    .services-nav .nav-link.active i {
+        color: white;
+    }
+    
+    /* Tab Content */
+    .tab-pane {
+        animation: fadeIn 0.5s ease;
+    }
+    
+    @keyframes fadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
+    }
+    
+    .tab-pane-img {
+        width: 100%;
+        height: 500px;
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        margin-bottom: 1.5rem;
+        position: relative;
+    }
+    
+    .tab-pane-img::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 5px;
+        background-color: var(--secondary-color);
+    }
+    
+    .tab-pane-img img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+    
+    .tab-pane-title {
+        color: var(--primary-color);
+        font-size: 1.6rem;
+        font-weight: 700;
+        margin-bottom: 1.25rem;
+        position: relative;
+        padding-bottom: 1rem;
+    }
+    
+    .tab-pane-title::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 50px;
+        height: 3px;
+        background-color: var(--secondary-color);
+    }
+    
+    .tab-pane-text {
+        color: var(--grey-color);
+        line-height: 1.8;
+        margin-bottom: 1.5rem;
+    }
+    
+    .feature-list {
+        list-style: none;
+        padding-left: 0;
+        margin-top: 2rem;
+        border-top: 1px solid #f1f1f1;
+        padding-top: 1.5rem;
+    }
+    
+    .feature-item {
+        display: flex;
+        align-items: flex-start;
+        margin-bottom: 1rem;
+        color: var(--dark-color);
+        background-color: #f8f9fa;
+        padding: 1rem;
+        border-radius: 6px;
+        transition: all 0.3s;
+    }
+    
+    .feature-item:hover {
+        transform: translateX(5px);
+        background-color: #f1f1f1;
+    }
+    
+    .feature-icon {
+        color: var(--secondary-color);
+        margin-right: 1rem;
+        font-size: 1.2rem;
+        margin-top: 0.1rem;
+    }
+    
+    /* Process Section */
+    .process-steps {
+        position: relative;
+    }
+    
+    .process-steps::before {
+        content: '';
+        position: absolute;
+        top: 2rem;
+        left: 15%;
+        right: 15%;
+        height: 2px;
+        background-color: #e0e0e0;
+        z-index: 0;
+    }
+    
+    .process-step {
+        text-align: center;
+        margin-bottom: 2rem;
+        position: relative;
+        z-index: 1;
+    }
+    
+    .step-number {
+        width: 60px;
+        height: 60px;
+        background-color: var(--secondary-color);
+        color: white;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 600;
+        font-size: 1.5rem;
+        margin: 0 auto 1.25rem;
+        position: relative;
+        z-index: 1;
+        box-shadow: 0 5px 15px rgba(209, 51, 51, 0.3);
+    }
+    
+    .step-title {
+        color: var(--primary-color);
+        font-weight: 600;
+        font-size: 1.1rem;
+        margin-bottom: 0.75rem;
+    }
+    
+    .step-text {
+        color: var(--grey-color);
+        font-size: 0.9rem;
+        padding: 0 10px;
+    }
+    
+    /* CTA Section */
+    .cta-section {
+        background-image: linear-gradient(rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.75)), url('/photo.png');
+        background-size: cover;
+        background-position: center;
+        background-attachment: fixed;
+        color: white;
+        text-align: center;
+        padding: 5rem 0;
+    }
+    
+    .cta-title {
+        font-size: 2rem;
+        font-weight: 600;
+        margin-bottom: 1.25rem;
+    }
+    
+    .cta-text {
+        font-size: 1.05rem;
+        margin-bottom: 2rem;
+        max-width: 700px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    
+    .cta-buttons {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 1rem;
+    }
+    
+    .btn-cta {
+        background-color: var(--secondary-color);
+        color: white;
+        border: none;
+        padding: 0.7rem 1.5rem;
+        border-radius: 4px;
+        font-weight: 500;
+        transition: all 0.3s;
+        text-decoration: none;
+        font-size: 0.9rem;
+    }
+    
+    .btn-cta-outline {
+        background-color: transparent;
+        border: 1px solid white;
+    }
+    
+    .btn-cta:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        color: white;
+    }
+    
+    .btn-cta-outline:hover {
+        background-color: rgba(255, 255, 255, 0.1);
+    }
+    
+    /* FAQ Section */
+    .accordion-item {
+        margin-bottom: 1rem;
+        border: none;
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+    }
+    
+    .accordion-button {
+        padding: 1.25rem;
+        font-weight: 600;
+        font-size: 1rem;
+        color: var(--primary-color);
+        background-color: white;
+    }
+    
+    .accordion-button:not(.collapsed) {
+        color: var(--secondary-color);
+        background-color: white;
+        box-shadow: none;
+    }
+    
+    .accordion-button:focus {
+        box-shadow: none;
+        border-color: rgba(0, 0, 0, 0.125);
+    }
+    
+    .accordion-button::after {
+        background-size: 16px;
+        transition: all 0.3s;
+    }
+    
+    .accordion-body {
+        padding: 1.25rem;
+        color: var(--grey-color);
+        line-height: 1.8;
+        border-top: 1px solid #f1f1f1;
+    }
+    
+    /* Responsive Adjustments */
+    @media (max-width: 991.98px) {
+        .services-hero {
+            height: 45vh;
         }
         
         .services-hero-content h1 {
-            font-size: 2.5rem;
-            font-weight: 700;
-            margin-bottom: 1.2rem;
-            animation: fadeInDown 1s ease;
-        }
-        
-        .services-hero-content p {
-            font-size: 1.1rem;
-            margin-bottom: 2rem;
-            animation: fadeInUp 1s ease 0.3s;
-            animation-fill-mode: both;
-        }
-        
-        @keyframes fadeInDown {
-            from {
-                opacity: 0;
-                transform: translateY(-30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-        
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-        
-        /* Section Styling */
-        .section-padding {
-            padding: 4rem 0;
-        }
-        
-        .section-light {
-            background-color: white;
-        }
-        
-        .section-dark {
-            background-color: var(--light-color);
-        }
-        
-        .section-title {
-            position: relative;
-            color: var(--primary-color);
-            font-size: 1.8rem;
-            font-weight: 600;
-            margin-bottom: 2.5rem;
-            text-align: center;
-        }
-        
-        .section-title::after {
-            content: '';
-            position: absolute;
-            bottom: -0.75rem;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 60px;
-            height: 3px;
-            background-color: var(--secondary-color);
-        }
-        
-        /* Service Overview Section */
-        .service-overview-text {
-            color: var(--grey-color);
-            line-height: 1.8;
-            font-size: 1rem;
-            text-align: center;
-            max-width: 800px;
-            margin: 0 auto 2rem;
-        }
-        
-       
-        
-        /* Services Slider Navigation */
-        .services-slider {
-            position: relative;
-            margin-bottom: 40px;
-        }
-        
-        .services-nav {
-            position: relative;
-            display: flex;
-            width: auto;
-            overflow-x: auto;
-            scrollbar-width: none; /* Firefox */
-            -ms-overflow-style: none; /* IE/Edge */
-            -webkit-overflow-scrolling: touch;
-            padding: 0 ;
-            background-color: white;
-            border-radius: 0px;
-            
-        }
-        
-        .services-nav::-webkit-scrollbar {
-            display: none; /* Chrome, Safari, Opera */
-        }
-        
-        .services-nav .nav-item {
-            flex: 1;
-            white-space: nowrap;
-            background-color: white;
-            text-align: center;
-            
-            
-        }
-        
-        .services-nav .nav-link {
-            border: none;
-            background: transparent;
-            color: var(--primary-color);
-            font-weight: 600;
-            font-size: 0.9rem;
-            padding: 15px 20px;
-            position: relative;
-            transition: all 0.3s ease;
-            border-radius: 50px;
-        }
-        
-        .services-nav .nav-link.active {
-            color: white;
-            background-color: var(--secondary-color);
-            box-shadow: 0 4px 10px rgba(209, 51, 51, 0.3);
-        }
-        
-        .services-nav .nav-link i {
-            margin-right: 8px;
-            font-size: 1rem;
-            color: var(--secondary-color);
-            vertical-align: middle;
-        }
-        
-        .services-nav .nav-link.active i {
-            color: white;
-        }
-        
-        
-        
-        /* Tab Content */
-        .tab-pane {
-            animation: fadeIn 0.5s ease;
-        }
-        
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-        
-        .tab-pane-img {
-            width: 100%;
-            height: 500px;
-            border-radius: 8px;
-            overflow: hidden;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-            margin-bottom: 1.5rem;
-            position: relative;
-        }
-        
-        .tab-pane-img::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: 5px;
-            background-color: var(--secondary-color);
-        }
-        
-        .tab-pane-img img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-        
-        .tab-pane-title {
-            color: var(--primary-color);
-            font-size: 1.6rem;
-            font-weight: 700;
-            margin-bottom: 1.25rem;
-            position: relative;
-            padding-bottom: 1rem;
-        }
-        
-        .tab-pane-title::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 50px;
-            height: 3px;
-            background-color: var(--secondary-color);
-        }
-        
-        .tab-pane-text {
-            color: var(--grey-color);
-            line-height: 1.8;
-            margin-bottom: 1.5rem;
-        }
-        
-        .feature-list {
-            list-style: none;
-            padding-left: 0;
-            margin-top: 2rem;
-            border-top: 1px solid #f1f1f1;
-            padding-top: 1.5rem;
-        }
-        
-        .feature-item {
-            display: flex;
-            align-items: flex-start;
-            margin-bottom: 1rem;
-            color: var(--dark-color);
-            background-color: #f8f9fa;
-            padding: 1rem;
-            border-radius: 6px;
-            transition: all 0.3s;
-        }
-        
-        .feature-item:hover {
-            transform: translateX(5px);
-            background-color: #f1f1f1;
-        }
-        
-        .feature-icon {
-            color: var(--secondary-color);
-            margin-right: 1rem;
-            font-size: 1.2rem;
-            margin-top: 0.1rem;
-        }
-        
-        /* Process Section */
-        .process-steps {
-            position: relative;
+            font-size: 2rem;
         }
         
         .process-steps::before {
-            content: '';
-            position: absolute;
-            top: 2rem;
-            left: 15%;
-            right: 15%;
-            height: 2px;
-            background-color: #e0e0e0;
-            z-index: 0;
+            display: none;
         }
         
-        .process-step {
-            text-align: center;
-            margin-bottom: 2rem;
-            position: relative;
-            z-index: 1;
+        .services-nav .nav-link {
+            padding: 12px 15px;
+            font-size: 0.8rem;
         }
         
-        .step-number {
-            width: 60px;
-            height: 60px;
-            background-color: var(--secondary-color);
-            color: white;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 600;
-            font-size: 1.5rem;
-            margin: 0 auto 1.25rem;
-            position: relative;
-            z-index: 1;
-            box-shadow: 0 5px 15px rgba(209, 51, 51, 0.3);
-        }
-        
-        .step-title {
-            color: var(--primary-color);
-            font-weight: 600;
-            font-size: 1.1rem;
-            margin-bottom: 0.75rem;
-        }
-        
-        .step-text {
-            color: var(--grey-color);
+        .services-nav .nav-link i {
+            margin-right: 5px;
             font-size: 0.9rem;
-            padding: 0 10px;
+        }
+    }
+    
+    @media (max-width: 767.98px) {
+        .services-hero {
+            height: 40vh;
+            min-height: 300px;
         }
         
-        /* Testimonials */
-        .testimonial-item {
-            background-color: white;
-            border-radius: 8px;
-            box-shadow: 0 3px 15px rgba(0, 0, 0, 0.05);
-            padding: 1.5rem;
-            height: 100%;
-            transition: all 0.3s;
+        .services-hero-content h1 {
+            font-size: 1.8rem;
         }
         
-        .testimonial-item:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        .services-hero-content p {
+            font-size: 0.95rem;
         }
         
-        .testimonial-content {
-            position: relative;
-            margin-bottom: 1.5rem;
-            padding-left: 2rem;
+        .section-padding {
+            padding: 3rem 0;
         }
         
-        .testimonial-content::before {
-            content: '\f10d';
-            font-family: 'Font Awesome 5 Free';
-            font-weight: 900;
-            position: absolute;
-            left: 0;
-            top: 0;
-            color: var(--secondary-color);
-            opacity: 0.3;
-            font-size: 1.2rem;
-        }
-        
-        .testimonial-text {
-            color: var(--grey-color);
-            line-height: 1.6;
-            font-style: italic;
-        }
-        
-        .testimonial-author {
-            display: flex;
-            align-items: center;
-        }
-        
-        .author-img {
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            overflow: hidden;
-            margin-right: 1rem;
-            border: 2px solid var(--secondary-color);
-        }
-        
-        .author-img img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-        
-        .author-info h4 {
-            color: var(--primary-color);
-            font-size: 1rem;
-            margin-bottom: 0.25rem;
-        }
-        
-        .author-company {
-            color: var(--secondary-color);
-            font-size: 0.85rem;
-        }
-        
-        /* CTA Section */
-        .cta-section {
-            background-image: linear-gradient(rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.75)), url('/photo.png');
-            background-size: cover;
-            background-position: center;
-            background-attachment: fixed;
-            color: white;
-            text-align: center;
-            padding: 5rem 0;
-        }
-        
-        .cta-title {
-            font-size: 2rem;
-            font-weight: 600;
-            margin-bottom: 1.25rem;
-        }
-        
-        .cta-text {
-            font-size: 1.05rem;
-            margin-bottom: 2rem;
-            max-width: 700px;
-            margin-left: auto;
-            margin-right: auto;
+        .section-title {
+            font-size: 1.5rem;
         }
         
         .cta-buttons {
-            display: flex;
-            justify-content: center;
-            flex-wrap: wrap;
-            gap: 1rem;
+            flex-direction: column;
         }
         
-        .btn-cta {
-            background-color: var(--secondary-color);
-            color: white;
-            border: none;
-            padding: 0.7rem 1.5rem;
-            border-radius: 4px;
-            font-weight: 500;
-            transition: all 0.3s;
-            text-decoration: none;
-            font-size: 0.9rem;
-        }
-        
-        .btn-cta-outline {
-            background-color: transparent;
-            border: 1px solid white;
-        }
-        
-        .btn-cta:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            color: white;
-        }
-        
-        .btn-cta-outline:hover {
-            background-color: rgba(255, 255, 255, 0.1);
-        }
-        
-        @media (max-width: 767.98px) {
-            .cta-title {
-                font-size: 1.6rem;
-            }
-            
-            .cta-text {
-                font-size: 0.95rem;
-            }
-            
-            .btn-cta {
-                width: 80%;
-                margin-bottom: 0.5rem;
-            }
-        }
-        
-        /* FAQ Section */
-        .accordion-item {
-            margin-bottom: 1rem;
-            border: none;
-            border-radius: 8px;
-            overflow: hidden;
-            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
-        }
-        
-        .accordion-button {
-            padding: 1.25rem;
-            font-weight: 600;
-            font-size: 1rem;
-            color: var(--primary-color);
-            background-color: white;
-        }
-        
-        .accordion-button:not(.collapsed) {
-            color: var(--secondary-color);
-            background-color: white;
-            box-shadow: none;
-        }
-        
-        .accordion-button:focus {
-            box-shadow: none;
-            border-color: rgba(0, 0, 0, 0.125);
-        }
-        
-        .accordion-button::after {
-            background-size: 16px;
-            transition: all 0.3s;
-        }
-        
-        .accordion-body {
-            padding: 1.25rem;
-            color: var(--grey-color);
-            line-height: 1.8;
-            border-top: 1px solid #f1f1f1;
-        }
-        
-        /* Footer - Clean and Professional */
-        .footer {
-            background-color: var(--dark-color);
-            color: #ddd;
-            padding: 4rem 0 2rem;
-            font-size: 0.9rem;
-        }
-        
-        .footer-logo {
-            height: 60px;
-            margin-bottom: 1.5rem;
-        }
-        
-        .footer-text {
-            color: #b0b0b0;
-            line-height: 1.6;
-            margin-bottom: 1.5rem;
-        }
-        
-        .footer-title {
-            font-size: 1.1rem;
-            font-weight: 600;
-            color: white;
-            margin-bottom: 1.5rem;
-            position: relative;
-            padding-bottom: 0.75rem;
-        }
-        
-        .footer-title::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 40px;
-            height: 2px;
-            background-color: var(--secondary-color);
-        }
-        
-        .footer-links {
-            list-style: none;
-            padding-left: 0;
-        }
-        
-        .footer-links li {
+        .cta-buttons .btn-cta {
+            width: 100%;
             margin-bottom: 0.75rem;
         }
-        
-        .footer-links a {
-            color: #b0b0b0;
-            text-decoration: none;
-            transition: all 0.3s;
-        }
-        
-        .footer-links a:hover {
-            color: var(--secondary-color);
-            padding-left: 5px;
-        }
-        
-        .footer-bottom {
-            text-align: center;
-            padding-top: 2rem;
-            margin-top: 2rem;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            color: #b0b0b0;
-        }
-        
-        /* Back to top button */
-        .back-to-top {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            width: 40px;
-            height: 40px;
-            background-color: var(--secondary-color);
-            color: white;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 4px;
-            cursor: pointer;
-            opacity: 0;
-            visibility: hidden;
-            transition: all 0.3s;
-            z-index: 999;
-            font-size: 1rem;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
-        }
-        
-        .back-to-top:hover {
-            background-color: #c0392b;
-        }
-        
-        .back-to-top.visible {
-            opacity: 1;
-            visibility: visible;
-        }
-        
-        /* Modal styles */
-        .modal-content {
-            border-radius: 8px;
-            border: none;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-        }
-        
-        .modal-header {
-            border-bottom: none;
-            padding: 1.5rem 1.5rem 0.5rem;
-        }
-        
-        .modal-body {
-            padding: 1rem 1.5rem;
-        }
-        
-        .modal-footer {
-            border-top: none;
-            padding: 0.5rem 1.5rem 1.5rem;
-            justify-content: center;
-        }
-        
-        .form-label {
-            font-size: 0.9rem;
-            color: var(--grey-color);
-            font-weight: 500;
-        }
-        
-        /* Modal submit button */
-        .btn-submit {
-            background-color: var(--secondary-color);
-            color: white;
-            border: none;
-            padding: 0.7rem 1.5rem;
-            border-radius: 4px;
-            font-weight: 500;
-            transition: all 0.3s;
-            font-size: 0.9rem;
-        }
-        
-        .btn-submit:hover {
-            background-color: #c0392b;
-        }
-        
-        /* Responsive Adjustments */
-        @media (max-width: 991.98px) {
-            .services-hero {
-                margin-top: 72px;
-                height: 45vh;
-            }
-            
-            .services-hero-content h1 {
-                font-size: 2rem;
-            }
-            
-            .process-steps::before {
-                display: none;
-            }
-            
-            .service-card-img {
-                height: 180px;
-            }
-            
-            .services-nav .nav-link {
-                padding: 12px 15px;
-                font-size: 0.8rem;
-            }
-            
-            .services-nav .nav-link i {
-                margin-right: 5px;
-                font-size: 0.9rem;
-            }
-            
-            .slider-control {
-                width: 30px;
-                height: 30px;
-            }
-        }
-        
-        @media (max-width: 767.98px) {
-            .services-hero {
-                height: 40vh;
-                min-height: 300px;
-            }
-            
-            .services-hero-content h1 {
-                font-size: 1.8rem;
-            }
-            
-            .services-hero-content p {
-                font-size: 0.95rem;
-            }
-            
-            .section-padding {
-                padding: 3rem 0;
-            }
-            
-            .section-title {
-                font-size: 1.5rem;
-            }
-            
-            .service-overview-text {
-                font-size: 0.9rem;
-            }
-            
-            .cta-buttons {
-                flex-direction: column;
-            }
-            
-            .cta-buttons .btn-cta {
-                width: 100%;
-                margin-bottom: 0.75rem;
-            }
-            
-            .testimonial-item {
-                margin-bottom: 1rem;
-            }
-        }
-        /* User Menu Styles */
-.user-menu {
-    display: flex;
-    align-items: center;
-    text-decoration: none;
-    color: var(--primary-color);
-    padding: 0.4rem 0.8rem;
-    border-radius: 4px;
-    transition: all 0.3s ease;
-}
+    }
+</style>
+@endpush
 
-.user-menu:hover {
-    background-color: rgba(0, 0, 0, 0.05);
-    color: var(--primary-color);
-}
-
-.user-avatar {
-    width: 36px;
-    height: 36px;
-    border-radius: 50%;
-    overflow: hidden;
-    margin-right: 0.5rem;
-    border: 2px solid var(--secondary-color);
-}
-
-.user-avatar img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-
-.user-info {
-    display: flex;
-    flex-direction: column;
-    line-height: 1.2;
-}
-
-.user-name {
-    font-weight: 600;
-    font-size: 0.85rem;
-    color: var(--primary-color);
-}
-
-.user-role {
-    font-size: 0.7rem;
-    color: var(--grey-color);
-}
-    </style>
-</head>
-<body>
-    <!-- Navbar - Compact and Professional -->
-    <nav class="navbar navbar-expand-lg fixed-top">
-        <div class="container">
-            <a class="navbar-brand" href="/">
-                <img src="/logo.png" alt="CHICO TRANS Logo">
-            </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav me-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="/">ACCUEIL</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/qui-sommes-nous">QUI SOMMES-NOUS</a>
-                    </li>
-                    <li class="nav-item dropdown active">
-                        <a class="nav-link dropdown-toggle active" href="/services" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            NOS SERVICES
-                        </a>
-                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <li><a class="dropdown-item" href="/services#transport-national">Transport national</a></li>
-                            <li><a class="dropdown-item" href="/services#transport-international">Transport international</a></li>
-                            <li><a class="dropdown-item" href="/services#logistique-complete">Logistique complète</a></li>
-                            <li><a class="dropdown-item" href="/services#stockage-temporaire">Stockage temporaire</a></li>
-                        </ul>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/partenaire">DEVENIR PARTENAIRE</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/contactez-nous">CONTACTEZ-NOUS</a>
-                    </li>
-                </ul>
-                  <!-- Navbar Buttons Area -->
-<div class="navbar-action-btns">
-    @guest
-        <!-- Buttons for not logged in users -->
-        <button class="btn-auth" data-bs-toggle="modal" data-bs-target="#loginModal">CONNEXION</button>
-        <button class="btn-auth" data-bs-toggle="modal" data-bs-target="#registerModal">INSCRIPTION</button>
-    @else
-        <!-- Dropdown for logged in users -->
-        <div class="dropdown">
-    <a class="user-menu dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-        <div class="user-avatar">
-            @if(Auth::user()->profile_image)
-                <img src="{{ asset('storage/' . Auth::user()->profile_image) }}" alt="{{ Auth::user()->name }}">
-            @else
-                <img src="{{ asset('img/default-avatar.png') }}" alt="{{ Auth::user()->name }}">
-            @endif
-        </div>
-        <div class="user-info">
-            <span class="user-name">{{ Auth::user()->name }}</span>
-            <span class="user-role">
-                @if(Auth::user()->role === 'admin')
-                    Administrateur
-                @else
-                    Client
-                @endif
-            </span>
-        </div>
-    </a>
-    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
-        @if(Auth::user()->role === 'admin')
-            <!-- Menu pour Admin -->
-            <li><a class="dropdown-item" href="{{ route('admin.dashboard') }}">Dashboard Admin</a></li>
-            <li><a class="dropdown-item" href="{{ route('admin.users') }}">Gestion utilisateurs</a></li>
-            <li><a class="dropdown-item" href="{{ route('admin.devis') }}">Gestion devis</a></li>
-             <li><a class="dropdown-item" href="{{ route('admin.notifications') }}" >
-    Voir toutes les notifications
-</a></li>
-            <li><hr class="dropdown-divider"></li>
-            <li><a class="dropdown-item" href="{{ route('profile') }}">Mon profil</a></li>
-        @else
-            <!-- Menu pour Client -->
-            <li><a class="dropdown-item" href="{{ route('dashboard') }}">Tableau de bord</a></li>
-            <li><a class="dropdown-item" href="{{ route('profile') }}">Mon profil</a></li>
-            <li><a class="dropdown-item" href="{{ route('devis.history') }}">Historique des devis</a></li>
-            
-        @endif
-        <li><hr class="dropdown-divider"></li>
-        <li>
-            <form action="{{ route('logout') }}" method="POST">
-                @csrf
-                <button type="submit" class="dropdown-item">Déconnexion</button>
-            </form>
-        </li>
-    </ul>
-</div>
-    @endguest
-    <a href="/devis" class="btn-devis">DEMANDER UN DEVIS</a>
-</div>
-            </div>
-        </div>
-    </nav>
-
+@section('content')
     <!-- Services Hero Section -->
     <section class="services-hero">
         <div class="container">
             <div class="services-hero-content">
-                <h1>NOS SERVICES DE TRANSPORT</h1>
-                <p>Des solutions logistiques adaptées à tous vos besoins de transport national et international</p>
+                <h1 data-aos="fade-up">NOS SERVICES DE TRANSPORT</h1>
+                <p data-aos="fade-up" data-aos-delay="100">Des solutions logistiques adaptées à tous vos besoins de transport national et international</p>
             </div>
         </div>
     </section>
-
-    
 
     <!-- Service Details Tabs Section -->
     <section id="service-details" class="section-padding section-light">
         <div class="container">
             <h2 class="section-title" data-aos="fade-up">Détails de nos services</h2>
             
-           
-                <!-- Navigation des onglets -->
-                <ul class="nav services-nav" id="servicesTabs" role="tablist">
-                    <li class="nav-item" role="presentation">
-                        <button class="nav-link active" id="national-tab" data-bs-toggle="tab" data-bs-target="#national" type="button" role="tab" aria-controls="national" aria-selected="true">
-                            <i class="fas fa-truck"></i> Transport national
-                        </button>
-                    </li>
-                    <li class="nav-item" role="presentation">
-                        <button class="nav-link" id="international-tab" data-bs-toggle="tab" data-bs-target="#international" type="button" role="tab" aria-controls="international" aria-selected="false">
-                            <i class="fas fa-globe"></i> Transport international
-                        </button>
-                    </li>
-                    <li class="nav-item" role="presentation">
-                        <button class="nav-link" id="logistique-tab" data-bs-toggle="tab" data-bs-target="#logistique" type="button" role="tab" aria-controls="logistique" aria-selected="false">
-                            <i class="fas fa-dolly"></i> Logistique complète
-                        </button>
-                    </li>
-                    <li class="nav-item" role="presentation">
-                        <button class="nav-link" id="stockage-tab" data-bs-toggle="tab" data-bs-target="#stockage" type="button" role="tab" aria-controls="stockage" aria-selected="false">
-                            <i class="fas fa-boxes"></i> Stockage temporaire
-                        </button>
-                    </li>
-                    
-                    
-                </ul>
-                
-               
+            <!-- Navigation des onglets -->
+            <ul class="nav services-nav" id="servicesTabs" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active" id="national-tab" data-bs-toggle="tab" data-bs-target="#national" type="button" role="tab" aria-controls="national" aria-selected="true">
+                        <i class="fas fa-truck"></i> Transport national
+                    </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="international-tab" data-bs-toggle="tab" data-bs-target="#international" type="button" role="tab" aria-controls="international" aria-selected="false">
+                        <i class="fas fa-globe"></i> Transport international
+                    </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="logistique-tab" data-bs-toggle="tab" data-bs-target="#logistique" type="button" role="tab" aria-controls="logistique" aria-selected="false">
+                        <i class="fas fa-dolly"></i> Logistique complète
+                    </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="stockage-tab" data-bs-toggle="tab" data-bs-target="#stockage" type="button" role="tab" aria-controls="stockage" aria-selected="false">
+                        <i class="fas fa-boxes"></i> Stockage temporaire
+                    </button>
+                </li>
+            </ul>
             
             <div class="tab-content bg-white p-4 rounded shadow-sm mt-4" id="servicesTabsContent">
                 <div class="tab-pane fade show active" id="national" role="tabpanel" aria-labelledby="national-tab">
@@ -1132,6 +547,7 @@
                         </div>
                     </div>
                 </div>
+                
                 <div class="tab-pane fade" id="logistique" role="tabpanel" aria-labelledby="logistique-tab">
                     <div class="row">
                         <div class="col-lg-5 mb-4">
@@ -1213,94 +629,12 @@
                         </div>
                     </div>
                 </div>
-                
-                <div class="tab-pane fade" id="express" role="tabpanel" aria-labelledby="express-tab">
-                    <div class="row">
-                        <div class="col-lg-5 mb-4">
-                            <div class="tab-pane-img">
-                                <img src="/detail-express.jpg" alt="Livraison express détail">
-                            </div>
-                        </div>
-                        <div class="col-lg-7">
-                            <h3 class="tab-pane-title">Livraison express</h3>
-                            <p class="tab-pane-text">
-                                Quand chaque minute compte, notre service de livraison express est la solution. Disponible 24h/24 et 7j/7, nous mettons tout en œuvre pour livrer vos marchandises urgentes dans les délais les plus courts possibles. Notre flotte dédiée et nos chauffeurs spécialisés sont formés pour répondre aux situations d'urgence.
-                            </p>
-                            <p class="tab-pane-text">
-                                Nous proposons différentes options d'express, du même jour au lendemain, selon vos contraintes. Chaque livraison express bénéficie d'un suivi prioritaire et d'une communication renforcée, vous tenant informé à chaque étape du transport.
-                            </p>
-                            <ul class="feature-list">
-                                <li class="feature-item">
-                                    <span class="feature-icon"><i class="fas fa-check-circle"></i></span>
-                                    Service disponible 24/7, 365 jours par an
-                                </li>
-                                <li class="feature-item">
-                                    <span class="feature-icon"><i class="fas fa-check-circle"></i></span>
-                                    Options de livraison le jour même
-                                </li>
-                                <li class="feature-item">
-                                    <span class="feature-icon"><i class="fas fa-check-circle"></i></span>
-                                    Suivi prioritaire et notifications en temps réel
-                                </li>
-                                <li class="feature-item">
-                                    <span class="feature-icon"><i class="fas fa-check-circle"></i></span>
-                                    Véhicules dédiés pour les livraisons urgentes
-                                </li>
-                                <li class="feature-item">
-                                    <span class="feature-icon"><i class="fas fa-check-circle"></i></span>
-                                    Garantie de délai avec remboursement en cas de retard
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="tab-pane fade" id="specialises" role="tabpanel" aria-labelledby="specialises-tab">
-                    <div class="row">
-                        <div class="col-lg-5 mb-4">
-                            <div class="tab-pane-img">
-                                <img src="/detail-specialises.jpg" alt="Transports spécialisés détail">
-                            </div>
-                        </div>
-                        <div class="col-lg-7">
-                            <h3 class="tab-pane-title">Transports spécialisés</h3>
-                            <p class="tab-pane-text">
-                                Certaines marchandises requièrent une attention particulière. Notre service de transports spécialisés est conçu pour répondre aux exigences les plus spécifiques. Que vous ayez besoin de transporter des produits fragiles, dangereux, réfrigérés, volumineux ou de grande valeur, nous disposons de l'équipement et de l'expertise nécessaires.
-                            </p>
-                            <p class="tab-pane-text">
-                                Nos chauffeurs sont formés aux procédures spécifiques pour chaque type de transport spécialisé, et nos véhicules sont équipés des dernières technologies pour garantir la sécurité et l'intégrité de vos marchandises.
-                            </p>
-                            <ul class="feature-list">
-                                <li class="feature-item">
-                                    <span class="feature-icon"><i class="fas fa-check-circle"></i></span>
-                                    Transport de marchandises dangereuses (ADR)
-                                </li>
-                                <li class="feature-item">
-                                    <span class="feature-icon"><i class="fas fa-check-circle"></i></span>
-                                    Véhicules frigorifiques pour produits sensibles à la température
-                                </li>
-                                <li class="feature-item">
-                                    <span class="feature-icon"><i class="fas fa-check-circle"></i></span>
-                                    Transport de charges lourdes et oversized
-                                </li>
-                                <li class="feature-item">
-                                    <span class="feature-icon"><i class="fas fa-check-circle"></i></span>
-                                    Solutions sécurisées pour objets de valeur
-                                </li>
-                                <li class="feature-item">
-                                    <span class="feature-icon"><i class="fas fa-check-circle"></i></span>
-                                    Conformité avec toutes les réglementations en vigueur
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
             </div>
         </div>
     </section>
     
-     <!-- Process Section -->
-     <section id="process" class="section-padding section-dark">
+    <!-- Process Section -->
+    <section id="process" class="section-padding section-dark">
         <div class="container">
             <h2 class="section-title" data-aos="fade-up">Notre processus de travail</h2>
             <div class="row process-steps">
@@ -1354,8 +688,6 @@
             </div>
         </div>
     </section>
-    
-    
     
     <!-- CTA Section -->
     <section class="cta-section">
@@ -1433,257 +765,33 @@
             </div>
         </div>
     </section>
-        <!-- Footer -->
-    <footer class="footer">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-4 mb-4 mb-lg-0">
-                   <a href="/"><img src="/favicon.ico" alt="CHICO TRANS Logo" class="footer-logo"></a> 
-                    <p class="footer-text">Le Transport C'est Notre Spécialité. CHICO TRANS vous offre des solutions de transport fiables et efficaces depuis plus de 20 ans. Notre engagement: sécurité, ponctualité et satisfaction client.</p>
-                </div>
-                <div class="col-md-6 col-lg-4 mb-4 mb-lg-0">
-                    <h3 class="footer-title">Liens rapides</h3>
-                    <ul class="footer-links">
-                        <li><a href="/">Accueil</a></li>
-                        <li><a href="/qui-sommes-nous">Qui sommes-nous</a></li>
-                        <li><a href="/services">Nos services</a></li>
-                        <li><a href="/partenaire">Devenir partenaire</a></li>
-                        <li><a href="/contactez-nous">Contactez-nous</a></li>
-                    </ul>
-                </div>
-                <div class="col-md-6 col-lg-4">
-                    <h3 class="footer-title">Nos services</h3>
-                    <ul class="footer-links">
-                        <li><a href="/services#transport-national">Transport national</a></li>
-                        <li><a href="/services#transport-international">Transport international</a></li>
-                        <li><a href="/services#logistique-complete">Logistique complète</a></li>
-                        <li><a href="/services#stockage-temporaire">Stockage temporaire</a></li>
-                    </ul>
-                </div>
-            </div>
-            <div class="footer-bottom">
-                <p>&copy; 2025 CHICO TRANS. Tous droits réservés.</p>
-            </div>
-        </div>
-    </footer>
-    <!-- Back to top button -->
-    <div class="back-to-top" id="backToTop">
-        <i class="fas fa-chevron-up"></i>
-    </div>
+@endsection
 
-     <!-- Login Modal -->
-<div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="loginModalLabel">Connexion</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <form action="{{ route('login') }}" method="POST">
-                    @csrf
-                    <div class="mb-3">
-                        <label for="email" class="form-label">Email</label>
-                        <input type="email" class="form-control @error('email') is-invalid @enderror" id="email" name="email" required>
-                        @error('email')
-                            <div class="invalid-feedback">{{ $message }}</div>
-                        @enderror
-                    </div>
-                    <div class="mb-3">
-                        <label for="password" class="form-label">Mot de passe</label>
-                        <input type="password" class="form-control @error('password') is-invalid @enderror" id="password" name="password" required>
-                        @error('password')
-                            <div class="invalid-feedback">{{ $message }}</div>
-                        @enderror
-                    </div>
-                    <div class="mb-3 form-check">
-                        <input type="checkbox" class="form-check-input" id="remember" name="remember">
-                        <label class="form-check-label" for="remember">Se souvenir de moi</label>
-                    </div>
-                    <div class="text-end mb-3">
-                        <a href="{{ route('password.request') }}" class="text-decoration-none">Mot de passe oublié?</a>
-                    </div>
-                    <button type="submit" class="btn-submit w-100">Se connecter</button>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <p class="mb-0">Vous n'avez pas de compte? <a href="#" data-bs-toggle="modal" data-bs-target="#registerModal" data-bs-dismiss="modal">S'inscrire</a></p>
-            </div>
-        </div>
-    </div>
-</div>
-
-    <!-- Register Modal -->
-<div class="modal fade" id="registerModal" tabindex="-1" aria-labelledby="registerModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="registerModalLabel">Inscription</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <form action="{{ route('register') }}" method="POST">
-                    @csrf
-                    <div class="mb-3">
-                        <label for="name" class="form-label">Nom complet</label>
-                        <input type="text" class="form-control @error('name') is-invalid @enderror" id="name" name="name" value="{{ old('name') }}" required>
-                        @error('name')
-                            <div class="invalid-feedback">{{ $message }}</div>
-                        @enderror
-                    </div>
-                    <div class="mb-3">
-                        <label for="email" class="form-label">Email</label>
-                        <input type="email" class="form-control @error('email') is-invalid @enderror" id="email" name="email" value="{{ old('email') }}" required>
-                        @error('email')
-                            <div class="invalid-feedback">{{ $message }}</div>
-                        @enderror
-                    </div>
-                    <div class="mb-3">
-                        <label for="password" class="form-label">Mot de passe</label>
-                        <input type="password" class="form-control @error('password') is-invalid @enderror" id="password" name="password" required>
-                        @error('password')
-                            <div class="invalid-feedback">{{ $message }}</div>
-                        @enderror
-                    </div>
-                    <div class="mb-3">
-                        <label for="password_confirmation" class="form-label">Confirmer le mot de passe</label>
-                        <input type="password" class="form-control" id="password_confirmation" name="password_confirmation" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="company_name" class="form-label">Nom de l'entreprise (optionnel)</label>
-                        <input type="text" class="form-control @error('company_name') is-invalid @enderror" id="company_name" name="company_name" value="{{ old('company_name') }}">
-                        @error('company_name')
-                            <div class="invalid-feedback">{{ $message }}</div>
-                        @enderror
-                    </div>
-                    <div class="mb-3">
-                        <label for="telephone" class="form-label">Téléphone (optionnel)</label>
-                        <input type="text" class="form-control @error('telephone') is-invalid @enderror" id="telephone" name="telephone" value="{{ old('telephone') }}">
-                        @error('telephone')
-                            <div class="invalid-feedback">{{ $message }}</div>
-                        @enderror
-                    </div>
-                    <div class="mb-3 form-check">
-                        <input type="checkbox" class="form-check-input @error('terms') is-invalid @enderror" id="terms" name="terms" required>
-                        <label class="form-check-label" for="terms">J'accepte les conditions d'utilisation</label>
-                        @error('terms')
-                            <div class="invalid-feedback">{{ $message }}</div>
-                        @enderror
-                    </div>
-                    <button type="submit" class="btn-submit w-100">S'inscrire</button>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <p class="mb-0">Vous avez déjà un compte? <a href="#" data-bs-toggle="modal" data-bs-target="#loginModal" data-bs-dismiss="modal">Se connecter</a></p>
-            </div>
-        </div>
-    </div>
-</div>
-
-
-    <!-- Bootstrap JS -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
-    
-    <!-- jQuery -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    
-    <!-- AOS - Animation On Scroll -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
-    
-    <script>
-        // AOS Initialization
-        AOS.init({
-            duration: 600,
-            easing: 'ease-in-out',
-            once: true,
-            offset: 100
-        });
-
-        // Navigation smooth scroll
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                if(this.getAttribute('href') !== '#' && 
-                   !this.getAttribute('href').includes('Modal') && 
-                   document.querySelector(this.getAttribute('href'))) {
-                    e.preventDefault();
-                    
-                    const targetId = this.getAttribute('href');
-                    const targetElement = document.querySelector(targetId);
-                    const navbarHeight = document.querySelector('.navbar').offsetHeight;
-                    
-                    window.scrollTo({
-                        top: targetElement.offsetTop - navbarHeight - 20,
-                        behavior: 'smooth'
-                    });
-                }
-            });
-        });
+@push('scripts')
+<script>
+    // Switch tab function
+    function switchTab(tabId) {
+        const tabEl = document.querySelector('#' + tabId);
+        bootstrap.Tab.getOrCreateInstance(tabEl).show();
         
-        // Switch tab function
-        function switchTab(tabId) {
-            const tabEl = document.querySelector('#' + tabId);
-            bootstrap.Tab.getOrCreateInstance(tabEl).show();
-            
-            // Scroll to tabs section
-            const tabsSection = document.querySelector('#service-details');
-            const navbarHeight = document.querySelector('.navbar').offsetHeight;
-            
-            window.scrollTo({
-                top: tabsSection.offsetTop - navbarHeight - 20,
-                behavior: 'smooth'
-            });
+        // Scroll to tabs section
+        const tabsSection = document.querySelector('#service-details');
+        const navbarHeight = document.querySelector('.navbar').offsetHeight;
+        
+        window.scrollTo({
+            top: tabsSection.offsetTop - navbarHeight - 20,
+            behavior: 'smooth'
+        });
+    }
+    
+    // Find active tab from URL hash if present
+    document.addEventListener('DOMContentLoaded', function() {
+        if (window.location.hash) {
+            const tabId = window.location.hash.replace('#', '');
+            if (document.getElementById(tabId + '-tab')) {
+                switchTab(tabId + '-tab');
+            }
         }
-        
-        // Slider navigation for tabs
-        const sliderNav = document.querySelector('.services-nav');
-        const prevBtn = document.querySelector('.slider-control.prev');
-        const nextBtn = document.querySelector('.slider-control.next');
-        
-        prevBtn.addEventListener('click', function() {
-            sliderNav.scrollBy({
-                left: -200,
-                behavior: 'smooth'
-            });
-        });
-        
-        nextBtn.addEventListener('click', function() {
-            sliderNav.scrollBy({
-                left: 200,
-                behavior: 'smooth'
-            });
-        });
-        
-        // Back to top button
-        const backToTopButton = document.getElementById('backToTop');
-        
-        window.addEventListener('scroll', function() {
-            if (window.pageYOffset > 300) {
-                backToTopButton.classList.add('visible');
-            } else {
-                backToTopButton.classList.remove('visible');
-            }
-        });
-        
-        backToTopButton.addEventListener('click', function() {
-            window.scrollTo({
-                top: 0,
-                behavior: 'smooth'
-            });
-        });
-        
-        // Add padding to body to account for fixed navbar
-        document.addEventListener('DOMContentLoaded', function() {
-            const navbarHeight = document.querySelector('.navbar').offsetHeight;
-            document.body.style.paddingTop = navbarHeight + 'px';
-            
-            // Find active tab from URL hash if present
-            if (window.location.hash) {
-                const tabId = window.location.hash.replace('#', '');
-                if (document.getElementById(tabId + '-tab')) {
-                    switchTab(tabId + '-tab');
-                }
-            }
-        });
-    </script>
-</body>
-</html>
+    });
+</script>
+@endpush
