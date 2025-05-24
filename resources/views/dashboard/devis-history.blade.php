@@ -298,14 +298,15 @@
         }
         
         /* Footer */
-        .footer {
+       .footer {
             background-color: white;
             padding: 1rem 0;
             text-align: center;
             font-size: 0.85rem;
             color: var(--grey-color);
             border-top: 1px solid #eee;
-            margin-top: 2rem;
+            margin-top: 7.7rem;
+            
         }
         
         .btn-devis {

@@ -816,47 +816,74 @@
     <section class="section-padding section-dark">
         <div class="container">
             <div class="row">
-                <div class="col-lg-6 mb-5 mb-lg-0" data-aos="fade-right">
-                    <h2 class="section-title">Envoyez-nous un message</h2>
-                    <div class="contact-form">
-                        <form>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <label for="name" class="form-label">Nom complet *</label>
-                                    <input type="text" id="name" class="form-control" required>
-                                </div>
-                                <div class="col-md-6">
-                                    <label for="email" class="form-label">Email *</label>
-                                    <input type="email" id="email" class="form-control" required>
-                                </div>
-                            </div>
-                            
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <label for="phone" class="form-label">Téléphone</label>
-                                    <input type="tel" id="phone" class="form-control">
-                                </div>
-                                <div class="col-md-6">
-                                    <label for="subject" class="form-label">Sujet *</label>
-                                    <input type="text" id="subject" class="form-control" required>
-                                </div>
-                            </div>
-                            
-                            <div class="row">
-                                <div class="col-12">
-                                    <label for="message" class="form-label">Message *</label>
-                                    <textarea id="message" class="form-control" rows="5" required></textarea>
-                                </div>
-                            </div>
-                            
-                            <div class="row mt-3">
-                                <div class="col-12 text-center">
-                                    <button type="submit" class="btn-submit">Envoyer le message</button>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
+               <div class="col-lg-6 mb-5 mb-lg-0" data-aos="fade-right">
+    <h2 class="section-title">Envoyez-nous un message</h2>
+    
+    @if(session('success'))
+        <div class="alert alert-success">
+            <i class="fas fa-check-circle me-2"></i>{{ session('success') }}
+        </div>
+    @endif
+
+    @if(session('error'))
+        <div class="alert alert-danger">
+            <i class="fas fa-exclamation-circle me-2"></i>{{ session('error') }}
+        </div>
+    @endif
+
+    @if($errors->any())
+        <div class="alert alert-danger">
+            <ul class="mb-0">
+                @foreach($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
+    
+    <div class="contact-form">
+        <form action="{{ route('contact.submit') }}" method="POST">
+            @csrf
+            
+            <div class="row">
+                <div class="col-md-6">
+                    <label for="name" class="form-label">Nom complet *</label>
+                    <input type="text" id="name" name="name" class="form-control" value="{{ old('name') }}" required>
                 </div>
+                <div class="col-md-6">
+                    <label for="email" class="form-label">Email *</label>
+                    <input type="email" id="email" name="email" class="form-control" value="{{ old('email') }}" required>
+                </div>
+            </div>
+            
+            <div class="row">
+                <div class="col-md-6">
+                    <label for="phone" class="form-label">Téléphone</label>
+                    <input type="tel" id="phone" name="phone" class="form-control" value="{{ old('phone') }}">
+                </div>
+                <div class="col-md-6">
+                    <label for="subject" class="form-label">Sujet *</label>
+                    <input type="text" id="subject" name="subject" class="form-control" value="{{ old('subject') }}" required>
+                </div>
+            </div>
+            
+            <div class="row">
+                <div class="col-12">
+                    <label for="message" class="form-label">Message *</label>
+                    <textarea id="message" name="message" class="form-control" rows="5" required>{{ old('message') }}</textarea>
+                </div>
+            </div>
+            
+            <div class="row mt-3">
+                <div class="col-12 text-center">
+                    <button type="submit" class="btn-submit">
+                        <i class="fas fa-paper-plane me-2"></i>Envoyer le message
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
                 
                 <div class="col-lg-6" data-aos="fade-left">
                     <h2 class="section-title">Où nous trouver</h2>

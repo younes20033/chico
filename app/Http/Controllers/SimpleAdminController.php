@@ -414,4 +414,6 @@ class SimpleAdminController extends Controller
             return back()->with('error', 'Erreur lors de la mise à jour du statut.');
         }
     }
+    
+
 }

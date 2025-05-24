@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Mon profil - CHICO TRANS</title>
     
     <!-- Bootstrap CSS -->
@@ -555,6 +556,34 @@
     }
 }
 
+.default-avatar-small {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 0.8rem;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.default-avatar-large {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 3rem;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
 /* Profile Image Upload */
 #profile_image_upload {
     position: absolute;
@@ -605,12 +634,13 @@
                 <div class="dropdown">
     <a class="user-menu dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
         <div class="user-avatar">
-            @if(Auth::user()->profile_image)
-                <img src="{{ asset('storage/' . Auth::user()->profile_image) }}" alt="{{ Auth::user()->name }}">
-            @else
-                <img src="{{ asset('img/default-avatar.png') }}" alt="{{ Auth::user()->name }}">
-            @endif
-        </div>
+    @if(Auth::user()->profile_image)
+        <img src="{{ asset('storage/' . Auth::user()->profile_image) }}?t={{ time() }}" 
+             alt="{{ Auth::user()->name }}">
+    @else
+        <div class="default-avatar-small">{{ substr(Auth::user()->name, 0, 1) }}</div>
+    @endif
+</div>
         <div class="user-info">
             <span class="user-name">{{ Auth::user()->name }}</span>
             <span class="user-role">
@@ -696,17 +726,18 @@
                 <div class="profile-sidebar">
                     <div class="profile-sidebar-card text-center mb-4">
                         <div class="profile-avatar-large">
-                            @if(Auth::user()->profile_image)
-                                <img src="{{ asset('storage/' . Auth::user()->profile_image) }}" alt="{{ Auth::user()->name }}">
-                            @else
-                                <img src="{{ asset('img/default-avatar.png') }}" alt="{{ Auth::user()->name }}">
-                            @endif
-                            <div class="profile-avatar-edit">
-                                <label for="profile_image_upload" class="mb-0">
-                                    <i class="fas fa-camera"></i>
-                                </label>
-                            </div>
-                        </div>
+    @if(Auth::user()->profile_image)
+        <img src="{{ asset('storage/' . Auth::user()->profile_image) }}?t={{ time() }}" 
+             alt="{{ Auth::user()->name }}">
+    @else
+        <div class="default-avatar-large">{{ substr(Auth::user()->name, 0, 1) }}</div>
+    @endif
+    <div class="profile-avatar-edit">
+        <label for="profile_image_upload" class="mb-0" style="cursor: pointer;">
+            <i class="fas fa-camera"></i>
+        </label>
+    </div>
+</div>
                         <h4 class="profile-name mt-3 mb-1">{{ Auth::user()->name }}</h4>
                         <p class="profile-role mb-2">{{ Auth::user()->role === 'admin' ? 'Administrateur' : 'Client' }}</p>
                        
@@ -1043,6 +1074,104 @@
             <p>&copy; 2025 CHICO TRANS. Tous droits réservés.</p>
         </div>
     </footer>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const uploadInput = document.getElementById('profile_image_upload');
+    if (!uploadInput) return;
+    
+    uploadInput.addEventListener('change', function(e) {
+        const file = e.target.files[0];
+        if (!file) return;
+        
+        // Validation
+        if (file.size > 2 * 1024 * 1024) {
+            alert('Image trop grande (max 2MB)');
+            e.target.value = '';
+            return;
+        }
+        
+        if (!file.type.match(/^image\/(jpeg|jpg|png|gif)$/)) {
+            alert('Format non supporté. Utilisez JPG, PNG ou GIF.');
+            e.target.value = '';
+            return;
+        }
+        
+        // Indicateur de chargement
+        const icon = document.querySelector('.profile-avatar-edit i');
+        if (icon) {
+            icon.className = 'fas fa-spinner fa-spin';
+        }
+        
+        // Préparer les données
+        const formData = new FormData();
+        formData.append('profile_image', file);
+        formData.append('_method', 'PUT');
+        
+        // Token CSRF
+        const token = document.querySelector('meta[name="csrf-token"]');
+        if (token) {
+            formData.append('_token', token.getAttribute('content'));
+        }
+        
+        // Prévisualisation immédiate
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            const img = document.querySelector('.profile-avatar-large img');
+            if (img) {
+                img.src = e.target.result;
+            }
+        };
+        reader.readAsDataURL(file);
+        
+        // Upload
+        fetch('/profile', {
+            method: 'POST',
+            body: formData,
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest',
+                'Accept': 'application/json'
+            }
+        })
+        .then(function(response) {
+            return response.json();
+        })
+        .then(function(data) {
+            // Restaurer l'icône
+            if (icon) {
+                icon.className = 'fas fa-camera';
+            }
+            
+            if (data.success) {
+                // Afficher message de succès
+                const alertDiv = document.createElement('div');
+                alertDiv.className = 'alert alert-success alert-dismissible fade show';
+                alertDiv.style.position = 'fixed';
+                alertDiv.style.top = '20px';
+                alertDiv.style.right = '20px';
+                alertDiv.style.zIndex = '9999';
+                alertDiv.innerHTML = '✅ Photo mise à jour avec succès! <button type="button" class="btn-close" data-bs-dismiss="alert"></button>';
+                document.body.appendChild(alertDiv);
+                
+                // Recharger après 2 secondes
+                setTimeout(function() {
+                    window.location.reload();
+                }, 2000);
+                
+            } else {
+                alert('Erreur: ' + (data.message || 'Erreur inconnue'));
+            }
+        })
+        .catch(function(error) {
+            // Restaurer l'icône
+            if (icon) {
+                icon.className = 'fas fa-camera';
+            }
+            alert('Erreur lors de l\'upload');
+            console.error('Erreur:', error);
+        });
+    });
+});
+</script>
 
     <!-- Bootstrap JS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
