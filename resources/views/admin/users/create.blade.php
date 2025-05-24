@@ -1,48 +1,33 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ajouter un utilisateur - Admin CHICO TRANS</title>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        :root {
-            --primary-color: #4d4d4d;
-            --secondary-color: #d13333;
-        }
-        
-        body {
-            font-family: 'Poppins', sans-serif;
-            background-color: #f5f5f5;
-        }
-        
-        .admin-card {
-            background: white;
-            border-radius: 10px;
-            padding: 2rem;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            max-width: 600px;
-            margin: 0 auto;
-        }
-        
-        .form-control:focus {
-            border-color: var(--secondary-color);
-            box-shadow: 0 0 0 0.2rem rgba(209, 51, 51, 0.15);
-        }
-        
-        .btn-primary-custom {
-            background-color: var(--secondary-color);
-            border-color: var(--secondary-color);
-        }
-        
-        .btn-primary-custom:hover {
-            background-color: #c0392b;
-            border-color: #c0392b;
-        }
-    </style>
-</head>
-<body>
+@extends('layouts.app')
+
+@section('title', 'Ajouter un utilisateur - Admin CHICO TRANS')
+
+@section('description', 'Interface d\'administration pour ajouter un nouvel utilisateur CHICO TRANS.')
+
+@push('styles')
+<style>
+    .admin-card {
+        background: white;
+        border-radius: 10px;
+        padding: 2rem;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        max-width: 600px;
+        margin: 0 auto;
+    }
+    
+    .btn-primary-custom {
+        background-color: var(--secondary-color);
+        border-color: var(--secondary-color);
+    }
+    
+    .btn-primary-custom:hover {
+        background-color: #c0392b;
+        border-color: #c0392b;
+    }
+</style>
+@endpush
+
+@section('content')
     <div class="container py-4">
         <div class="d-flex justify-content-between align-items-center mb-4">
             <h1>Ajouter un utilisateur</h1>
@@ -113,7 +98,4 @@
             </form>
         </div>
     </div>
-    
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
-</body>
-</html>
+@endsection

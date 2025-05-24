@@ -317,7 +317,7 @@
                 </div>
                 <div class="col-lg-6" data-aos="fade-left">
                     <div class="why-partner-image">
-                        <img src="/photo11.png" alt="Partenariat CHICO TRANS" class="img-fluid rounded shadow">
+                        <img src="/116.jpeg" alt="Partenariat CHICO TRANS" class="img-fluid rounded shadow">
                     </div>
                 </div>
             </div>

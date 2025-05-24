@@ -16,7 +16,6 @@
         offset: 100
     });
 
-
     // Navigation smooth scroll
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function (e) {
@@ -27,7 +26,8 @@
                 
                 const targetId = this.getAttribute('href');
                 const targetElement = document.querySelector(targetId);
-                const navbarHeight = document.querySelector('.navbar').offsetHeight;
+                const navbar = document.querySelector('.navbar');
+                const navbarHeight = navbar ? navbar.offsetHeight : 0;
                 
                 window.scrollTo({
                     top: targetElement.offsetTop - navbarHeight - 20,
@@ -40,58 +40,66 @@
     // Back to top button
     const backToTopButton = document.getElementById('backToTop');
     
-    window.addEventListener('scroll', function() {
-        if (window.pageYOffset > 300) {
-            backToTopButton.classList.add('visible');
-        } else {
-            backToTopButton.classList.remove('visible');
-        }
-    });
-    
-    backToTopButton.addEventListener('click', function() {
-        window.scrollTo({
-            top: 0,
-            behavior: 'smooth'
+    if (backToTopButton) {
+        window.addEventListener('scroll', function() {
+            if (window.pageYOffset > 300) {
+                backToTopButton.classList.add('visible');
+            } else {
+                backToTopButton.classList.remove('visible');
+            }
         });
-    });
+        
+        backToTopButton.addEventListener('click', function() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+    }
     
-    // Add padding to body to account for fixed navbar
+    // Add padding to body for fixed navbar only
     document.addEventListener('DOMContentLoaded', function() {
-        const navbarHeight = document.querySelector('.navbar').offsetHeight;
-        document.body.style.paddingTop = navbarHeight + 'px';
+        const navbar = document.querySelector('.navbar');
         
-        // Active nav item based on scroll position
-        const sections = document.querySelectorAll('section[id]');
-        
-        function navHighlighter() {
-            const scrollY = window.pageYOffset;
+        if (navbar && navbar.classList.contains('fixed-top')) {
+            const navbarHeight = navbar.offsetHeight;
+            document.body.style.paddingTop = navbarHeight + 'px';
             
-            sections.forEach(current => {
-                const sectionHeight = current.offsetHeight;
-                const sectionTop = current.offsetTop - 100;
-                const sectionId = current.getAttribute('id');
-                
-                if (scrollY > sectionTop && scrollY <= sectionTop + sectionHeight) {
-                    const navLink = document.querySelector('.navbar .nav-item a[href*=' + sectionId + ']');
-                    if (navLink) {
-                        navLink.parentElement.classList.add('active');
-                    }
-                } else {
-                    const navLink = document.querySelector('.navbar .nav-item a[href*=' + sectionId + ']');
-                    if (navLink) {
-                        navLink.parentElement.classList.remove('active');
-                    }
-                }
+            // Update padding when window is resized
+            window.addEventListener('resize', function() {
+                const newNavbarHeight = navbar.offsetHeight;
+                document.body.style.paddingTop = newNavbarHeight + 'px';
             });
         }
         
-        window.addEventListener('scroll', navHighlighter);
-        navHighlighter();
+        // Active nav item based on scroll position (only for pages with sections)
+        const sections = document.querySelectorAll('section[id]');
+        
+        if (sections.length > 0) {
+            function navHighlighter() {
+                const scrollY = window.pageYOffset;
+                
+                sections.forEach(current => {
+                    const sectionHeight = current.offsetHeight;
+                    const sectionTop = current.offsetTop - 100;
+                    const sectionId = current.getAttribute('id');
+                    
+                    if (scrollY > sectionTop && scrollY <= sectionTop + sectionHeight) {
+                        const navLink = document.querySelector('.navbar .nav-item a[href*=' + sectionId + ']');
+                        if (navLink) {
+                            navLink.parentElement.classList.add('active');
+                        }
+                    } else {
+                        const navLink = document.querySelector('.navbar .nav-item a[href*=' + sectionId + ']');
+                        if (navLink) {
+                            navLink.parentElement.classList.remove('active');
+                        }
+                    }
+                });
+            }
+            
+            window.addEventListener('scroll', navHighlighter);
+            navHighlighter();
+        }
     });
-    
-    // Update padding when window is resized
-    window.addEventListener('resize', function() {
-        const navbarHeight = document.querySelector('.navbar').offsetHeight;
-        document.body.style.paddingTop = navbarHeight + 'px';
-    });
-    </script>
+</script>

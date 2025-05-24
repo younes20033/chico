@@ -1,49 +1,39 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tous les devis - Admin CHICO TRANS</title>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        :root {
-            --primary-color: #4d4d4d;
-            --secondary-color: #d13333;
-        }
-        
-        body {
-            font-family: 'Poppins', sans-serif;
-            background-color: #f5f5f5;
-        }
-        
-        .admin-card {
-            background: white;
-            border-radius: 10px;
-            padding: 1.5rem;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            margin-bottom: 1.5rem;
-        }
-        
-        .badge-status {
-            padding: 0.35em 0.65em;
-            font-size: 0.75em;
-            font-weight: 500;
-            border-radius: 20px;
-        }
-        
-        .badge-pending { background-color: #ffc107; color: #212529; }
-        .badge-approved { background-color: #28a745; color: white; }
-        .badge-rejected { background-color: #dc3545; color: white; }
-        
-        .btn-action {
-            padding: 0.25rem 0.5rem;
-            font-size: 0.75rem;
-            margin-right: 0.25rem;
-        }
-    </style>
-</head>
-<body>
+@extends('layouts.app')
+
+@section('title', 'Tous les devis - Admin CHICO TRANS')
+
+@section('description', 'Interface d\'administration pour gérer tous les devis CHICO TRANS.')
+
+@push('styles')
+<style>
+    .admin-card {
+        background: white;
+        border-radius: 10px;
+        padding: 1.5rem;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        margin-bottom: 1.5rem;
+    }
+    
+    .badge-status {
+        padding: 0.35em 0.65em;
+        font-size: 0.75em;
+        font-weight: 500;
+        border-radius: 20px;
+    }
+    
+    .badge-pending { background-color: #ffc107; color: #212529; }
+    .badge-approved { background-color: #28a745; color: white; }
+    .badge-rejected { background-color: #dc3545; color: white; }
+    
+    .btn-action {
+        padding: 0.25rem 0.5rem;
+        font-size: 0.75rem;
+        margin-right: 0.25rem;
+    }
+</style>
+@endpush
+
+@section('content')
     <div class="container py-4">
         <div class="d-flex justify-content-between align-items-center mb-4">
             <h1>Tous les devis</h1>
@@ -123,7 +113,4 @@
             @endif
         </div>
     </div>
-    
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
-</body>
-</html>
+@endsection

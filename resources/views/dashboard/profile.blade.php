@@ -1,690 +1,235 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>Mon profil - CHICO TRANS</title>
-    
-    <!-- Bootstrap CSS -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
-    
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    
-    <style>
-        :root {
-            --primary-color: #4d4d4d;
-            --secondary-color: #d13333;
-            --dark-color: #333333;
-            --light-color: #f8f9fa;
-            --grey-color: #6c757d;
-        }
-        
-        body {
-            font-family: 'Poppins', sans-serif;
-            background-color: #f5f5f5;
-        }
-        
-        /* Navbar - Compact and Professional */
-        .navbar {
-            box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);
-            padding: 0.5rem 1rem;
-            transition: all 0.3s ease;
-            background-color: white;
-        }
-        
-        .navbar-brand img {
-            height: 45px;
-        }
-        
-        .navbar-nav .nav-link {
-            font-weight: 500;
-            text-transform: uppercase;
-            color: var(--dark-color);
-            font-size: 0.85rem;
-            padding: 0.5rem 0.75rem;
-        }
-        
-        .navbar-nav .nav-link:hover,
-        .navbar-nav .nav-link.active {
-            color: var(--secondary-color);
-        }
-        
-        .navbar-nav .nav-item {
-            position: relative;
-        }
-        
-        .navbar-nav .nav-item::after {
-            content: '';
-            position: absolute;
-            width: 0;
-            height: 2px;
-            bottom: 0;
-            left: 0.75rem;
-            background-color: var(--secondary-color);
-            transition: width 0.3s;
-        }
-        
-        .navbar-nav .nav-item:hover::after,
-        .navbar-nav .nav-item.active::after {
-            width: calc(100% - 1.5rem);
-        }
-        
-        .dropdown-menu {
-            border-radius: 0.25rem;
-            border: none;
-            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
-            padding: 0.5rem 0;
-            margin-top: 0.5rem;
-            min-width: 12rem;
-        }
-        
-        .dropdown-item {
-            padding: 0.5rem 1rem;
-            font-size: 0.85rem;
-        }
-        
-        .dropdown-item:hover {
-            background-color: #f8f9fa;
-            color: var(--secondary-color);
-        }
-        
-       /* User Menu */
-                .user-menu {
-    display: flex;
-    align-items: center;
-    text-decoration: none;
-    color: var(--primary-color);
-    padding: 0.4rem 0.8rem;
-    border-radius: 4px;
-    transition: all 0.3s ease;
-}
+@extends('layouts.app')
 
-.user-menu:hover {
-    background-color: rgba(0, 0, 0, 0.05);
-    color: var(--primary-color);
-}
-        
-       .user-avatar {
-    width: 36px;
-    height: 36px;
-    border-radius: 50%;
-    overflow: hidden;
-    margin-right: 0.5rem;
-    border: 2px solid var(--secondary-color);
-}
+@section('title', 'Mon profil - CHICO TRANS')
 
-.user-avatar img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
+@section('description', 'Gérez vos informations personnelles et paramètres de compte CHICO TRANS.')
 
-.user-info {
-    display: flex;
-    flex-direction: column;
-    line-height: 1.2;
-}
+@push('styles')
+<style>
+    .breadcrumb {
+        background-color: transparent;
+        padding: 0.5rem 0;
+        margin-bottom: 1.5rem;
+        font-size: 0.85rem;
+    }
 
-.user-name {
-    font-weight: 600;
-    font-size: 0.85rem;
-    color: var(--primary-color);
-}
+    .breadcrumb-item a {
+        color: var(--secondary-color);
+        text-decoration: none;
+    }
 
-.user-role {
-    font-size: 0.7rem;
-    color: var(--grey-color);
-}
-        
-        .breadcrumb {
-    background-color: transparent;
-    padding: 0.5rem 0;
-    margin-bottom: 1.5rem;
-    font-size: 0.85rem;
-}
+    .breadcrumb-item.active {
+        color: var(--grey-color);
+    }
 
-.breadcrumb-item a {
-    color: var(--secondary-color);
-    text-decoration: none;
-}
+    .profile-header {
+        padding-bottom: 1.5rem;
+        border-bottom: 1px solid #eee;
+    }
 
-.breadcrumb-item.active {
-    color: var(--grey-color);
-}
+    .profile-title {
+        color: var(--primary-color);
+        font-size: 1.8rem;
+        font-weight: 600;
+    }
 
-.profile-header {
-    padding-bottom: 1.5rem;
-    border-bottom: 1px solid #eee;
-}
+    /* Profile Sidebar */
+    .profile-sidebar-card {
+        background-color: white;
+        border-radius: 10px;
+        box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+        padding: 1.5rem;
+    }
 
-.profile-title {
-    color: var(--primary-color);
-    font-size: 1.8rem;
-    font-weight: 600;
-}
+    .profile-avatar-large {
+        width: 120px;
+        height: 120px;
+        border-radius: 50%;
+        overflow: hidden;
+        margin: 0 auto;
+        border: 3px solid var(--secondary-color);
+        position: relative;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
 
-.badge {
-    font-weight: 500;
-    letter-spacing: 0.3px;
-}
+    .profile-avatar-large img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
 
-/* Profile Sidebar */
-.profile-sidebar-card {
-    background-color: white;
-    border-radius: 10px;
-    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
-    padding: 1.5rem;
-}
+    .profile-avatar-edit {
+        position: absolute;
+        bottom: 5px;
+        right: 0;
+        background-color: var(--secondary-color);
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        color: white;
+        border: 3px solid white;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        transition: all 0.2s ease;
+        z-index: 5;
+    }
 
-.profile-avatar-large {
-    width: 120px;
-    height: 120px;
-    border-radius: 50%;
-    overflow: hidden;
-    margin: 0 auto;
-    border: 3px solid var(--secondary-color);
-    position: relative;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
+    .profile-avatar-edit i {
+        font-size: 16px;
+    }
 
-.profile-avatar-large img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
+    .profile-avatar-edit:hover {
+        background-color: #c0392b;
+        transform: scale(1.1);
+    }
 
-.profile-avatar-edit {
-    position: absolute;
-    bottom: 5px;
-    right: 0;
-    background-color: var(--secondary-color);
-    width: 36px;
-    height: 36px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    color: white;
-    border: 3px solid white;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-    transition: all 0.2s ease;
-    z-index: 5;
-}
+    .profile-name {
+        font-size: 1.2rem;
+        font-weight: 600;
+        color: var(--primary-color);
+    }
 
-.profile-avatar-edit i {
-    font-size: 16px;
-}
+    .profile-role {
+        color: var(--secondary-color);
+        font-size: 0.9rem;
+        font-weight: 500;
+    }
 
-.profile-avatar-edit:hover {
-    background-color: #c0392b;
-    transform: scale(1.1);
-}
-.profile-avatar-edit::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: var(--secondary-color);
-    border-radius: 50%;
-    z-index: -1;
-}
+    .profile-menu-card {
+        background-color: white;
+        border-radius: 10px;
+        box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+        overflow: hidden;
+    }
 
-.profile-name {
-    font-size: 1.2rem;
-    font-weight: 600;
-    color: var(--primary-color);
-}
+    .profile-menu .list-group-item {
+        border: none;
+        padding: 0.75rem 1.25rem;
+        font-size: 0.9rem;
+        color: var(--primary-color);
+        border-left: 3px solid transparent;
+    }
 
-.profile-role {
-    color: var(--secondary-color);
-    font-size: 0.9rem;
-    font-weight: 500;
-}
+    .profile-menu .list-group-item.active {
+        background-color: rgba(209, 51, 51, 0.05);
+        color: var(--secondary-color);
+        border-left: 3px solid var(--secondary-color);
+    }
 
-.profile-stats {
-    margin-top: 1.5rem;
-    padding-top: 1.5rem;
-    border-top: 1px solid #eee;
-}
+    .profile-menu .list-group-item:hover:not(.active) {
+        background-color: #f8f9fa;
+    }
 
-.profile-stat-item {
-    padding: 0.5rem 0;
-}
+    /* Main Content Cards */
+    .profile-card {
+        background-color: white;
+        border-radius: 10px;
+        box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+        padding: 2rem;
+        margin-bottom: 1.5rem;
+    }
 
-.profile-stat-item h5 {
-    font-size: 1.5rem;
-    font-weight: 600;
-    color: var(--primary-color);
-    margin-bottom: 0.1rem;
-}
+    .profile-card-header {
+        margin-bottom: 1.5rem;
+        padding-bottom: 1.5rem;
+        border-bottom: 1px solid #eee;
+    }
 
-.profile-stat-item span {
-    font-size: 0.8rem;
-    color: var(--grey-color);
-}
+    .profile-card-title {
+        color: var(--primary-color);
+        font-size: 1.3rem;
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+        display: flex;
+        align-items: center;
+    }
 
-.profile-menu-card {
-    background-color: white;
-    border-radius: 10px;
-    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
-    overflow: hidden;
-}
+    /* Profile Container */
+    .profile-container {
+        padding: 2rem 0;
+        background-color: #f8f9fa;
+        min-height: 100vh;
+    }
 
-.profile-menu .list-group-item {
-    border: none;
-    padding: 0.75rem 1.25rem;
-    font-size: 0.9rem;
-    color: var(--primary-color);
-    border-left: 3px solid transparent;
-}
+    /* Profile Actions */
+    .btn-profile {
+        background-color: var(--secondary-color);
+        color: white;
+        border: none;
+        padding: 0.6rem 1.5rem;
+        border-radius: 4px;
+        font-weight: 500;
+        transition: all 0.3s;
+        font-size: 0.9rem;
+        text-decoration: none;
+        display: inline-block;
+    }
 
-.profile-menu .list-group-item.active {
-    background-color: rgba(209, 51, 51, 0.05);
-    color: var(--secondary-color);
-    border-left: 3px solid var(--secondary-color);
-}
+    .btn-profile:hover {
+        background-color: #c0392b;
+        color: white;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
 
-.profile-menu .list-group-item:hover:not(.active) {
-    background-color: #f8f9fa;
-}
+    .default-avatar-small {
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 0.8rem;
+        font-weight: bold;
+        text-transform: uppercase;
+    }
 
-/* Main Content Cards */
-.profile-card {
-    background-color: white;
-    border-radius: 10px;
-    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
-    padding: 2rem;
-    margin-bottom: 1.5rem;
-}
+    .default-avatar-large {
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 3rem;
+        font-weight: bold;
+        text-transform: uppercase;
+    }
 
-.profile-card-header {
-    margin-bottom: 1.5rem;
-    padding-bottom: 1.5rem;
-    border-bottom: 1px solid #eee;
-}
-
-.profile-card-title {
-    color: var(--primary-color);
-    font-size: 1.3rem;
-    font-weight: 600;
-    margin-bottom: 0.5rem;
-    display: flex;
-    align-items: center;
-}
-
-.profile-form .input-group {
-    margin-bottom: 0.5rem;
-}
-
-.profile-form .input-group-text {
-    background-color: #f8f9fa;
-    color: var(--grey-color);
-    border-color: #e1e1e1;
-}
-
-/* Security Tab */
-.security-section {
-    padding: 0.75rem 0;
-}
-
-.security-subtitle {
-    color: var(--primary-color);
-    font-size: 1.1rem;
-    margin-bottom: 1rem;
-}
-
-.security-strength {
-    height: 6px;
-    width: 100px;
-    background-color: #e9ecef;
-    border-radius: 3px;
-    overflow: hidden;
-}
-
-.security-strength-meter {
-    height: 100%;
-    border-radius: 3px;
-}
-
-.strength-weak {
-    width: 25%;
-    background-color: #dc3545;
-}
-
-.strength-medium {
-    width: 50%;
-    background-color: #ffc107;
-}
-
-.strength-strong {
-    width: 75%;
-    background-color: #28a745;
-}
-.strength-very-strong {
-   width: 100%;
-   background-color: #20c997;
-}
-
-.login-history-table {
-   font-size: 0.9rem;
-}
-
-.login-history-table th {
-   font-weight: 500;
-   color: var(--grey-color);
-}
-
-/* Danger Zone */
-.danger-zone {
-   padding: 0.75rem 0;
-}
-
-.danger-title {
-   color: var(--primary-color);
-   font-size: 1.1rem;
-   margin-bottom: 0.5rem;
-}
-
-/* Notifications Tab */
-.notification-item {
-   padding: 0.75rem 0;
-}
-
-.notification-item p {
-   color: var(--primary-color);
-}
-
-.fw-medium {
-   font-weight: 500;
-}
-
-/* Form Controls Responsive */
-@media (max-width: 768px) {
-   .profile-card {
-       padding: 1.5rem;
-   }
-   
-   .profile-avatar-large {
-       width: 100px;
-       height: 100px;
-   }
-   
-   .profile-menu .list-group-item {
-       padding: 0.6rem 1rem;
-   }
-   
-   .security-section .row {
-       flex-direction: column;
-   }
-   
-   .security-section .col-md-4 {
-       text-align: left !important;
-       margin-top: 1rem !important;
-   }
-   
-   .danger-zone .row {
-       flex-direction: column;
-   }
-   
-   .danger-zone .col-md-4 {
-       text-align: left !important;
-       margin-top: 0.5rem !important;
-   }
-}
-        /* Footer */
-        .footer {
-            background-color: white;
-            padding: 1rem 0;
-            text-align: center;
-            font-size: 0.85rem;
-            color: var(--grey-color);
-            border-top: 1px solid #eee;
-            margin-top: 2rem;
-        }
-        .btn-devis {
-            background-color: var(--secondary-color);
-            color: white;
-            text-decoration: none;
-            font-size: 0.8rem;
-            padding: 0.4rem 0.8rem;
-            border-radius: 4px;
-            font-weight: 500;
-            border: none;
-            transition: all 0.2s;
-        }
-        
-        .btn-devis:hover {
-            background-color: #c0392b;
-        }
-        
-        @media (max-width: 991.98px) {
-            .navbar-action-btns {
-                margin-top: 0.5rem;
-                flex-wrap: wrap;
-            }
-            
-            .btn-auth, .btn-devis {
-                margin-bottom: 0.5rem;
-                font-size: 0.75rem;
-                padding: 0.35rem 0.7rem;
-            }
-        }
-        /* Profile Actions */
-.btn-profile {
-    background-color: var(--secondary-color);
-    color: white;
-    border: none;
-    padding: 0.6rem 1.5rem;
-    border-radius: 4px;
-    font-weight: 500;
-    transition: all 0.3s;
-    font-size: 0.9rem;
-    text-decoration: none;
-    display: inline-block;
-}
-
-.btn-profile:hover {
-    background-color: #c0392b;
-    color: white;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-.btn-password {
-    background-color: var(--primary-color);
-    color: white;
-    border: none;
-    padding: 0.5rem 1rem;
-    border-radius: 4px;
-    font-weight: 500;
-    transition: all 0.3s;
-    font-size: 0.85rem;
-    text-decoration: none;
-}
-
-.btn-password:hover {
-    background-color: #3d3d3d;
-    color: white;
-}
-
-/* Profile Container */
-.profile-container {
-    padding: 2rem 0;
-    background-color: #f8f9fa;
-    min-height: 100vh;
-}
-
-/* Form Styles */
-.form-control:focus {
-    border-color: var(--secondary-color);
-    box-shadow: 0 0 0 0.2rem rgba(209, 51, 51, 0.15);
-}
-
-.invalid-feedback {
-    display: block;
-    width: 100%;
-    margin-top: 0.25rem;
-    font-size: 0.875em;
-    color: var(--secondary-color);
-}
-
-/* Tab Content */
-.tab-content {
-    min-height: 400px;
-}
-
-.tab-pane {
-    animation: fadeIn 0.3s ease-in-out;
-}
-
-@keyframes fadeIn {
-    from {
+    /* Profile Image Upload */
+    #profile_image_upload {
+        position: absolute;
         opacity: 0;
-        transform: translateY(10px);
+        width: 100%;
+        height: 100%;
+        cursor: pointer;
     }
-    to {
-        opacity: 1;
-        transform: translateY(0);
+
+    @media (max-width: 768px) {
+        .profile-card {
+            padding: 1.5rem;
+        }
+        
+        .profile-avatar-large {
+            width: 100px;
+            height: 100px;
+        }
+        
+        .profile-menu .list-group-item {
+            padding: 0.6rem 1rem;
+        }
     }
-}
+</style>
+@endpush
 
-.default-avatar-small {
-    width: 36px;
-    height: 36px;
-    border-radius: 50%;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: white;
-    font-size: 0.8rem;
-    font-weight: bold;
-    text-transform: uppercase;
-}
-
-.default-avatar-large {
-    width: 100%;
-    height: 100%;
-    border-radius: 50%;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: white;
-    font-size: 3rem;
-    font-weight: bold;
-    text-transform: uppercase;
-}
-
-/* Profile Image Upload */
-#profile_image_upload {
-    position: absolute;
-    opacity: 0;
-    width: 100%;
-    height: 100%;
-    cursor: pointer;
-}
-    </style>
-</head>
-<body>
-    <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg sticky-top">
-        <div class="container">
-            <a class="navbar-brand" href="/">
-                <img src="/logo.png" alt="CHICO TRANS Logo">
-            </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav me-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="/">ACCUEIL</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/qui-sommes-nous">QUI SOMMES-NOUS</a>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            NOS SERVICES
-                        </a>
-                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <li><a class="dropdown-item" href="/services#transport-national">Transport national</a></li>
-                            <li><a class="dropdown-item" href="/services#transport-international">Transport international</a></li>
-                            <li><a class="dropdown-item" href="/services#logistique-complete">Logistique complète</a></li>
-                            <li><a class="dropdown-item" href="/services#stockage-temporaire">Stockage temporaire</a></li>
-                        </ul>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/partenaire">DEVENIR PARTENAIRE</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/contactez-nous">CONTACTEZ-NOUS</a>
-                    </li>
-                </ul>
-                
-                <div class="dropdown">
-    <a class="user-menu dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-        <div class="user-avatar">
-    @if(Auth::user()->profile_image)
-        <img src="{{ asset('storage/' . Auth::user()->profile_image) }}?t={{ time() }}" 
-             alt="{{ Auth::user()->name }}">
-    @else
-        <div class="default-avatar-small">{{ substr(Auth::user()->name, 0, 1) }}</div>
-    @endif
-</div>
-        <div class="user-info">
-            <span class="user-name">{{ Auth::user()->name }}</span>
-            <span class="user-role">
-                @if(Auth::user()->role === 'admin')
-                    Administrateur
-                @else
-                    Client
-                @endif
-            </span>
-        </div>
-    </a>
-    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
-        @if(Auth::user()->role === 'admin')
-            <!-- Menu pour Admin -->
-            <li><a class="dropdown-item" href="{{ route('admin.dashboard') }}">Dashboard Admin</a></li>
-            <li><a class="dropdown-item" href="{{ route('admin.users') }}">Gestion utilisateurs</a></li>
-            <li><a class="dropdown-item" href="{{ route('admin.devis') }}">Gestion devis</a></li>
-             <li><a class="dropdown-item" href="{{ route('admin.notifications') }}" >
-    Voir toutes les notifications
-</a></li>
-            <li><hr class="dropdown-divider"></li>
-            <li><a class="dropdown-item" href="{{ route('profile') }}">Mon profil</a></li>
-        @else
-            <!-- Menu pour Client -->
-            <li><a class="dropdown-item" href="{{ route('dashboard') }}">Tableau de bord</a></li>
-            <li><a class="dropdown-item" href="{{ route('profile') }}">Mon profil</a></li>
-            <li><a class="dropdown-item" href="{{ route('devis.history') }}">Historique des devis</a></li>
-            
-        @endif
-        <li><hr class="dropdown-divider"></li>
-        <li>
-            <form action="{{ route('logout') }}" method="POST">
-                @csrf
-                <button type="submit" class="dropdown-item">Déconnexion</button>
-            </form>
-        </li>
-    </ul>
-</div>
-                <a href="/devis" class="btn-devis">DEMANDER UN DEVIS</a>
-            </div>
-        </div>
-    </nav>
-
-    <!-- Profile Content -->
+@section('content')
 <div class="profile-container">
     <div class="container">
         <!-- Breadcrumb -->
@@ -726,21 +271,20 @@
                 <div class="profile-sidebar">
                     <div class="profile-sidebar-card text-center mb-4">
                         <div class="profile-avatar-large">
-    @if(Auth::user()->profile_image)
-        <img src="{{ asset('storage/' . Auth::user()->profile_image) }}?t={{ time() }}" 
-             alt="{{ Auth::user()->name }}">
-    @else
-        <div class="default-avatar-large">{{ substr(Auth::user()->name, 0, 1) }}</div>
-    @endif
-    <div class="profile-avatar-edit">
-        <label for="profile_image_upload" class="mb-0" style="cursor: pointer;">
-            <i class="fas fa-camera"></i>
-        </label>
-    </div>
-</div>
+                            @if(Auth::user()->profile_image)
+                                <img src="{{ asset('storage/' . Auth::user()->profile_image) }}?t={{ time() }}" 
+                                     alt="{{ Auth::user()->name }}">
+                            @else
+                                <div class="default-avatar-large">{{ substr(Auth::user()->name, 0, 1) }}</div>
+                            @endif
+                            <div class="profile-avatar-edit">
+                                <label for="profile_image_upload" class="mb-0" style="cursor: pointer;">
+                                    <i class="fas fa-camera"></i>
+                                </label>
+                            </div>
+                        </div>
                         <h4 class="profile-name mt-3 mb-1">{{ Auth::user()->name }}</h4>
                         <p class="profile-role mb-2">{{ Auth::user()->role === 'admin' ? 'Administrateur' : 'Client' }}</p>
-                       
                     </div>
                     
                     <!-- Navigation Menu -->
@@ -755,7 +299,6 @@
                             <a href="#security" class="list-group-item list-group-item-action" data-bs-toggle="list">
                                 <i class="fas fa-shield-alt me-2"></i> Sécurité
                             </a>
-                            
                         </div>
                     </div>
                 </div>
@@ -780,7 +323,6 @@
                                 
                                 <!-- Hidden file input for avatar upload -->
                                 <input type="file" id="profile_image_upload" name="profile_image" class="d-none">
-                                <input type="file" id="profile_image" name="profile_image" class="d-none">
                                 
                                 <div class="row">
                                     <div class="col-md-6 mb-3">
@@ -804,7 +346,9 @@
                                             <div class="invalid-feedback d-block">{{ $message }}</div>
                                         @enderror
                                     </div>
-                                    
+                                </div>
+                                
+                                <div class="row">
                                     <div class="col-md-6 mb-3">
                                         <label for="telephone" class="form-label">Téléphone</label>
                                         <div class="input-group">
@@ -815,10 +359,8 @@
                                             <div class="invalid-feedback d-block">{{ $message }}</div>
                                         @enderror
                                     </div>
-                                </div>
-                                
-                                <div class="row">
-                                    <div class="col-12 mb-3">
+                                    
+                                    <div class="col-md-6 mb-3">
                                         <label for="address" class="form-label">Adresse</label>
                                         <div class="input-group">
                                             <span class="input-group-text"><i class="fas fa-map-marker-alt"></i></span>
@@ -901,26 +443,6 @@
                                     </div>
                                 </div>
                                 
-                                <div class="mb-3">
-                                    <label class="form-label">Type d'activité</label>
-                                    <div class="input-group">
-                                        <span class="input-group-text"><i class="fas fa-briefcase"></i></span>
-                                        <select class="form-select">
-                                            <option>Import/Export</option>
-                                            <option>Commerce de détail</option>
-                                            <option>Industrie</option>
-                                            <option>Services</option>
-                                            <option>Transport</option>
-                                            <option>Autre</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                
-                                <div class="mb-3">
-                                    <label class="form-label">Description de l'entreprise</label>
-                                    <textarea class="form-control" rows="4" placeholder="Décrivez brièvement votre entreprise et ses activités..."></textarea>
-                                </div>
-                                
                                 <div class="mt-4 text-end">
                                     <button type="submit" class="btn-profile">
                                         <i class="fas fa-save me-2"></i> Enregistrer les modifications
@@ -932,7 +454,7 @@
                     
                     <!-- Security Tab -->
                     <div class="tab-pane fade" id="security">
-                        <div class="profile-card mb-4">
+                        <div class="profile-card">
                             <div class="profile-card-header">
                                 <h2 class="profile-card-title">
                                     <i class="fas fa-shield-alt me-2"></i> Sécurité du compte
@@ -947,133 +469,25 @@
                                 <div class="row align-items-center">
                                     <div class="col-md-8">
                                         <p class="text-muted mb-0">Modifiez régulièrement votre mot de passe pour renforcer la sécurité de votre compte.</p>
-                                        <div class="d-flex align-items-center mt-2">
-                                            <div class="security-strength">
-                                                <div class="security-strength-meter strength-strong"></div>
-                                            </div>
-                                            <span class="text-success ms-2">Fort</span>
-                                        </div>
                                         <small class="text-muted">Dernière modification: {{ Auth::user()->updated_at->diffForHumans() }}</small>
                                     </div>
                                     <div class="col-md-4 text-md-end mt-3 mt-md-0">
-                                        <a href="{{ route('password.change') }}" class="btn-profile btn-password">
+                                        <a href="{{ route('password.change') }}" class="btn-profile" style="background-color: var(--primary-color);">
                                             <i class="fas fa-lock me-1"></i> Changer
                                         </a>
                                     </div>
                                 </div>
                             </div>
-                            
-                            <hr class="my-4">
-                            
-                            <div class="security-section">
-                                <h5 class="security-subtitle">
-                                    <i class="fas fa-mobile-alt me-2"></i> Authentification à deux facteurs
-                                </h5>
-                                <div class="row align-items-center">
-                                    <div class="col-md-8">
-                                        <p class="text-muted mb-0">Ajoutez une couche de sécurité supplémentaire en activant l'authentification à deux facteurs.</p>
-                                    </div>
-                                    <div class="col-md-4 text-md-end mt-3 mt-md-0">
-                                        <div class="form-check form-switch d-flex justify-content-md-end align-items-center">
-                                            <input class="form-check-input me-2" type="checkbox" id="two_factor">
-                                            <label class="form-check-label" for="two_factor">Inactif</label>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            <hr class="my-4">
-                            
-                            <div class="security-section">
-                                <h5 class="security-subtitle">
-                                    <i class="fas fa-history me-2"></i> Historique des connexions
-                                </h5>
-                                <p class="text-muted mb-3">Consultez les dernières connexions à votre compte</p>
-                                
-                                <div class="table-responsive">
-                                    <table class="table table-hover login-history-table">
-                                        <thead>
-                                            <tr>
-                                                <th>Date</th>
-                                                <th>Appareil</th>
-                                                <th>Navigateur</th>
-                                                <th>Localisation</th>
-                                                <th>Statut</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td>{{ \Carbon\Carbon::now()->format('d/m/Y H:i') }}</td>
-                                                <td>Desktop</td>
-                                                <td>Chrome</td>
-                                                <td>Casablanca, MA</td>
-                                                <td><span class="badge bg-success">Succès</span></td>
-                                            </tr>
-                                            <tr>
-                                                <td>{{ \Carbon\Carbon::now()->subDays(2)->format('d/m/Y H:i') }}</td>
-                                                <td>Mobile</td>
-                                                <td>Safari</td>
-                                                <td>Casablanca, MA</td>
-                                                <td><span class="badge bg-success">Succès</span></td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="profile-card">
-                            <div class="profile-card-header">
-                                <h2 class="profile-card-title text-danger">
-                                    <i class="fas fa-exclamation-triangle me-2"></i> Zone dangereuse
-                                </h2>
-                                <p class="text-muted mb-0">Actions qui affectent définitivement votre compte</p>
-                            </div>
-                            
-                            <div class="danger-zone mt-4">
-                                <div class="row align-items-center">
-                                    <div class="col-md-8">
-                                        <h5 class="danger-title">Désactiver votre compte</h5>
-                                        <p class="text-muted mb-0">Suspendre temporairement votre compte sans supprimer vos données</p>
-                                    </div>
-                                    <div class="col-md-4 text-md-end mt-3 mt-md-0">
-                                        <button class="btn btn-outline-warning">
-                                            <i class="fas fa-pause me-1"></i> Désactiver
-                                        </button>
-                                    </div>
-                                </div>
-                                
-                                <hr class="my-4">
-                                
-                                <div class="row align-items-center">
-                                    <div class="col-md-8">
-                                        <h5 class="danger-title">Supprimer votre compte</h5>
-                                        <p class="text-muted mb-0">Supprimer définitivement votre compte et toutes vos données</p>
-                                    </div>
-                                    <div class="col-md-4 text-md-end mt-3 mt-md-0">
-                                        <button class="btn btn-outline-danger">
-                                            <i class="fas fa-trash-alt me-1"></i> Supprimer
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
                         </div>
                     </div>
-                    
-                
-                   
                 </div>
             </div>
         </div>
     </div>
 </div>
+@endsection
 
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="container">
-            <p>&copy; 2025 CHICO TRANS. Tous droits réservés.</p>
-        </div>
-    </footer>
+@push('scripts')
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     const uploadInput = document.getElementById('profile_image_upload');
@@ -1172,8 +586,4 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 </script>
-
-    <!-- Bootstrap JS -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
-</body>
-</html>
+@endpush

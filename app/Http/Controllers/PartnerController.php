@@ -52,12 +52,11 @@ class PartnerController extends Controller
             $this->createNotification($validated, $partner ? $partner->id : null);
             
             // Retourner avec message de succès et info debug
-            $debugInfo = $this->getDebugInfo();
+           
             
             return back()->with('success', 
-                'Candidature soumise avec succès! ' . 
-                'Debug: Partners=' . $debugInfo['partners_count'] . 
-                ', Notifications=' . $debugInfo['notifications_count']
+                'Candidature soumise avec succès! '  
+                
             );
             
         } catch (\Exception $e) {

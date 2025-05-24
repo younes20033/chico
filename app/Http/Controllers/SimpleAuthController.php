@@ -323,6 +323,52 @@ class SimpleAuthController extends Controller
         return view('dashboard.change-password');
     }
 
+    public function showLoginForm()
+{
+    if (Auth::check()) {
+        return $this->redirectBasedOnRole();
+    }
+    return view('auth.login'); // Vue refactorisée avec layout
+}
+
+/**
+ * Afficher le formulaire d'inscription (pour les routes web.php)  
+ */
+public function showRegisterForm()
+{
+    if (Auth::check()) {
+        return $this->redirectBasedOnRole();
+    }
+    return view('auth.register'); // Vue refactorisée avec layout
+}
+
+/**
+ * Afficher le formulaire de mot de passe oublié
+ */
+public function showForgotPasswordForm()
+{
+    return view('auth.forgot-password'); // Vue refactorisée avec layout
+}
+
+/**
+ * Afficher le formulaire de changement de mot de passe
+ */
+public function showChangePasswordForm()
+{
+    if (!Auth::check()) {
+        return redirect()->route('login');
+    }
+    return view('dashboard.change-password'); // Vue refactorisée avec layout
+}
+
+/**
+ * Mettre à jour le mot de passe (alias pour compatibility)
+ */
+public function updatePassword(Request $request)
+{
+    return $this->changePassword($request);
+}
+
     /**
      * Changer le mot de passe
      */

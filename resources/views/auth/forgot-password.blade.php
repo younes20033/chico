@@ -1,64 +1,43 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mot de passe oublié - CHICO TRANS</title>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --primary-color: #4d4d4d;
-            --secondary-color: #d13333;
-        }
-        
-        body {
-            font-family: 'Poppins', sans-serif;
-            background-color: #f8f9fa;
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        
-        .forgot-card {
-            background: white;
-            border-radius: 10px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-            padding: 2rem;
-            width: 100%;
-            max-width: 400px;
-        }
-        
-        .logo {
-            text-align: center;
-            margin-bottom: 2rem;
-        }
-        
-        .logo img {
-            height: 60px;
-        }
-        
-        .btn-primary-custom {
-            background-color: var(--secondary-color);
-            border-color: var(--secondary-color);
-            width: 100%;
-            padding: 0.75rem;
-            font-weight: 500;
-        }
-        
-        .btn-primary-custom:hover {
-            background-color: #c0392b;
-            border-color: #c0392b;
-        }
-        
-        .form-control:focus {
-            border-color: var(--secondary-color);
-            box-shadow: 0 0 0 0.2rem rgba(209, 51, 51, 0.25);
-        }
-    </style>
-</head>
-<body>
+@extends('layouts.app')
+
+@section('title', 'Mot de passe oublié - CHICO TRANS')
+
+@section('description', 'Réinitialisez votre mot de passe CHICO TRANS.')
+
+@push('styles')
+<style>
+    .auth-container {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 2rem 1rem;
+        background-color: var(--light-color);
+        min-height: 100vh;
+    }
+    
+    .forgot-card {
+        background: white;
+        border-radius: 10px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        padding: 2rem;
+        width: 100%;
+        max-width: 400px;
+    }
+    
+    .logo {
+        text-align: center;
+        margin-bottom: 2rem;
+    }
+    
+    .logo img {
+        height: 60px;
+    }
+</style>
+@endpush
+
+@section('content')
+<div class="auth-container">
     <div class="forgot-card">
         <div class="logo">
             <a href="/">
@@ -92,7 +71,7 @@
                 <input type="email" class="form-control" id="email" name="email" value="{{ old('email') }}" required autofocus>
             </div>
             
-            <button type="submit" class="btn btn-primary-custom">
+            <button type="submit" class="btn-submit w-100">
                 Envoyer le lien de réinitialisation
             </button>
         </form>
@@ -103,7 +82,5 @@
             </p>
         </div>
     </div>
-    
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
-</body>
-</html>
+</div>
+@endsection

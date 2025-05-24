@@ -1,38 +1,33 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Notifications - Admin CHICO TRANS</title>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        body {
-            font-family: 'Poppins', sans-serif;
-            background-color: #f5f5f5;
-        }
-        
-        .notification-item {
-            background-color: white;
-            border-radius: 8px;
-            padding: 1rem;
-            margin-bottom: 1rem;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-            border-left: 4px solid #d13333;
-        }
-        
-        .notification-item.read {
-            opacity: 0.7;
-            border-left-color: #6c757d;
-        }
-        
-        .notification-meta {
-            font-size: 0.85rem;
-            color: #6c757d;
-        }
-    </style>
-</head>
-<body>
+@extends('layouts.app')
+
+@section('title', 'Notifications - Admin CHICO TRANS')
+
+@section('description', 'Interface d\'administration pour gérer les notifications CHICO TRANS.')
+
+@push('styles')
+<style>
+    .notification-item {
+        background-color: white;
+        border-radius: 8px;
+        padding: 1rem;
+        margin-bottom: 1rem;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        border-left: 4px solid #d13333;
+    }
+    
+    .notification-item.read {
+        opacity: 0.7;
+        border-left-color: #6c757d;
+    }
+    
+    .notification-meta {
+        font-size: 0.85rem;
+        color: #6c757d;
+    }
+</style>
+@endpush
+
+@section('content')
     <div class="container py-4">
         <div class="d-flex justify-content-between align-items-center mb-4">
             <h1>Toutes les notifications</h1>
@@ -79,10 +74,9 @@
         @endif
 
         <div class="text-center mt-4">
-                <a href="{{ route('admin.dashboard') }}" class="btn btn-secondary">
-                    <i class="fas fa-arrow-left"></i> Retour au dashboard
-                </a>
-            </div>
+            <a href="{{ route('admin.dashboard') }}" class="btn btn-secondary">
+                <i class="fas fa-arrow-left"></i> Retour au dashboard
+            </a>
+        </div>
     </div>
-</body>
-</html>
+@endsection
