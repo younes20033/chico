@@ -405,15 +405,6 @@
                                 Nouveaux devis ({{ $pendingDevis }})
                             </a>
                             
-                            <a href="{{ route('admin.users.create') }}" class="quick-action-btn btn-success-custom">
-                                <i class="fas fa-user-plus"></i>
-                                Ajouter un utilisateur
-                            </a>
-                            
-                            <a href="{{ route('admin.users') }}" class="quick-action-btn btn-info-custom">
-                                <i class="fas fa-users-cog"></i>
-                                Gérer les utilisateurs
-                            </a>
                             
                             <a href="{{ route('admin.devis') }}" class="quick-action-btn btn-info-custom">
                                 <i class="fas fa-list"></i>

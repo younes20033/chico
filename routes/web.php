@@ -58,13 +58,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
     // Dashboard admin
     Route::get('/', [SimpleAdminController::class, 'dashboard'])->name('dashboard');
     
-    // Gestion des utilisateurs
-    Route::get('/users', [SimpleAdminController::class, 'users'])->name('users');
-    Route::get('/users/create', [SimpleAdminController::class, 'createUser'])->name('users.create');
-    Route::post('/users', [SimpleAdminController::class, 'storeUser'])->name('users.store');
-    Route::get('/users/{user}/edit', [SimpleAdminController::class, 'editUser'])->name('users.edit');
-    Route::put('/users/{user}', [SimpleAdminController::class, 'updateUser'])->name('users.update');
-    Route::delete('/users/{user}', [SimpleAdminController::class, 'destroyUser'])->name('users.destroy');
+    
     
     // Gestion des devis
     Route::get('/devis', [SimpleAdminController::class, 'devis'])->name('devis');
